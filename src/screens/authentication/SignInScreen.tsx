@@ -53,16 +53,17 @@ function SignInScreen(props: any) {
         style={styles.imageBackground}>
         <View style={styles.header} />
         <View style={styles.content}>
-         <View style={styles.lowerContainer}>
+          <View style={styles.lowerContainer}>
             <ScrollView>
               <Formik
                 initialValues={LoginDetails}
-                onSubmit={(values) => {
+                onSubmit={values => {
                   // setTimeout(() => {
                   //     //   console.log(values);
                   //     formikActions.resetForm();
                   //     formikActions.setSubmitting(false);
                   // }, 5000);
+                  console.log(values);
                   props.navigation.navigate(Constants.TabNavigation);
                   // handleCall(values);
                 }}
@@ -76,7 +77,7 @@ function SignInScreen(props: any) {
                   isSubmitting,
                   handleSubmit,
                 }) => {
-                  const { email, password } = values;
+                  const {email, password} = values;
 
                   return (
                     <>
@@ -117,7 +118,9 @@ function SignInScreen(props: any) {
                         style={styles.button}
                         title="Register"
                         submitting={isSubmitting}
-                        onPress={handleSubmit}
+                        onPress={() =>
+                          props.navigation.navigate(Constants.SIGN_UP_SCREEN)
+                        }
                         width={80}
                         backgroundColor={common.colors.white}
                         borderColor={common.colors.lightGrey}
@@ -127,7 +130,7 @@ function SignInScreen(props: any) {
                 }}
               </Formik>
             </ScrollView>
-         </View>
+          </View>
         </View>
       </ImageBackground>
     </View>

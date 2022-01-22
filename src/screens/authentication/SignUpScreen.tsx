@@ -56,7 +56,7 @@ function SignUpScreen(props: any) {
         style={styles.background}>
         <Formik
           initialValues={signUpDetails}
-          onSubmit={(values) => {
+          onSubmit={values => {
             // setTimeout(() => {
             //   console.log(values);
             // formikActions.resetForm();
@@ -67,6 +67,7 @@ function SignUpScreen(props: any) {
               email: values.email,
               password: values.password,
             });
+            console.log(values);
           }}
           validationSchema={validationSchema}>
           {({
