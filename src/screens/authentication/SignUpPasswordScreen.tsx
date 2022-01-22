@@ -31,7 +31,7 @@ const validationSchema = Yup.object({
     .label('Password'),
 });
 
-function SignUpScreen(props: any) {
+function SignUpPasswordScreen(props: any) {
   const handleCallBack = async (values: IUser) => {
     console.log('values', values);
     registerUser(values)
@@ -203,4 +203,4 @@ const styles = StyleSheet.create({
   rightNameContainer: {},
 });
 
-export default SignUpScreen;
+export default SignUpPasswordScreen;
