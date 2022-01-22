@@ -6,7 +6,6 @@ import SafeAreaScreen from '../../components/SafeAreaScreen';
 import common from '../../constants/common';
 import Constants from '../../constants/Constants';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function OnboardingScreen(props: any) {
   return (
     <SafeAreaScreen>
@@ -48,7 +47,7 @@ function OnboardingScreen(props: any) {
           style={styles.button}
           title="Get started"
           onPress={() => {
-            console.log('Pressedd');
+            props.navigation.navigate(Constants.SIGN_UP_SCREEN);
           }}
           width={80}
           borderColor={common.colors.lightGrey}

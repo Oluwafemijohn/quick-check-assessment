@@ -91,6 +91,7 @@ function SignInScreen(props: any) {
                         width={WP('80%')}
                         keyboardType="email-address"
                         autoCapitalize="none"
+                        icon={true}
                       />
                       <Text style={styles.label}>Create Password</Text>
                       <AppTextInputPassWord

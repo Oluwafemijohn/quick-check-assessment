@@ -10,4 +10,5 @@ export default Object.freeze({
   ProfileScreen: 'ProfileScreen',
   TabNavigation: 'TabNavigation',
   DrawalNavigation: 'DrawalNavigation',
+  SignUpPasswordScreen: 'SignUpPasswordScreen',
 });

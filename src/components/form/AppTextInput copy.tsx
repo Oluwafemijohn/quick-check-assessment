@@ -41,7 +41,6 @@ function AppTextInput({
           placeholder={placeholder}
           value={value}
           autoCapitalize={autoCapitalize}
-          p
         />
       </View>
       {errors && <Text style={[styles.error, {width}]}>{errors}</Text>}

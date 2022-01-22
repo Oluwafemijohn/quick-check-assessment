@@ -7,12 +7,34 @@ import Constants from '../constants/Constants';
 import OTPScreen from '../screens/authentication/OTPScreen';
 import SignUpSuccessfulScreen from '../screens/authentication/SignUpSuccessfulScreen';
 import TabNavigation from './TabNavigation';
+import {Image, Pressable, StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import SignUpPasswordScreen from '../screens/authentication/SignUpPasswordScreen';
 
 const Stack = createNativeStackNavigator();
 
 function AppNavigation() {
+  const navigation = useNavigation();
+
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerLeft: () => (
+          <Pressable
+            onPress={() => {
+              navigation.goBack();
+            }}>
+            <Image
+              source={require('../../assets/go-back-arrow.png')}
+              style={styles.gobackArrow}
+            />
+          </Pressable>
+        ),
+
+        headerBackTitleVisible: false,
+        // animationEnabled: true,
+        // headerBackButtonMenuEnabled: true,
+      }}>
       <Stack.Screen
         name={Constants.ONBOARDING_SCREEN}
         component={OnboardingScreen}
@@ -23,9 +45,9 @@ function AppNavigation() {
       <Stack.Screen
         name={Constants.SIGN_UP_SCREEN}
         component={SignUpScreen}
-        // options={{
-        //     headerShown: false,
-        // }}
+        options={{
+          headerTitle: 'Sign Up',
+        }}
       />
       <Stack.Screen
         name={Constants.SIGN_IN_SCREEN}
@@ -55,8 +77,21 @@ function AppNavigation() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name={Constants.SignUpPasswordScreen}
+        component={SignUpPasswordScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  gobackArrow: {
+    resizeMode: 'contain',
+  },
+});
 
 export default AppNavigation;

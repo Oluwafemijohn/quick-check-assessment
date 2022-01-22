@@ -23,6 +23,7 @@ interface Props {
   secureTextEntry?: boolean;
   onChangeText?: (e: string | ChangeEvent<any>) => void;
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters' | undefined;
+  icon?: boolean;
 }
 
 function AppTextInput({
@@ -35,6 +36,7 @@ function AppTextInput({
   keyboardType,
   onChangeText,
   autoCapitalize,
+  icon = false,
 }: Props) {
   return (
     <>
@@ -49,10 +51,12 @@ function AppTextInput({
           value={value}
           autoCapitalize={autoCapitalize}
         />
-        <Image
-          source={require('../../../assets/email-icon.png')}
-          style={styles.emailIcon}
-        />
+        {icon && (
+          <Image
+            source={require('../../../assets/email-icon.png')}
+            style={styles.emailIcon}
+          />
+        )}
       </View>
       {errors && <Text style={[styles.error, {width}]}>{errors}</Text>}
     </>

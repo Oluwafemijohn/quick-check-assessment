@@ -19,9 +19,16 @@ const signUpDetails = {
 };
 
 const validationSchema = Yup.object({
-  firstName: Yup.string().required().label('First Name'),
-  lastName: Yup.string().required().label('Last Name'),
-  email: Yup.string().email().required().label('Email'),
+  password: Yup.string()
+    .trim()
+    .required()
+    // .matches(/^([A-Za-z0-9]){6,}$/, 'At least 6 character')
+    .matches(/^[\p{L}\p{N}]{6,}$/, 'At least 6 character')
+    .label('Password'),
+  confirmPassword: Yup.string()
+    .required()
+    .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    .label('Password'),
 });
 
 function SignUpScreen(props: any) {
@@ -46,6 +53,11 @@ function SignUpScreen(props: any) {
         <Formik
           initialValues={signUpDetails}
           onSubmit={values => {
+            // setTimeout(() => {
+            //   console.log(values);
+            // formikActions.resetForm();
+            // formikActions.setSubmitting(false);
+            // }, 5000);
             handleCallBack({
               name: values.firstName,
               password: values.lastName,
@@ -108,6 +120,28 @@ function SignUpScreen(props: any) {
                   autoCapitalize="none"
                   icon={true}
                 />
+                {/* <Text style={styles.label}>Create Password</Text>
+                <AppTextInputPassWord
+                  value={password}
+                  placeholder="Enter Password "
+                  errors={touched.password && errors.password}
+                  onChangeText={handleChange('password')}
+                  onBlur={handleBlur('password')}
+                  width={WP('80%')}
+                  keyboardType="default"
+                  icon={require('../../../assets/show-password-icon.png')}
+                />
+
+                <AppTextInputPassWord
+                  value={confirmPassword}
+                  placeholder="Enter Password "
+                  errors={touched.confirmPassword && errors.confirmPassword}
+                  onChangeText={handleChange('confirmPassword')}
+                  onBlur={handleBlur('confirmPassword')}
+                  width={WP('80%')}
+                  keyboardType="default"
+                  icon={require('../../../assets/show-password-icon.png')}
+                /> */}
 
                 <AppButton
                   style={styles.button}
