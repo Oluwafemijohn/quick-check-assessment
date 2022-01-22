@@ -1,0 +1,18 @@
+export default {
+  primary: '#fc5c65',
+  secondary: '#4ecdc4',
+  black: '#000',
+  white: '#fff',
+  medium: '#6e6969',
+  silver: '#C0C0C0',
+  light: '#f8f4f4',
+  dark: '#0c0c0c',
+  danger: '#ff5252',
+  darkGrey: '#797979',
+  darkCard: '#1C1C1E',
+  primaryBlack: '#000000',
+  lightGrey: '#AAAAAA',
+  paleRed: '#FA5E5E',
+  paleYellow: '#FCCA18',
+  red: '#FF0000',
+};
