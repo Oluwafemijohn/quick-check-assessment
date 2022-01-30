@@ -3,12 +3,12 @@ import {Text} from 'react-native';
 import SafeAreaScreen from '../../components/SafeAreaScreen';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function DashboardScreen(props: any) {
+function HomeScreen(props: any) {
   return (
     <SafeAreaScreen>
-      <Text>DashboardScreen</Text>
+      <Text>HomeScreen</Text>
     </SafeAreaScreen>
   );
 }
 
-export default DashboardScreen;
+export default HomeScreen;

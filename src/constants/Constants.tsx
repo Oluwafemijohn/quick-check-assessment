@@ -11,4 +11,8 @@ export default Object.freeze({
   TabNavigation: 'TabNavigation',
   DrawalNavigation: 'DrawalNavigation',
   SignUpPasswordScreen: 'SignUpPasswordScreen',
+  PasswordResetScreen: 'PasswordResetScreen',
+  ForgetPasswordScreen: 'ForgetPasswordScreen',
+  ForgetPasswordCheckEmailScreen: 'ForgetPasswordCheckEmailScreen',
+  PasswordResetSuccessfulScreen: 'PasswordResetSuccessfulScreen',
 });

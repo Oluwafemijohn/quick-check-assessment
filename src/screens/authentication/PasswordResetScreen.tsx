@@ -1,17 +1,15 @@
+import {Formik} from 'formik';
 import React from 'react';
 import {Text, StyleSheet, View} from 'react-native';
-import {widthPercentageToDP as WP} from 'react-native-responsive-screen';
 import * as Yup from 'yup';
-import {Formik} from 'formik';
-import SafeAreaScreen from '../../components/SafeAreaScreen';
 import AppButton from '../../components/form/AppButton';
-import colors from '../../constants/colors';
-import Constants from '../../constants/Constants';
-import {registerUserPassword} from '../../network/Server';
-import common from '../../constants/common';
 import AppTextInputPassWord from '../../components/form/AppTextInputPassWord';
 
-const passwordDetails = {
+import SafeAreaScreen from '../../components/SafeAreaScreen';
+import common from '../../constants/common';
+import Constants from '../../constants/Constants';
+
+const LoginDetails = {
   password: '',
   confirmPassword: '',
 };
@@ -35,29 +33,22 @@ Password must have:
     .label('Password'),
 });
 
-function SignUpPasswordScreen(props: any) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleCallBack = async (values: string) => {
-    console.log('values', values);
-    registerUserPassword(values)
-      .then(res => {
-        console.log('res', res);
-        props.navigation.navigate(Constants.OTPScreen, values);
-      })
-      .catch(err => {
-        console.log('err', err);
-      });
-  };
-
+function PasswordResetScreen(props: any) {
   return (
     <SafeAreaScreen>
       <View style={styles.container}>
-        <Text style={styles.headingText}>Create Password</Text>
+        <Text style={styles.enterPasswordText}>
+          Please enter a{'\n'}
+          new password
+        </Text>
+        <Text style={styles.yourNewPasswordText}>
+          Your new password must be different from the previous one(s).
+        </Text>
         <Formik
-          initialValues={passwordDetails}
+          initialValues={LoginDetails}
           onSubmit={values => {
-            props.navigation.navigate(Constants.OTPScreen);
             console.log(values);
+            props.navigation.navigate(Constants.PasswordResetSuccessfulScreen);
           }}
           validationSchema={validationSchema}>
           {({
@@ -69,38 +60,38 @@ function SignUpPasswordScreen(props: any) {
             isSubmitting,
             handleSubmit,
           }) => {
+            const {password, confirmPassword} = values;
+
             return (
               <>
-                <Text style={styles.label}>Create Password</Text>
+                <Text style={styles.label}>Email Address</Text>
                 <AppTextInputPassWord
-                  value={values.password}
+                  value={password}
                   placeholder="Enter Password "
                   errors={touched.password && errors.password}
                   onChangeText={handleChange('password')}
                   onBlur={handleBlur('password')}
-                  width={WP('80%')}
+                  width={common.WP('80%')}
                   keyboardType="default"
                   icon={require('../../../assets/show-password-icon.png')}
                 />
-
+                <Text style={styles.label}>Confirm New Password</Text>
                 <AppTextInputPassWord
-                  value={values.confirmPassword}
-                  placeholder="Enter Password "
+                  value={confirmPassword}
+                  placeholder="Confirm new password "
                   errors={touched.confirmPassword && errors.confirmPassword}
                   onChangeText={handleChange('confirmPassword')}
                   onBlur={handleBlur('confirmPassword')}
-                  width={WP('80%')}
+                  width={common.WP('80%')}
                   keyboardType="default"
                   icon={require('../../../assets/show-password-icon.png')}
                 />
-
                 <AppButton
                   style={styles.button}
-                  title="Next"
+                  title="Reset Password"
                   submitting={isSubmitting}
                   onPress={handleSubmit}
                   width={80}
-                  marginTop={55}
                 />
               </>
             );
@@ -114,45 +105,29 @@ function SignUpPasswordScreen(props: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    paddingHorizontal: common.WP(10),
   },
-  headingText: {
+  enterPasswordText: {
+    fontSize: common.WP(4),
+    fontWeight: '600',
     alignSelf: 'center',
-    width: common.WP(60),
     textAlign: 'center',
     marginTop: common.WP(10),
-    marginBottom: common.WP(10),
-    fontSize: common.WP(5),
   },
-  nameLabel: {
-    color: colors.primaryBlack,
-    alignSelf: 'flex-start',
-    // paddingLeft: WP(10),
-    marginBottom: WP(-2),
-    marginTop: WP(3),
+  yourNewPasswordText: {
+    width: common.WP(70),
+    alignSelf: 'center',
+    textAlign: 'center',
+    color: common.colors.medium,
+    marginTop: common.WP(5),
   },
+  button: {},
   label: {
-    color: colors.primaryBlack,
+    color: common.colors.medium,
     alignSelf: 'flex-start',
-    paddingLeft: WP(10),
-    marginBottom: WP(-2),
-    marginTop: WP(3),
+    marginBottom: common.WP(-2),
+    marginTop: common.WP(8),
   },
-  button: {
-    // marginTop: HP('5%'),
-    // marginTop: common.HP('60%'),
-    // bottom: common.WP(5),
-  },
-  input: {
-    // marginTop: WP(10),
-  },
-  nameContainer: {
-    flexDirection: 'row',
-  },
-  leftNameContainer: {
-    marginRight: common.WP(5),
-  },
-  rightNameContainer: {},
 });
 
-export default SignUpPasswordScreen;
+export default PasswordResetScreen;

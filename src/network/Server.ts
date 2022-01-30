@@ -7,7 +7,16 @@ export const registerUser = async (user: IUser) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({...user, phoneNo: '08020324354'}),
+    body: JSON.stringify(user),
+  }).then(res => res.json());
+};
+export const registerUserPassword = async (password: string) => {
+  return await fetch(`${BASE_URL}api/v1/auth/register`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(password),
   }).then(res => res.json());
 };
 

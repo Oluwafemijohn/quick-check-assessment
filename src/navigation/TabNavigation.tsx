@@ -4,10 +4,10 @@ import Constants from '../constants/Constants';
 import SearchScreen from '../screens/tab/SearchScreen';
 import CategoryScreen from '../screens/tab/CategoryScreen';
 import ProfileScreen from '../screens/tab/ProfileScreen';
-import {View, StyleSheet, Image} from 'react-native';
+import {View, StyleSheet, Image, Text} from 'react-native';
 import colors from '../constants/colors';
 import common from '../constants/common';
-import DashboardScreen from '../screens/tab/DashboardScreen';
+import HomeScreen from '../screens/tab/HomeScreen';
 
 const Tab = createBottomTabNavigator();
 function TabNavigation() {
@@ -16,7 +16,7 @@ function TabNavigation() {
       screenOptions={() => ({
         headerShown: false,
         tabBarStyle: {
-          height: common.WP(25),
+          height: common.WP(20),
           paddingHorizontal: 5,
           paddingVertical: 5,
           color: colors.white,
@@ -28,7 +28,7 @@ function TabNavigation() {
       })}>
       <Tab.Screen
         name={Constants.DashboardScreen}
-        component={DashboardScreen}
+        component={HomeScreen}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}: {focused: boolean}) => (
@@ -43,6 +43,9 @@ function TabNavigation() {
                 source={require('../../assets/dashboard.png')}
                 style={styles.tabBarIcon}
               />
+              <Text style={focused ? styles.selectedText : styles.text}>
+                Home
+              </Text>
             </View>
           ),
         }}
@@ -61,9 +64,12 @@ function TabNavigation() {
                 />
               )}
               <Image
-                source={require('../../assets/search-tab-icon.png')}
+                source={require('../../assets/category-tab-icon.png')}
                 style={styles.tabBarIcon}
               />
+              <Text style={focused ? styles.selectedText : styles.text}>
+                Categories
+              </Text>
             </View>
           ),
         }}
@@ -82,9 +88,12 @@ function TabNavigation() {
                 />
               )}
               <Image
-                source={require('../../assets/category-tab-icon.png')}
+                source={require('../../assets/list-tab-icon.png')}
                 style={styles.tabBarIcon}
               />
+              <Text style={focused ? styles.selectedText : styles.text}>
+                List
+              </Text>
             </View>
           ),
         }}
@@ -103,9 +112,12 @@ function TabNavigation() {
                 />
               )}
               <Image
-                source={require('../../assets/profile-tab-icon.png')}
+                source={require('../../assets/settings-tab-icon.png')}
                 style={styles.tabBarIcon}
               />
+              <Text style={focused ? styles.selectedText : styles.text}>
+                Settings
+              </Text>
             </View>
           ),
         }}
@@ -122,15 +134,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     // backgroundColor: colors.red,
   },
+  tabBarIconContainer2: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.red,
+  },
   tabBarIcon: {
-    width: 30,
-    height: 30,
+    width: common.WP(8),
+    height: common.WP(8),
   },
   tabBarSelectedIcon: {
-    resizeMode: 'contain',
+    resizeMode: 'stretch',
+    width: '60%',
+    height: '7%',
     position: 'absolute',
     top: 0,
     alignSelf: 'center',
+  },
+  selectedText: {
+    fontSize: common.WP(3),
+    fontWeight: 'bold',
+  },
+  text: {
+    fontSize: common.WP(3),
   },
 });
 

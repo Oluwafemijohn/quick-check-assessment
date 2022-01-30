@@ -113,7 +113,15 @@ function SignInScreen(props: any) {
                       />
                       <Text style={styles.forgetPassword}>
                         Forgot password?{' '}
-                        <Text style={styles.resetPassword}>Reset</Text>{' '}
+                        <Text
+                          onPress={() =>
+                            props.navigation.navigate(
+                              Constants.ForgetPasswordScreen,
+                            )
+                          }
+                          style={styles.resetPassword}>
+                          Reset
+                        </Text>{' '}
                       </Text>
                       <AppButton
                         style={styles.button}

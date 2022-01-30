@@ -25,6 +25,7 @@ const validationSchema = Yup.object({
 });
 
 function SignUpScreen(props: any) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleCallBack = async (values: IUser) => {
     console.log('values', values);
     registerUser(values)
@@ -46,11 +47,16 @@ function SignUpScreen(props: any) {
         <Formik
           initialValues={signUpDetails}
           onSubmit={values => {
-            handleCallBack({
-              name: values.firstName,
-              password: values.lastName,
-              email: values.email,
-            });
+            // handleCallBack({
+            //   firstName: values.firstName,
+            //   lastName: values.lastName,
+            //   email: values.email,
+            // });
+            props.navigation.navigate(
+              Constants.SignUpPasswordScreen,
+              values.email,
+            );
+
             console.log(values);
           }}
           validationSchema={validationSchema}>
@@ -137,6 +143,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: common.WP(10),
     marginBottom: common.WP(10),
+    fontSize: common.WP(5),
   },
   nameLabel: {
     color: colors.primaryBlack,

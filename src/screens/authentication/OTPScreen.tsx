@@ -1,38 +1,24 @@
-import React, {useEffect, useState} from 'react';
-import {Text, View, StyleSheet, ImageBackground} from 'react-native';
-import {
-  CodeField,
-  Cursor,
-  useBlurOnFulfill,
-  useClearByFocusCell,
-} from 'react-native-confirmation-code-field';
+import React from 'react';
+import {Text, View, StyleSheet} from 'react-native';
+// import {
+//   CodeField,
+//   Cursor,
+//   useBlurOnFulfill,
+//   useClearByFocusCell,
+// } from 'react-native-confirmation-code-field';
+import OTPInputView from '@twotalltotems/react-native-otp-input';
 import {widthPercentageToDP as WP} from 'react-native-responsive-screen';
 
 import SafeAreaScreen from '../../components/SafeAreaScreen';
 import colors from '../../constants/colors';
 import Constants from '../../constants/Constants';
 import {verifyUser} from '../../network/Server';
-
-const CELL_COUNT = 4;
+import common from '../../constants/common';
 
 function OTPScreen(props: any) {
   const email = props.route.params;
 
-  const [value, setValue] = useState('');
-  const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
-  const [prop, getCellOnLayoutHandler] = useClearByFocusCell({
-    value,
-    setValue,
-  });
-
-  useEffect(() => {
-    console.log(value);
-    if (value.length === CELL_COUNT) {
-      handleCall(value);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value]);
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleCall = (otp: string) => {
     console.log('otp', otp);
 
@@ -51,32 +37,26 @@ function OTPScreen(props: any) {
 
   return (
     <SafeAreaScreen>
-      <ImageBackground
-        source={require('../../../assets/sign-up-background.png')}
-        style={styles.background}>
+      <View style={styles.background}>
         <View style={styles.container}>
+          <Text style={styles.enterOtp}>Enter OTP</Text>
           <Text style={styles.topText}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            An OTP has been sent to your email: DianeMorgan@testmail.com
           </Text>
-
-          <CodeField
-            ref={ref}
-            {...prop}
-            // Use `caretHidden={false}` when users can't paste a text value, because context menu doesn't appear
-            value={value}
-            onChangeText={setValue}
-            cellCount={CELL_COUNT}
-            rootStyle={styles.codeFieldRoot}
-            keyboardType="number-pad"
-            textContentType="oneTimeCode"
-            renderCell={({index, symbol, isFocused}) => (
-              <Text
-                key={index}
-                style={[styles.cell, isFocused && styles.focusCell]}
-                onLayout={getCellOnLayoutHandler(index)}>
-                {symbol || (isFocused ? <Cursor /> : null)}
-              </Text>
-            )}
+          <OTPInputView
+            style={styles.codeInputField}
+            pinCount={4}
+            // code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
+            // onCodeChanged = {code => { this.setState({code})}}
+            autoFocusOnLoad
+            codeInputFieldStyle={styles.underlineStyleBase}
+            codeInputHighlightStyle={styles.underlineStyleHighLighted}
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            onCodeFilled={code => {
+              props.navigation.navigate(Constants.SignUpSuccessfulScreen);
+            }}
+            editable
+            keyboardType="phone-pad"
           />
 
           <Text style={styles.dontReceiveOTP}>
@@ -86,7 +66,7 @@ function OTPScreen(props: any) {
             <Text style={styles.resendOTP}>Resend OTP</Text>
           </Text>
         </View>
-      </ImageBackground>
+      </View>
     </SafeAreaScreen>
   );
 }
@@ -96,27 +76,45 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {textAlign: 'center', fontSize: 30},
-  codeFieldRoot: {
-    marginHorizontal: 40,
-    marginTop: 20,
+  codeInputField: {
+    width: '80%',
+    height: 200,
   },
-  cell: {
-    width: 60,
-    height: 60,
-    lineHeight: 38,
-    fontSize: 24,
-    borderWidth: 2,
-    borderColor: '#00000030',
-    textAlign: 'center',
+  borderStyleBase: {
+    width: 30,
+    height: 45,
   },
-  focusCell: {
-    borderColor: '#000',
+
+  borderStyleHighLighted: {
+    borderColor: '#03DAC6',
   },
+
+  underlineStyleBase: {
+    width: common.WP(15),
+    height: common.WP(15),
+    borderWidth: 0,
+    borderBottomWidth: 1,
+    color: common.colors.black,
+  },
+
+  underlineStyleHighLighted: {
+    borderColor: common.colors.paleYellow,
+    width: common.WP(15),
+    height: common.WP(15),
+  },
+
   topText: {
     width: WP(80),
     alignSelf: 'center',
     textAlign: 'center',
     marginTop: WP(13),
+    lineHeight: WP(5),
+  },
+  enterOtp: {
+    fontSize: WP(4),
+    alignSelf: 'center',
+    fontWeight: 'bold',
+    marginTop: WP(8),
   },
   background: {
     width: '100%',

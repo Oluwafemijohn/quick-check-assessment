@@ -1,8 +1,9 @@
 export interface IUser {
-  name: string;
+  firstName: string;
   email: string;
-  password: string;
+  lastName: string;
 }
+
 export interface IVerifyUser {
   email: string;
   otp: string;

@@ -10,6 +10,10 @@ import TabNavigation from './TabNavigation';
 import {Image, Pressable, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import SignUpPasswordScreen from '../screens/authentication/SignUpPasswordScreen';
+import PasswordResetScreen from '../screens/authentication/PasswordResetScreen';
+import ForgetPasswordScreen from '../screens/authentication/ForgetPasswordScreen';
+import ForgetPasswordCheckEmailScreen from '../screens/authentication/ForgetPasswordCheckEmailScreen';
+import PasswordResetSuccessfulScreen from '../screens/authentication/PasswordResetSuccessfulScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -81,7 +85,35 @@ function AppNavigation() {
         name={Constants.SignUpPasswordScreen}
         component={SignUpPasswordScreen}
         options={{
-          headerShown: false,
+          headerTitle: 'Sign Up',
+        }}
+      />
+      <Stack.Screen
+        name={Constants.ForgetPasswordScreen}
+        component={ForgetPasswordScreen}
+        options={{
+          headerTitle: 'Forget password',
+        }}
+      />
+      <Stack.Screen
+        name={Constants.ForgetPasswordCheckEmailScreen}
+        component={ForgetPasswordCheckEmailScreen}
+        options={{
+          headerTitle: 'Forget password',
+        }}
+      />
+      <Stack.Screen
+        name={Constants.PasswordResetScreen}
+        component={PasswordResetScreen}
+        options={{
+          headerTitle: 'Password reset',
+        }}
+      />
+      <Stack.Screen
+        name={Constants.PasswordResetSuccessfulScreen}
+        component={PasswordResetSuccessfulScreen}
+        options={{
+          headerTitle: 'Password reset',
         }}
       />
     </Stack.Navigator>
