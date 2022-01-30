@@ -15,4 +15,5 @@ export default {
   paleRed: '#FA5E5E',
   paleYellow: '#FCCA18',
   red: '#FF0000',
+  lightPurple: '#AB50D6',
 };
