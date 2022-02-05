@@ -93,7 +93,7 @@ function SignInScreen(props: any) {
                         autoCapitalize="none"
                         icon={true}
                       />
-                      <Text style={styles.label}>Create Password</Text>
+                      <Text style={styles.label}>Enter Password</Text>
                       <AppTextInputPassWord
                         value={password}
                         placeholder="Enter Password "

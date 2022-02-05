@@ -16,4 +16,6 @@ export default {
   paleYellow: '#FCCA18',
   red: '#FF0000',
   lightPurple: '#AB50D6',
+  lightYellow: '#FCfd48',
+  lightYellow2: 'rgba(255, 255, 255, 0.8)',
 };
