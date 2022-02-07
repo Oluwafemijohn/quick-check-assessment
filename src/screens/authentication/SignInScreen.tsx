@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ImageBackground,
   ScrollView,
+  Alert,
 } from 'react-native';
 import {widthPercentageToDP as WP} from 'react-native-responsive-screen';
 import * as Yup from 'yup';
@@ -14,7 +15,7 @@ import AppButton from '../../components/form/AppButton';
 import AppTextInputPassWord from '../../components/form/AppTextInputPassWord';
 import colors from '../../constants/colors';
 import Constants from '../../constants/Constants';
-import {signInUser} from '../../network/Server';
+import {signIn} from '../../network/Server';
 import {ISignIn} from '../../types/Type';
 import common from '../../constants/common';
 
@@ -32,18 +33,14 @@ const validationSchema = Yup.object({
 });
 
 function SignInScreen(props: any) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleCall = async (values: ISignIn) => {
-    console.log('values', values);
-    signInUser(values)
-      .then(res => {
-        console.log('res', res);
+    await signIn(values).then(res => {
+      if (res.statusCode === 200) {
         props.navigation.navigate(Constants.TabNavigation);
-      })
-      .catch(err => {
-        console.log('err', err);
-        // props.navigation.navigate(Constants.TabNavigation);
-      });
+      } else {
+        Alert.alert(res.message ? res.message : 'Something went wrong');
+      }
+    });
   };
 
   return (
@@ -58,14 +55,7 @@ function SignInScreen(props: any) {
               <Formik
                 initialValues={LoginDetails}
                 onSubmit={values => {
-                  // setTimeout(() => {
-                  //     //   console.log(values);
-                  //     formikActions.resetForm();
-                  //     formikActions.setSubmitting(false);
-                  // }, 5000);
-                  console.log(values);
-                  props.navigation.navigate(Constants.TabNavigation);
-                  // handleCall(values);
+                  handleCall(values);
                 }}
                 validationSchema={validationSchema}>
                 {({

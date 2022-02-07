@@ -64,10 +64,10 @@ function PasswordResetScreen(props: any) {
 
             return (
               <>
-                <Text style={styles.label}>Email Address</Text>
+                <Text style={styles.label}>New Password</Text>
                 <AppTextInputPassWord
                   value={password}
-                  placeholder="Enter Password "
+                  placeholder="New Password"
                   errors={touched.password && errors.password}
                   onChangeText={handleChange('password')}
                   onBlur={handleBlur('password')}

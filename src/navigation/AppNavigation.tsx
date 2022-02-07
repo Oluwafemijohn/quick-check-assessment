@@ -14,6 +14,8 @@ import PasswordResetScreen from '../screens/authentication/PasswordResetScreen';
 import ForgetPasswordScreen from '../screens/authentication/ForgetPasswordScreen';
 import ForgetPasswordCheckEmailScreen from '../screens/authentication/ForgetPasswordCheckEmailScreen';
 import PasswordResetSuccessfulScreen from '../screens/authentication/PasswordResetSuccessfulScreen';
+import ForgetPasswordOTPScreen from '../screens/authentication/ForgetPasswordOTPScreen';
+import MainAppNavigation from './MainAppNavigation';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,10 +36,7 @@ function AppNavigation() {
             />
           </Pressable>
         ),
-
         headerBackTitleVisible: false,
-        // animationEnabled: true,
-        // headerBackButtonMenuEnabled: true,
       }}>
       <Stack.Screen
         name={Constants.ONBOARDING_SCREEN}
@@ -112,6 +111,20 @@ function AppNavigation() {
       <Stack.Screen
         name={Constants.PasswordResetSuccessfulScreen}
         component={PasswordResetSuccessfulScreen}
+        options={{
+          headerTitle: 'Password reset',
+        }}
+      />
+      <Stack.Screen
+        name={Constants.ForgetPasswordOTPScreen}
+        component={ForgetPasswordOTPScreen}
+        options={{
+          headerTitle: 'Password reset',
+        }}
+      />
+      <Stack.Screen
+        name={Constants.MainAppNavigation}
+        component={MainAppNavigation}
         options={{
           headerTitle: 'Password reset',
         }}

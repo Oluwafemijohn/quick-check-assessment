@@ -15,4 +15,7 @@ export default Object.freeze({
   ForgetPasswordScreen: 'ForgetPasswordScreen',
   ForgetPasswordCheckEmailScreen: 'ForgetPasswordCheckEmailScreen',
   PasswordResetSuccessfulScreen: 'PasswordResetSuccessfulScreen',
+  ForgetPasswordOTPScreen: 'ForgetPasswordOTPScreen',
+  ProductDetailsScreen: 'ProductDetailsScreen',
+  MainAppNavigation: 'MainAppNavigation',
 });

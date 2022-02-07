@@ -8,36 +8,21 @@ import AppTextInput from '../../components/form/AppTextInput';
 import AppButton from '../../components/form/AppButton';
 import colors from '../../constants/colors';
 import Constants from '../../constants/Constants';
-import {registerUser} from '../../network/Server';
-import {IUser} from '../../types/Type';
 import common from '../../constants/common';
 
 const signUpDetails = {
-  firstName: '',
-  lastName: '',
+  firstname: '',
+  lastname: '',
   email: '',
 };
 
 const validationSchema = Yup.object({
-  firstName: Yup.string().required().label('First Name'),
-  lastName: Yup.string().required().label('Last Name'),
+  firstname: Yup.string().required().label('First Name'),
+  lastname: Yup.string().required().label('Last Name'),
   email: Yup.string().email().required().label('Email'),
 });
 
 function SignUpScreen(props: any) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleCallBack = async (values: IUser) => {
-    console.log('values', values);
-    registerUser(values)
-      .then(res => {
-        console.log('res', res);
-        props.navigation.navigate(Constants.OTPScreen, values.email);
-      })
-      .catch(err => {
-        console.log('err', err);
-      });
-  };
-
   return (
     <SafeAreaScreen>
       <View style={styles.container}>
@@ -47,17 +32,7 @@ function SignUpScreen(props: any) {
         <Formik
           initialValues={signUpDetails}
           onSubmit={values => {
-            // handleCallBack({
-            //   firstName: values.firstName,
-            //   lastName: values.lastName,
-            //   email: values.email,
-            // });
-            props.navigation.navigate(
-              Constants.SignUpPasswordScreen,
-              values.email,
-            );
-
-            console.log(values);
+            props.navigation.navigate(Constants.SignUpPasswordScreen, values);
           }}
           validationSchema={validationSchema}>
           {({
@@ -75,11 +50,11 @@ function SignUpScreen(props: any) {
                   <View style={styles.leftNameContainer}>
                     <Text style={styles.nameLabel}>First Name</Text>
                     <AppTextInput
-                      value={values.firstName}
+                      value={values.firstname}
                       placeholder="First  Name"
-                      errors={touched.firstName && errors.firstName}
-                      onChangeText={handleChange('firstName')}
-                      onBlur={handleBlur('firstName')}
+                      errors={touched.firstname && errors.firstname}
+                      onChangeText={handleChange('firstname')}
+                      onBlur={handleBlur('firstname')}
                       width={WP('40%')}
                       keyboardType="default"
                       style={styles.input}
@@ -89,11 +64,11 @@ function SignUpScreen(props: any) {
                   <View style={styles.rightNameContainer}>
                     <Text style={styles.nameLabel}>Last Name</Text>
                     <AppTextInput
-                      value={values.lastName}
-                      placeholder="Last lastName"
-                      errors={touched.lastName && errors.lastName}
-                      onChangeText={handleChange('lastName')}
-                      onBlur={handleBlur('lastName')}
+                      value={values.lastname}
+                      placeholder="Last last name"
+                      errors={touched.lastname && errors.lastname}
+                      onChangeText={handleChange('lastname')}
+                      onBlur={handleBlur('lastname')}
                       width={WP('40%')}
                       keyboardType="default"
                       style={styles.input}

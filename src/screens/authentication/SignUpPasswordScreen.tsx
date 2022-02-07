@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, StyleSheet, View} from 'react-native';
+import {Text, StyleSheet, View, Alert} from 'react-native';
 import {widthPercentageToDP as WP} from 'react-native-responsive-screen';
 import * as Yup from 'yup';
 import {Formik} from 'formik';
@@ -7,9 +7,10 @@ import SafeAreaScreen from '../../components/SafeAreaScreen';
 import AppButton from '../../components/form/AppButton';
 import colors from '../../constants/colors';
 import Constants from '../../constants/Constants';
-import {registerUserPassword} from '../../network/Server';
+import {registerUser} from '../../network/Server';
 import common from '../../constants/common';
 import AppTextInputPassWord from '../../components/form/AppTextInputPassWord';
+import {IUser} from '../../types/Type';
 
 const passwordDetails = {
   password: '',
@@ -36,13 +37,20 @@ Password must have:
 });
 
 function SignUpPasswordScreen(props: any) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleCallBack = async (values: string) => {
-    console.log('values', values);
-    registerUserPassword(values)
+  const data: IUser = props.route.params;
+
+  const handleCallBack = async (password: string) => {
+    registerUser({
+      ...data,
+      password,
+    })
       .then(res => {
         console.log('res', res);
-        props.navigation.navigate(Constants.OTPScreen, values);
+        if (res.statusCode === 201) {
+          props.navigation.navigate(Constants.OTPScreen, data.email);
+        } else {
+          Alert.alert(res.message ? res.message : 'Something went wrong');
+        }
       })
       .catch(err => {
         console.log('err', err);
@@ -56,8 +64,9 @@ function SignUpPasswordScreen(props: any) {
         <Formik
           initialValues={passwordDetails}
           onSubmit={values => {
-            props.navigation.navigate(Constants.OTPScreen);
-            console.log(values);
+            handleCallBack(values.password);
+            // props.navigation.navigate(Constants.OTPScreen);
+            // console.log(values);
           }}
           validationSchema={validationSchema}>
           {({

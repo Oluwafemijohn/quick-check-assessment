@@ -1,15 +1,38 @@
 export interface IUser {
-  firstName: string;
+  firstname: string;
   email: string;
-  lastName: string;
+  lastname: string;
+  password: string;
+  // phoneNumber: string;
 }
 
 export interface IVerifyUser {
   email: string;
-  otp: string;
+  verificationToken: string;
 }
 
 export interface ISignIn {
   email: string;
   password: string;
+}
+
+export interface ISendOtp {
+  email: string;
+}
+
+export interface ILoginResponse {
+  errors: any;
+  message: string;
+  payload: IUserData;
+  statusCode: number;
+  token: string;
+}
+
+export interface IUserData {
+  createdAt: string;
+  email: string;
+  firstname: string;
+  isVerified: boolean;
+  lastname: string;
+  role: string;
 }

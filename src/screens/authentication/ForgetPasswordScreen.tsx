@@ -1,6 +1,6 @@
 import {Formik} from 'formik';
 import React from 'react';
-import {Text, View, StyleSheet, Image} from 'react-native';
+import {Text, View, StyleSheet, Image, Alert} from 'react-native';
 import * as Yup from 'yup';
 
 import AppButton from '../../components/form/AppButton';
@@ -8,10 +8,10 @@ import AppTextInput from '../../components/form/AppTextInput';
 import SafeAreaScreen from '../../components/SafeAreaScreen';
 import common from '../../constants/common';
 import Constants from '../../constants/Constants';
+import {sendOtp} from '../../network/Server';
 
 const LoginDetails = {
   email: '',
-  password: '',
 };
 
 const validationSchema = Yup.object({
@@ -19,6 +19,23 @@ const validationSchema = Yup.object({
 });
 
 function ForgetPasswordScreen(props: any) {
+  const handleSendOtp = async (email: string) => {
+    await sendOtp({
+      email: email,
+    }).then(res => {
+      console.log('res', res);
+      if (res.statusCode === 200) {
+        // Alert.alert(res.message ? res.message : 'Otp sent successfully');
+        props.navigation.navigate(
+          Constants.ForgetPasswordCheckEmailScreen,
+          email,
+        );
+      } else {
+        Alert.alert(res.message ? res.message : 'Something went wrong');
+      }
+    });
+  };
+
   return (
     <SafeAreaScreen>
       <View style={styles.container}>
@@ -34,8 +51,8 @@ function ForgetPasswordScreen(props: any) {
         <Formik
           initialValues={LoginDetails}
           onSubmit={values => {
-            console.log(values);
-            props.navigation.navigate(Constants.PasswordResetSuccessfulScreen);
+            handleSendOtp(values.email);
+            // props.navigation.navigate(Constants.ForgetPasswordCheckEmailScreen);
           }}
           validationSchema={validationSchema}>
           {({

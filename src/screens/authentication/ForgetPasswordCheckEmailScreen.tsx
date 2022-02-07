@@ -6,6 +6,7 @@ import common from '../../constants/common';
 import Constants from '../../constants/Constants';
 
 function ForgetPasswordCheckEmailScreen(props: any) {
+  const email = props.route.params;
   return (
     <SafeAreaScreen>
       <View style={styles.container}>
@@ -19,10 +20,10 @@ function ForgetPasswordCheckEmailScreen(props: any) {
         </Text>
         <AppButton
           style={styles.button}
-          title="Open email app"
+          title="Proceed"
           //   submitting={isSubmitting}
           onPress={() => {
-            props.navigation.navigate(Constants.PasswordResetScreen);
+            props.navigation.navigate(Constants.ForgetPasswordOTPScreen, email);
           }}
           width={80}
           marginTop={8}

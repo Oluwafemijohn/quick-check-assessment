@@ -15,7 +15,7 @@ import common from '../../constants/common';
 import {sendOtp, verifyUser} from '../../network/Server';
 import {CELL_COUNT} from '../../constants/ConstantString';
 
-function OTPScreen(props: any) {
+function ForgetPasswordOTPScreen(props: any) {
   const email = props.route.params;
 
   const [value, setValue] = useState('');
@@ -34,7 +34,7 @@ function OTPScreen(props: any) {
       .then(res => {
         console.log('res', res);
         if (res.statusCode === 200) {
-          props.navigation.navigate(Constants.SignUpSuccessfulScreen);
+          props.navigation.navigate(Constants.PasswordResetScreen);
         } else {
           Alert.alert(res.message ? res.message : 'Something went wrong');
         }
@@ -186,4 +186,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OTPScreen;
+export default ForgetPasswordOTPScreen;
