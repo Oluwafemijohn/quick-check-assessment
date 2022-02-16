@@ -18,6 +18,6 @@ export default {
   lightPurple: '#AB50D6',
   lightYellow2: '#FCfd48',
   lightYellow: '#FEF4DA',
-  // lightYellow2: 'rgba(255, 255, 255, 0.8)',
   lightGreen: '#38CB47',
+  lightLightGrey: '#F6F6F6',
 };

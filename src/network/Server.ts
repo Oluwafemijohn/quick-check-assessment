@@ -1,5 +1,11 @@
 import {BASE_URL} from '../constants/NetworkConstants';
-import {ISendOtp, ISignIn, IUser, IVerifyUser} from '../types/Type';
+import {
+  ISendOtp,
+  ISignIn,
+  IUser,
+  IVerifyUser,
+  IVerifyUserPasswordReset,
+} from '../types/Type';
 import {requestClan} from './request';
 
 export const registerUser = (body: IUser) => {
@@ -11,6 +17,14 @@ export const registerUser = (body: IUser) => {
 };
 
 export const verifyUser = (user: IVerifyUser) => {
+  return requestClan({
+    type: 'POST',
+    route: `${BASE_URL}api/v1/auth/verifyOtp`,
+    data: user,
+  });
+};
+export const verifyUserPasswordReset = (user: IVerifyUserPasswordReset) => {
+  console.log('verifyUserPasswordReset', user);
   return requestClan({
     type: 'POST',
     route: `${BASE_URL}api/v1/auth/verifyOtp`,

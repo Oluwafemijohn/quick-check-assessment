@@ -10,6 +10,11 @@ export interface IVerifyUser {
   email: string;
   verificationToken: string;
 }
+export interface IVerifyUserPasswordReset {
+  email: string;
+  verificationToken: string;
+  type: string;
+}
 
 export interface ISignIn {
   email: string;

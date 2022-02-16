@@ -12,7 +12,7 @@ import SafeAreaScreen from '../../components/SafeAreaScreen';
 import colors from '../../constants/colors';
 import Constants from '../../constants/Constants';
 import common from '../../constants/common';
-import {sendOtp, verifyUser} from '../../network/Server';
+import {sendOtp, verifyUserPasswordReset} from '../../network/Server';
 import {CELL_COUNT} from '../../constants/ConstantString';
 
 function ForgetPasswordOTPScreen(props: any) {
@@ -27,12 +27,13 @@ function ForgetPasswordOTPScreen(props: any) {
 
   const handleCall = async (otp: string) => {
     console.log('otp', otp);
-    await verifyUser({
+    let data = {
       email: email,
       verificationToken: otp,
-    })
+      type: 'password',
+    };
+    await verifyUserPasswordReset(data)
       .then(res => {
-        console.log('res', res);
         if (res.statusCode === 200) {
           props.navigation.navigate(Constants.PasswordResetScreen);
         } else {
@@ -113,34 +114,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  title: {textAlign: 'center', fontSize: 30},
-  codeInputField: {
-    width: '80%',
-    height: 200,
-  },
-  borderStyleBase: {
-    width: 30,
-    height: 45,
-  },
-
-  borderStyleHighLighted: {
-    borderColor: '#03DAC6',
-  },
-
-  underlineStyleBase: {
-    width: common.WP(15),
-    height: common.WP(15),
-    borderWidth: 0,
-    borderBottomWidth: 1,
-    color: common.colors.black,
-  },
-
-  underlineStyleHighLighted: {
-    borderColor: common.colors.paleYellow,
-    width: common.WP(15),
-    height: common.WP(15),
-  },
-
   topText: {
     width: WP(80),
     alignSelf: 'center',

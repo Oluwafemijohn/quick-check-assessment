@@ -18,4 +18,5 @@ export default Object.freeze({
   ForgetPasswordOTPScreen: 'ForgetPasswordOTPScreen',
   ProductDetailsScreen: 'ProductDetailsScreen',
   MainAppNavigation: 'MainAppNavigation',
+  AddReviewScreen: 'AddReviewScreen',
 });

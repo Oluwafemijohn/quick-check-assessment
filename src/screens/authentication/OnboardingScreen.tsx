@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Image, Text} from 'react-native';
+import {View, StyleSheet, Image, Text, ScrollView} from 'react-native';
 import AppButton from '../../components/form/AppButton';
 
 import SafeAreaScreen from '../../components/SafeAreaScreen';
@@ -10,57 +10,61 @@ function OnboardingScreen(props: any) {
   return (
     <SafeAreaScreen>
       <View style={styles.container}>
-        <Image
-          source={require('../../../assets/onboarding.png')}
-          style={styles.topImage}
-        />
+        <ScrollView>
+          <View style={styles.container}>
+            <Image
+              source={require('../../../assets/onboarding.png')}
+              style={styles.topImage}
+            />
 
-        <View style={styles.bottomContainer} />
-        <Text style={styles.joinUs}>Join, Shop & Save</Text>
-        <Text style={styles.theCommunity}>
-          The community that buys together, saves-a-ton together.
-        </Text>
-        <View style={styles.stepsContainer}>
-          <View style={styles.steps}>
-            <Image
-              source={require('../../../assets/create-grocery.png')}
-              style={styles.icon}
+            <View style={styles.bottomContainer} />
+            <Text style={styles.joinUs}>Join, Shop & Save</Text>
+            <Text style={styles.theCommunity}>
+              The community that buys together, saves-a-ton together.
+            </Text>
+            <View style={styles.stepsContainer}>
+              <View style={styles.steps}>
+                <Image
+                  source={require('../../../assets/create-grocery.png')}
+                  style={styles.icon}
+                />
+                <Text style={styles.stepsText}>Create your grocery list</Text>
+              </View>
+              <View style={styles.steps}>
+                <Image
+                  source={require('../../../assets/pick-date.png')}
+                  style={styles.icon}
+                />
+                <Text style={styles.stepsText}>Pick your delivery dates</Text>
+              </View>
+              <View style={styles.steps}>
+                <Image
+                  source={require('../../../assets/grow-savings.png')}
+                  style={styles.icon}
+                />
+                <Text style={styles.stepsText}>Grow your savings</Text>
+              </View>
+            </View>
+            <AppButton
+              style={styles.button}
+              title="Get started"
+              onPress={() => {
+                props.navigation.navigate(Constants.SIGN_UP_SCREEN);
+              }}
+              width={80}
+              borderColor={common.colors.lightGrey}
+              backgroundColor={common.colors.white}
             />
-            <Text style={styles.stepsText}>Create your grocery list</Text>
-          </View>
-          <View style={styles.steps}>
-            <Image
-              source={require('../../../assets/pick-date.png')}
-              style={styles.icon}
+            <AppButton
+              style={styles.button}
+              title="Sign in"
+              onPress={() => {
+                props.navigation.navigate(Constants.SIGN_IN_SCREEN);
+              }}
+              width={80}
             />
-            <Text style={styles.stepsText}>Pick your delivery dates</Text>
           </View>
-          <View style={styles.steps}>
-            <Image
-              source={require('../../../assets/grow-savings.png')}
-              style={styles.icon}
-            />
-            <Text style={styles.stepsText}>Grow your savings</Text>
-          </View>
-        </View>
-        <AppButton
-          style={styles.button}
-          title="Get started"
-          onPress={() => {
-            props.navigation.navigate(Constants.SIGN_UP_SCREEN);
-          }}
-          width={80}
-          borderColor={common.colors.lightGrey}
-          backgroundColor={common.colors.white}
-        />
-        <AppButton
-          style={styles.button}
-          title="Sign in"
-          onPress={() => {
-            props.navigation.navigate(Constants.SIGN_IN_SCREEN);
-          }}
-          width={80}
-        />
+        </ScrollView>
       </View>
     </SafeAreaScreen>
   );
@@ -77,14 +81,14 @@ const styles = StyleSheet.create({
   topImage: {
     resizeMode: 'contain',
     alignSelf: 'center',
-    marginTop: common.WP(10),
+    marginTop: common.WP(6),
   },
   bottomContainer: {},
   joinUs: {
     fontSize: common.WP(9),
     fontWeight: 'bold',
     alignSelf: 'center',
-    marginTop: common.WP(8),
+    marginTop: common.WP(6),
   },
   theCommunity: {
     fontSize: common.WP(4),
@@ -96,7 +100,7 @@ const styles = StyleSheet.create({
   },
   stepsContainer: {
     paddingHorizontal: common.WP(20),
-    marginTop: common.WP(10),
+    marginTop: common.WP(6),
   },
   steps: {
     height: common.WP(8),

@@ -164,20 +164,20 @@ export const requestClan = async <T>({
       const response2 = response.clone();
       const dd = await response2.text();
       console.log(
-        '✅ An error occurred, please try again later.',
+        '+++++++ ✅ An error occurred, please try again later.',
         error.message,
         error.text,
         dd,
       );
     } else {
       console.log(
-        '✅ An error occurred, please try again later.',
+        '------ ✅ An error occurred, please try again later.',
         error.message,
         error.text,
       );
     }
     // TODO: Log error to sentry
-    let errorMsg = 'An error occurred, please try again later.';
+    let errorMsg = '=== An error occurred, please try again later.';
     return {
       message: errorMsg,
       statusCode: 0,

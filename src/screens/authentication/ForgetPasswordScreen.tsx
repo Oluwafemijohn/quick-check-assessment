@@ -30,8 +30,8 @@ function ForgetPasswordScreen(props: any) {
           Constants.ForgetPasswordCheckEmailScreen,
           email,
         );
-      } else {
-        Alert.alert(res.message ? res.message : 'Something went wrong');
+      } else if (res.statusCode === 400) {
+        Alert.alert('Error', 'Invalid credentials');
       }
     });
   };

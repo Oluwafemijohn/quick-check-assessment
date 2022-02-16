@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     width: common.WP(60),
     height: common.WP(50),
     resizeMode: 'stretch',
-    borderRadius: common.WP(4),
+    // borderRadius: common.WP(4),
   },
   rating: {
     paddingVertical: common.WP(3),

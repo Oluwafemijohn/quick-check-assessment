@@ -1,5 +1,4 @@
 import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SignUpScreen from '../screens/authentication/SignUpScreen';
 import SignInScreen from '../screens/authentication/SignInScreen';
 import OnboardingScreen from '../screens/authentication/OnboardingScreen';
@@ -15,9 +14,12 @@ import ForgetPasswordScreen from '../screens/authentication/ForgetPasswordScreen
 import ForgetPasswordCheckEmailScreen from '../screens/authentication/ForgetPasswordCheckEmailScreen';
 import PasswordResetSuccessfulScreen from '../screens/authentication/PasswordResetSuccessfulScreen';
 import ForgetPasswordOTPScreen from '../screens/authentication/ForgetPasswordOTPScreen';
-import MainAppNavigation from './MainAppNavigation';
+import ProductDetailsScreen from '../screens/others/ProductDetailsScreen';
+import {createStackNavigator} from '@react-navigation/stack';
+import AddReviewScreen from '../screens/others/AddReviewScreen';
+// import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 function AppNavigation() {
   const navigation = useNavigation();
@@ -122,11 +124,25 @@ function AppNavigation() {
           headerTitle: 'Password reset',
         }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name={Constants.MainAppNavigation}
         component={MainAppNavigation}
         options={{
           headerTitle: 'Password reset',
+        }}
+      /> */}
+      <Stack.Screen
+        name={Constants.ProductDetailsScreen}
+        component={ProductDetailsScreen}
+        options={{
+          headerTitle: 'Password reset',
+        }}
+      />
+      <Stack.Screen
+        name={Constants.AddReviewScreen}
+        component={AddReviewScreen}
+        options={{
+          headerTitle: 'Add review',
         }}
       />
     </Stack.Navigator>

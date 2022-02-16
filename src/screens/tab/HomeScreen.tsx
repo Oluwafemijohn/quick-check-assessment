@@ -42,7 +42,6 @@ const popular = [
   },
 ];
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function HomeScreen(props: any) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isWallet, setIsWallet] = useState(false);
@@ -98,7 +97,7 @@ function HomeScreen(props: any) {
                   <DashboardProductItem
                     onPress={() => {
                       props.navigation.navigate(
-                        Constants.MainAppNavigation,
+                        Constants.ProductDetailsScreen,
                         item,
                       );
                     }}
@@ -121,7 +120,7 @@ function HomeScreen(props: any) {
                   <DashboardProductItem
                     onPress={() => {
                       props.navigation.navigate(
-                        Constants.MainAppNavigation,
+                        Constants.ProductDetailsScreen,
                         item,
                       );
                     }}
@@ -143,7 +142,7 @@ function HomeScreen(props: any) {
                   <DashboardProductItem
                     onPress={() => {
                       props.navigation.navigate(
-                        Constants.MainAppNavigation,
+                        Constants.ProductDetailsScreen,
                         item,
                       );
                     }}
