@@ -20,4 +20,5 @@ export default {
   lightYellow: '#FEF4DA',
   lightGreen: '#38CB47',
   lightLightGrey: '#F6F6F6',
+  veryLighrGrey: '#ECECEC',
 };

@@ -7,6 +7,7 @@ import {
   FlatList,
   ScrollView,
   ImageBackground,
+  Pressable,
 } from 'react-native';
 
 import SafeAreaScreen from '../../components/SafeAreaScreen';
@@ -44,7 +45,7 @@ const popular = [
 
 function HomeScreen(props: any) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isWallet, setIsWallet] = useState(false);
+  const [isWallet, setIsWallet] = useState(true);
   return (
     <SafeAreaScreen>
       <ScrollView>
@@ -76,7 +77,10 @@ function HomeScreen(props: any) {
               <ImageBackground
                 source={require('../../../assets/wallet-background.png')}
                 style={styles.walletBackground}>
-                <Text style={styles.balance}>Hello</Text>
+                <Text style={styles.balance}>12,000.00</Text>
+                <Pressable style={styles.fundWallet}>
+                  <Text style={styles.fundWalletText}>Fund</Text>
+                </Pressable>
               </ImageBackground>
             </View>
           )}
@@ -252,12 +256,34 @@ const styles = StyleSheet.create({
     marginTop: common.WP(12),
   },
   walletBackground: {
-    height: common.WP(50),
-    width: common.WP(80),
+    height: common.WP(55),
+    width: common.WP(90),
     resizeMode: 'stretch',
     alignSelf: 'center',
   },
-  balance: {},
+  balance: {
+    fontSize: common.WP(8),
+    fontWeight: 'bold',
+    marginLeft: common.WP(12),
+    marginTop: common.WP(13),
+    color: common.colors.paleYellow,
+  },
+  fundWallet: {
+    height: common.WP(14),
+    width: common.WP(27),
+    borderRadius: common.WP(2),
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: common.colors.paleYellow,
+    alignSelf: 'flex-end',
+    marginRight: common.WP(5),
+    marginTop: common.WP(7),
+  },
+  fundWalletText: {
+    fontSize: common.WP(4),
+    color: common.colors.black,
+    fontWeight: 'bold',
+  },
 });
 
 export default HomeScreen;

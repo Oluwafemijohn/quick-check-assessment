@@ -50,7 +50,6 @@ function ForgetPasswordOTPScreen(props: any) {
     await sendOtp({
       email: email,
     }).then(res => {
-      console.log('res', res);
       if (res.statusCode === 200) {
         Alert.alert(res.message ? res.message : 'Otp sent successfully');
       } else {

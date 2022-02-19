@@ -9,25 +9,26 @@ interface Props {
   width: number | undefined;
   style?: ViewStyle;
   placeholder: string;
-  errors?: string | boolean | undefined;
   onBlur?: (e: any) => void;
   value?: string;
   keyboardType?: any;
   secureTextEntry?: boolean;
   onChangeText?: (e: string | ChangeEvent<any>) => void;
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters' | undefined;
+  numberOfLines?: number;
+  multiline?: boolean;
 }
 
-function AppTextInput({
+function AppTextInputTextArea({
   onBlur,
   placeholder,
   style,
   value,
-  errors,
   width,
   keyboardType,
   onChangeText,
   autoCapitalize,
+  numberOfLines = 10,
 }: Props) {
   return (
     <>
@@ -41,9 +42,16 @@ function AppTextInput({
           placeholder={placeholder}
           value={value}
           autoCapitalize={autoCapitalize}
+          numberOfLines={numberOfLines}
+          multiline={true}
+          maxLength={3000}
         />
       </View>
-      {errors && <Text style={[styles.error, {width}]}>{errors}</Text>}
+      {value?.length !== 0 && (
+        <Text style={[styles.numberOfCharacters]}>
+          {3000 - (value ? value.length : 0)} characters left
+        </Text>
+      )}
     </>
   );
 }
@@ -51,25 +59,25 @@ function AppTextInput({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
-    borderRadius: 10,
+    borderRadius: WP('2%'),
     flexDirection: 'row',
     padding: WP(1),
-    marginVertical: WP(5),
-    alignItems: 'center',
+    marginTop: WP(5),
+    // alignItems: 'center',
     borderWidth: 1,
-    borderColor: colors.lightGrey,
+    borderColor: colors.silver,
   },
-  error: {
-    color: colors.red,
-    fontSize: WP(4),
-    marginTop: 5,
+  numberOfCharacters: {
+    color: colors.lightGrey,
+    fontSize: WP(3),
+    alignSelf: 'flex-end',
   },
   input: {
     flex: 1,
     backgroundColor: colors.white,
-    height: WP(10),
+    // height: '100%',
     fontSize: WP(4),
   },
 });
 
-export default AppTextInput;
+export default AppTextInputTextArea;

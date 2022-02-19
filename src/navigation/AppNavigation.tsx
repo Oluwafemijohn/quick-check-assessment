@@ -17,6 +17,7 @@ import ForgetPasswordOTPScreen from '../screens/authentication/ForgetPasswordOTP
 import ProductDetailsScreen from '../screens/others/ProductDetailsScreen';
 import {createStackNavigator} from '@react-navigation/stack';
 import AddReviewScreen from '../screens/others/AddReviewScreen';
+import common from '../constants/common';
 // import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createStackNavigator();
@@ -152,6 +153,7 @@ function AppNavigation() {
 const styles = StyleSheet.create({
   gobackArrow: {
     resizeMode: 'contain',
+    marginLeft: common.W_5,
   },
 });
 

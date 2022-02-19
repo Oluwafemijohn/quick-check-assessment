@@ -1,0 +1,6 @@
+export default Object.freeze({
+  overallRating: 'Your overall rating of this product',
+  likeOrDislike: 'What did you like or dislike?',
+  addReview: 'Add a review',
+  categoryTitle: 'Category',
+});

@@ -1,13 +1,13 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Constants from '../constants/Constants';
-import SearchScreen from '../screens/tab/SearchScreen';
-import CategoryScreen from '../screens/tab/CategoryScreen';
-import ProfileScreen from '../screens/tab/ProfileScreen';
 import {View, StyleSheet, Image, Text} from 'react-native';
 import colors from '../constants/colors';
 import common from '../constants/common';
 import HomeScreen from '../screens/tab/HomeScreen';
+import ListScreen from '../screens/tab/ListScreen';
+import CategoryScreen from '../screens/tab/CategoryScreen';
+import SettingsScreen from '../screens/tab/SettingsScreen';
 
 const Tab = createBottomTabNavigator();
 function TabNavigation() {
@@ -51,8 +51,8 @@ function TabNavigation() {
         }}
       />
       <Tab.Screen
-        name={Constants.SearchScreen}
-        component={SearchScreen}
+        name={Constants.CategoryScreen}
+        component={CategoryScreen}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}: {focused: boolean}) => (
@@ -75,8 +75,8 @@ function TabNavigation() {
         }}
       />
       <Tab.Screen
-        name={Constants.CategoryScreen}
-        component={CategoryScreen}
+        name={Constants.ListScreen}
+        component={ListScreen}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}: {focused: boolean}) => (
@@ -99,8 +99,8 @@ function TabNavigation() {
         }}
       />
       <Tab.Screen
-        name={Constants.ProfileScreen}
-        component={ProfileScreen}
+        name={Constants.SettingsScreen}
+        component={SettingsScreen}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}: {focused: boolean}) => (
