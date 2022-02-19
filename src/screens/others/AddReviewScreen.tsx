@@ -16,9 +16,7 @@ function AddReviewScreen(props: any) {
     <View style={styles.container}>
       <View style={styles.ratingContainer}>
         <View style={styles.line} />
-        <Text style={[styles.ratingText, {alignSelf: 'center'}]}>
-          {TextConstant.overallRating}
-        </Text>
+        <Text style={[styles.ratingText1]}>{TextConstant.overallRating}</Text>
         <Rating
           fractions={1}
           startingValue={ratingValue}
@@ -63,6 +61,13 @@ const styles = StyleSheet.create({
     fontSize: common.W_4,
     fontWeight: 'bold',
     marginTop: common.W_5,
+  },
+  ratingText1: {
+    color: common.colors.black,
+    fontSize: common.W_4,
+    fontWeight: 'bold',
+    marginTop: common.W_5,
+    alignSelf: 'center',
   },
   rating: {
     alignSelf: 'flex-start',
