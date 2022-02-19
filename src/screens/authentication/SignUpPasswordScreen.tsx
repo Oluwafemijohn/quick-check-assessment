@@ -11,6 +11,7 @@ import {registerUser} from '../../network/Server';
 import common from '../../constants/common';
 import AppTextInputPassWord from '../../components/form/AppTextInputPassWord';
 import {IUser} from '../../types/Type';
+import LoadingModal from '../../components/LoadingModal';
 
 const passwordDetails = {
   password: '',
@@ -38,22 +39,24 @@ Password must have:
 
 function SignUpPasswordScreen(props: any) {
   const data: IUser = props.route.params;
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const handleCallBack = async (password: string) => {
-    registerUser({
+    setIsLoading(true);
+    await registerUser({
       ...data,
       password,
     })
       .then(res => {
-        console.log('res', res);
+        setIsLoading(false);
         if (res.statusCode === 201) {
           props.navigation.navigate(Constants.OTPScreen, data.email);
         } else {
           Alert.alert(res.message ? res.message : 'Something went wrong');
         }
       })
-      .catch(err => {
-        console.log('err', err);
+      .catch(() => {
+        setIsLoading(false);
       });
   };
 
@@ -61,6 +64,7 @@ function SignUpPasswordScreen(props: any) {
     <SafeAreaScreen>
       <View style={styles.container}>
         <Text style={styles.headingText}>Create Password</Text>
+        {isLoading && <LoadingModal isLoading={isLoading} />}
         <Formik
           initialValues={passwordDetails}
           onSubmit={values => {

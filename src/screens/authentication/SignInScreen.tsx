@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -18,6 +18,7 @@ import Constants from '../../constants/Constants';
 import {signIn} from '../../network/Server';
 import {ISignIn} from '../../types/Type';
 import common from '../../constants/common';
+import LoadingModal from '../../components/LoadingModal';
 
 const LoginDetails = {
   email: '',
@@ -33,14 +34,21 @@ const validationSchema = Yup.object({
 });
 
 function SignInScreen(props: any) {
+  const [isLoading, setIsLoading] = useState(false);
   const handleCall = async (values: ISignIn) => {
-    await signIn(values).then(res => {
-      if (res.statusCode === 200) {
-        props.navigation.navigate(Constants.TabNavigation);
-      } else {
-        Alert.alert(res.message ? res.message : 'Something went wrong');
-      }
-    });
+    setIsLoading(true);
+    await signIn(values)
+      .then(res => {
+        setIsLoading(false);
+        if (res.statusCode === 200) {
+          props.navigation.navigate(Constants.TabNavigation);
+        } else {
+          Alert.alert(res.message ? res.message : 'Something went wrong');
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -49,6 +57,7 @@ function SignInScreen(props: any) {
         source={require('../../../assets/sign-in-background.png')}
         style={styles.imageBackground}>
         <View style={styles.header} />
+        {isLoading && <LoadingModal isLoading={isLoading} />}
         <View style={styles.content}>
           <View style={styles.lowerContainer}>
             <ScrollView>

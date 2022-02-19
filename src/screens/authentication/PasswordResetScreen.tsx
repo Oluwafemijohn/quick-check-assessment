@@ -1,13 +1,15 @@
 import {Formik} from 'formik';
 import React from 'react';
-import {Text, StyleSheet, View} from 'react-native';
+import {Text, StyleSheet, View, Alert} from 'react-native';
 import * as Yup from 'yup';
 import AppButton from '../../components/form/AppButton';
 import AppTextInputPassWord from '../../components/form/AppTextInputPassWord';
+import LoadingModal from '../../components/LoadingModal';
 
 import SafeAreaScreen from '../../components/SafeAreaScreen';
 import common from '../../constants/common';
 import Constants from '../../constants/Constants';
+import {passwordReset} from '../../network/Server';
 
 const LoginDetails = {
   password: '',
@@ -34,6 +36,28 @@ Password must have:
 });
 
 function PasswordResetScreen(props: any) {
+  const email = props.route.params;
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const handlePasswordReset = async (password: string) => {
+    setIsLoading(true);
+    await passwordReset({
+      email,
+      newPassword: password,
+    })
+      .then(res => {
+        setIsLoading(false);
+        if (res.statusCode === 200) {
+          // props.navigation.navigate(Constants.SignIn);
+          props.navigation.navigate(Constants.PasswordResetSuccessfulScreen);
+        } else {
+          Alert.alert(res.message ? res.message : 'Something went wrong');
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+      });
+  };
   return (
     <SafeAreaScreen>
       <View style={styles.container}>
@@ -44,11 +68,13 @@ function PasswordResetScreen(props: any) {
         <Text style={styles.yourNewPasswordText}>
           Your new password must be different from the previous one(s).
         </Text>
+        {isLoading && <LoadingModal isLoading={isLoading} />}
         <Formik
           initialValues={LoginDetails}
           onSubmit={values => {
-            console.log(values);
-            props.navigation.navigate(Constants.PasswordResetSuccessfulScreen);
+            // console.log(values);
+            handlePasswordReset(values.password);
+            // props.navigation.navigate(Constants.PasswordResetSuccessfulScreen);
           }}
           validationSchema={validationSchema}>
           {({

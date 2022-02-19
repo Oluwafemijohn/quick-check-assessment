@@ -21,4 +21,5 @@ export default {
   lightGreen: '#38CB47',
   lightLightGrey: '#F6F6F6',
   veryLighrGrey: '#ECECEC',
+  transparent: 'rgba(0, 0, 0, 0)',
 };

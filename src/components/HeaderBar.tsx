@@ -4,7 +4,7 @@ import {Image, Pressable, View, StyleSheet, Text} from 'react-native';
 import common from '../constants/common';
 import TextConstant from '../constants/TextConstant';
 
-function HeaderBar() {
+function HeaderBar({onPress}: {onPress: () => void}) {
   const navigation = useNavigation();
 
   return (
@@ -19,13 +19,10 @@ function HeaderBar() {
         />
       </Pressable>
       <Text style={styles.title}>{TextConstant.categoryTitle}</Text>
-      <Pressable
-        onPress={() => {
-          navigation.goBack();
-        }}>
+      <Pressable onPress={onPress}>
         <Image
-          source={require('../../assets/go-back-arrow.png')}
-          style={styles.gobackArrow}
+          source={require('../../assets/filter-icon.png')}
+          style={styles.rightAction}
         />
       </Pressable>
     </View>
@@ -34,12 +31,19 @@ function HeaderBar() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: common.W_15,
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: common.colors.white,
   },
   gobackArrow: {
     resizeMode: 'contain',
     marginLeft: common.W_5,
+  },
+  rightAction: {
+    resizeMode: 'contain',
+    marginRight: common.W_5,
   },
   title: {
     fontSize: common.W_4,

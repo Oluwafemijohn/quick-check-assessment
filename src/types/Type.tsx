@@ -20,6 +20,10 @@ export interface ISignIn {
   email: string;
   password: string;
 }
+export interface IPasswordReset {
+  email: string;
+  newPassword: string;
+}
 
 export interface ISendOtp {
   email: string;

@@ -1,5 +1,6 @@
 import {BASE_URL} from '../constants/NetworkConstants';
 import {
+  IPasswordReset,
   ISendOtp,
   ISignIn,
   IUser,
@@ -44,6 +45,13 @@ export const signIn = (user: ISignIn) => {
   return requestClan({
     type: 'POST',
     route: `${BASE_URL}api/v1/auth/login`,
+    data: user,
+  });
+};
+export const passwordReset = (user: IPasswordReset) => {
+  return requestClan({
+    type: 'POST',
+    route: `${BASE_URL}api/v1/auth/reset-password`,
     data: user,
   });
 };

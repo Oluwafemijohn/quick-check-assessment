@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 
 import AppButton from '../../components/form/AppButton';
 import AppTextInput from '../../components/form/AppTextInput';
+import LoadingModal from '../../components/LoadingModal';
 import SafeAreaScreen from '../../components/SafeAreaScreen';
 import common from '../../constants/common';
 import Constants from '../../constants/Constants';
@@ -19,21 +20,28 @@ const validationSchema = Yup.object({
 });
 
 function ForgetPasswordScreen(props: any) {
+  const [isLoading, setIsLoading] = React.useState(false);
   const handleSendOtp = async (email: string) => {
+    setIsLoading(true);
     await sendOtp({
       email: email,
-    }).then(res => {
-      console.log('res', res);
-      if (res.statusCode === 200) {
-        // Alert.alert(res.message ? res.message : 'Otp sent successfully');
-        props.navigation.navigate(
-          Constants.ForgetPasswordCheckEmailScreen,
-          email,
-        );
-      } else if (res.statusCode === 400) {
-        Alert.alert('Error', 'Invalid credentials');
-      }
-    });
+    })
+      .then(res => {
+        setIsLoading(false);
+        console.log('res', res);
+        if (res.statusCode === 200) {
+          // Alert.alert(res.message ? res.message : 'Otp sent successfully');
+          props.navigation.navigate(
+            Constants.ForgetPasswordCheckEmailScreen,
+            email,
+          );
+        } else if (res.statusCode === 400) {
+          Alert.alert('Error', 'Invalid credentials');
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -48,6 +56,7 @@ function ForgetPasswordScreen(props: any) {
           Enter the email associated with your account and we’ll send an email
           with instructions to reset your password
         </Text>
+        {isLoading && <LoadingModal isLoading={isLoading} />}
         <Formik
           initialValues={LoginDetails}
           onSubmit={values => {

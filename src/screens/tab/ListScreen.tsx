@@ -6,7 +6,7 @@ import HeaderBar from '../../components/HeaderBar';
 function ListScreen(props: any) {
   return (
     <View style={styles.container}>
-      <HeaderBar />
+      <HeaderBar onPress={() => {}} />
       <Text>List screen</Text>
     </View>
   );

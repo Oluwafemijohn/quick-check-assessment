@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
   balance: {
     fontSize: common.WP(8),
     fontWeight: 'bold',
-    marginLeft: common.WP(12),
+    marginLeft: common.WP(14),
     marginTop: common.WP(13),
     color: common.colors.paleYellow,
   },

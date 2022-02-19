@@ -14,10 +14,11 @@ import Constants from '../../constants/Constants';
 import common from '../../constants/common';
 import {sendOtp, verifyUserPasswordReset} from '../../network/Server';
 import {CELL_COUNT} from '../../constants/ConstantString';
+import LoadingModal from '../../components/LoadingModal';
 
 function ForgetPasswordOTPScreen(props: any) {
   const email = props.route.params;
-
+  const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState('');
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
   const [prop, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -26,6 +27,7 @@ function ForgetPasswordOTPScreen(props: any) {
   });
 
   const handleCall = async (otp: string) => {
+    setIsLoading(true);
     console.log('otp', otp);
     let data = {
       email: email,
@@ -34,28 +36,35 @@ function ForgetPasswordOTPScreen(props: any) {
     };
     await verifyUserPasswordReset(data)
       .then(res => {
+        setIsLoading(false);
         if (res.statusCode === 200) {
-          props.navigation.navigate(Constants.PasswordResetScreen);
+          props.navigation.navigate(Constants.PasswordResetScreen, email);
         } else {
           Alert.alert(res.message ? res.message : 'Something went wrong');
         }
       })
-      .catch(err => {
-        console.log('err', err);
+      .catch(() => {
+        setIsLoading(false);
       });
   };
 
   const handleSendOtp = async () => {
+    setIsLoading(true);
     console.log('email', email);
     await sendOtp({
       email: email,
-    }).then(res => {
-      if (res.statusCode === 200) {
-        Alert.alert(res.message ? res.message : 'Otp sent successfully');
-      } else {
-        Alert.alert(res.message ? res.message : 'Something went wrong');
-      }
-    });
+    })
+      .then(res => {
+        setIsLoading(false);
+        if (res.statusCode === 200) {
+          Alert.alert(res.message ? res.message : 'Otp sent successfully');
+        } else {
+          Alert.alert(res.message ? res.message : 'Something went wrong');
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -73,7 +82,7 @@ function ForgetPasswordOTPScreen(props: any) {
           <Text style={styles.topText}>
             An OTP has been sent to your email: {email}
           </Text>
-
+          {isLoading && <LoadingModal isLoading={isLoading} />}
           <CodeField
             ref={ref}
             {...prop}

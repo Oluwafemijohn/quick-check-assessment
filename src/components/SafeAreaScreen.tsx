@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   SafeAreaView,
+  StatusBar,
   StyleSheet,
   View,
   // Platform,
@@ -13,6 +14,7 @@ import {
 export default function SafeAreaScreen(props: any) {
   return (
     <SafeAreaView style={[styles.screen, props.style]}>
+      <StatusBar />
       <View style={[styles.view, props.style]}>{props.children}</View>
     </SafeAreaView>
   );
