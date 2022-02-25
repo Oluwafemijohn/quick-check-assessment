@@ -6,7 +6,7 @@ import 'react-native-gesture-handler';
 import {AppRegistry} from 'react-native';
 import App from './App';
 import {name as appName} from './app.json';
-import RNFetchBlob from 'rn-fetch-blob';
+// import RNFetchBlob from 'rn-fetch-blob';
 // import {NativeModules} from 'react-native';
 // const RNFetchBlob = NativeModules.RNFetchBlob;
 

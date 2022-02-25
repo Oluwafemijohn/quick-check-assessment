@@ -1,35 +1,86 @@
-import React from 'react';
-import {ImageSourcePropType, ScrollView, StyleSheet} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Alert, ScrollView, StyleSheet} from 'react-native';
+import LoadingModal from '../../components/LoadingModal';
 import ProductDetailsBottomButtons from '../../components/ProductDetailsBottomButtons';
 import ProductDetailsTopPart from '../../components/ProductDetailsTopPart';
 import common from '../../constants/common';
-
-interface Props {
-  id: number;
-  image: ImageSourcePropType;
-  rating: number;
-  sherzPrice: string;
-  marketPrice: string;
-  productName: string;
-}
+import {addToList, productDetails} from '../../network/Server';
+import {IProduct, ISingleProduct} from '../../types/Type';
 
 function ProductDetailsScreen(props: any) {
-  const item: Props = props.route.params;
-  const [rate, setRate] = React.useState(3);
+  const item: IProduct = props.route.params;
+  const [rate, setRate] = useState(3);
+  const [productDetailsResponse, setProductDetailsResponse] =
+    useState<ISingleProduct>();
+  const [count, setCount] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleProductDetails = async () => {
+    setIsLoading(true);
+    await productDetails(item._id)
+      .then(res => {
+        setIsLoading(false);
+        setProductDetailsResponse(res as unknown as ISingleProduct);
+      })
+      .catch(() => {
+        setIsLoading(false);
+        Alert.alert('Error', 'Something went wrong');
+      });
+  };
+
+  useEffect(() => {
+    handleProductDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [item._id]);
+
+  const _addToList = async () => {
+    setIsLoading(true);
+    await addToList({
+      lists: [
+        {
+          product: item._id,
+          quantity: count,
+        },
+      ],
+    })
+      .then(res => {
+        setIsLoading(false);
+        if (res.statusCode === 201) {
+          Alert.alert('Added to list successfully');
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+      });
+  };
+
   return (
     <>
       <ScrollView style={styles.topContainerScrollView}>
-        <ProductDetailsTopPart
-          onFinishRating={rating => {
-            setRate(rating);
-          }}
-          rating={rate}
-          item={item}
-        />
+        {isLoading && <LoadingModal isLoading={isLoading} />}
+
+        {productDetailsResponse && (
+          <ProductDetailsTopPart
+            onFinishRating={rating => {
+              setRate(rating);
+            }}
+            rating={rate}
+            item={productDetailsResponse.product}
+            onPressDecrease={() => {
+              setCount(count !== 0 ? count - 1 : 0);
+            }}
+            onPressIncrease={() => {
+              setCount(count + 1);
+            }}
+            count={count}
+          />
+        )}
       </ScrollView>
       <ProductDetailsBottomButtons
         onPressAddToCart={() => {}}
-        onPressAddToList={() => {}}
+        onPressAddToList={() => {
+          _addToList();
+        }}
       />
     </>
   );

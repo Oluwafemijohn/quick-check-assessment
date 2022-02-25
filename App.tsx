@@ -1,14 +1,18 @@
 import React from 'react';
 import AppNavigation from './src/navigation/AppNavigation';
 import {NavigationContainer} from '@react-navigation/native';
+import {RecoilRoot} from 'recoil';
+
 import SafeAreaScreen from './src/components/SafeAreaScreen';
 
 const App = () => {
   return (
     <SafeAreaScreen>
-      <NavigationContainer>
-        <AppNavigation />
-      </NavigationContainer>
+      <RecoilRoot>
+        <NavigationContainer>
+          <AppNavigation />
+        </NavigationContainer>
+      </RecoilRoot>
     </SafeAreaScreen>
   );
 };

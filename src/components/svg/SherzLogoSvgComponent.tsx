@@ -7,15 +7,15 @@ const SherzLogoSvgComponent = (
     Readonly<SvgProps> &
     Readonly<{children?: React.ReactNode}>,
 ) => (
-  <Svg width={120} height={139} fill="none" {...props}>
-    <Path fill="url(#a)" d="M0 0h120v139H0z" />
+  <Svg width={55} height={65} fill="none" {...props}>
+    <Path fill="url(#a)" d="M0 0h55v65H0z" />
     <Defs>
       <Pattern
         id="a"
         patternContentUnits="objectBoundingBox"
         width={1}
         height={1}>
-        <Use xlinkHref="#b" transform="matrix(.0009 0 0 .00077 -.028 0)" />
+        <Use xlinkHref="#b" transform="matrix(.00091 0 0 .00077 -.039 0)" />
       </Pattern>
       <Image
         id="b"

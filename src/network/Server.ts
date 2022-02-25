@@ -1,5 +1,6 @@
 import {BASE_URL} from '../constants/NetworkConstants';
 import {
+  IAddToList,
   IPasswordReset,
   ISendOtp,
   ISignIn,
@@ -53,5 +54,38 @@ export const passwordReset = (user: IPasswordReset) => {
     type: 'POST',
     route: `${BASE_URL}api/v1/auth/reset-password`,
     data: user,
+  });
+};
+
+export const allProductResponse = () => {
+  return requestClan({
+    type: 'GET',
+    route: `${BASE_URL}api/v1/products`,
+    isSecure: true,
+  });
+};
+
+export const productDetails = (productId: string) => {
+  return requestClan({
+    type: 'GET',
+    route: `${BASE_URL}api/v1/products/${productId}`,
+    isSecure: true,
+  });
+};
+export const addToList = (list: IAddToList) => {
+  return requestClan({
+    type: 'POST',
+    route: `${BASE_URL}api/v1/lists`,
+    isSecure: true,
+    data: list,
+  });
+};
+
+//not done yet
+export const productCategory = () => {
+  return requestClan({
+    type: 'GET',
+    route: `${BASE_URL}api/v1/categories`,
+    isSecure: true,
   });
 };

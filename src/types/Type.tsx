@@ -45,3 +45,80 @@ export interface IUserData {
   lastname: string;
   role: string;
 }
+
+export interface IProductResponse {
+  bodyStatusCode: number;
+  count: number;
+  products: IProduct[];
+  statusCode: number;
+}
+
+export interface IProduct {
+  _id: string;
+  name: string;
+  price: number;
+  market_price: number;
+  description: string;
+  imageurl: string;
+  category: string;
+  company: string;
+  colors: string[];
+  featured: boolean;
+  inventory: number;
+  averageRating: number;
+  numOfReviews: number;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  id: string;
+  reviews: IReview[];
+}
+
+export interface ISingleProduct {
+  product: ISingleProductObject;
+}
+
+export interface ISingleProductObject {
+  _id: string;
+  name: string;
+  price: number;
+  market_price: number;
+  description: string;
+  imageurl: string;
+  category: string;
+  company: string;
+  colors: string[];
+  featured: boolean;
+  inventory: number;
+  averageRating: number;
+  numOfReviews: number;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  reviews: IReview[];
+  // reviews: string[];
+  id: string;
+}
+
+export interface IReview {
+  _id: string;
+}
+
+export interface IAddToList {
+  lists: IAddToListItem[];
+}
+
+export interface IAddToListItem {
+  product: string;
+  quantity: number;
+}
+
+export interface ICategoryList {
+  _id: string;
+  // name: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  authorID: string;
+  categoryName: string;
+}

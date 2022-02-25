@@ -136,7 +136,7 @@ function AppNavigation() {
         name={Constants.ProductDetailsScreen}
         component={ProductDetailsScreen}
         options={{
-          headerTitle: 'Password reset',
+          headerTitle: 'Product Details',
         }}
       />
       <Stack.Screen

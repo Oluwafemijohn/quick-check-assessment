@@ -19,7 +19,7 @@ function HeaderBar({onPress}: {onPress: () => void}) {
         />
       </Pressable>
       <Text style={styles.title}>{TextConstant.categoryTitle}</Text>
-      <Pressable onPress={onPress}>
+      <Pressable style={styles.rightActionButton} onPress={onPress}>
         <Image
           source={require('../../assets/filter-icon.png')}
           style={styles.rightAction}
@@ -48,6 +48,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: common.W_4,
     fontWeight: 'bold',
+  },
+  rightActionButton: {
+    backgroundColor: common.colors.red,
   },
 });
 

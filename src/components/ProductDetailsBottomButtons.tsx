@@ -18,14 +18,6 @@ function ProductDetailsBottomButtons({
         onPress={onPressAddToList}
         width={80}
       />
-      <AppButton
-        title="Add to cart"
-        style={styles.addToCartButton}
-        onPress={onPressAddToCart}
-        width={80}
-        borderColor={common.colors.paleYellow}
-        backgroundColor={common.colors.white}
-      />
     </View>
   );
 }

@@ -16,10 +16,13 @@ import AppTextInputPassWord from '../../components/form/AppTextInputPassWord';
 import colors from '../../constants/colors';
 import Constants from '../../constants/Constants';
 import {signIn} from '../../network/Server';
-import {ISignIn} from '../../types/Type';
+import {ILoginResponse, ISignIn, IUserData} from '../../types/Type';
 import common from '../../constants/common';
 import LoadingModal from '../../components/LoadingModal';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {TOKEN} from '../../constants/ConstantString';
+import {useRecoilState} from 'recoil';
+import {loginResponseState} from '../../store/State';
 const LoginDetails = {
   email: '',
   password: '',
@@ -35,12 +38,23 @@ const validationSchema = Yup.object({
 
 function SignInScreen(props: any) {
   const [isLoading, setIsLoading] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [loginResponse, setLoginResponse] = useRecoilState(loginResponseState);
   const handleCall = async (values: ISignIn) => {
     setIsLoading(true);
     await signIn(values)
-      .then(res => {
+      .then(async res => {
         setIsLoading(false);
         if (res.statusCode === 200) {
+          setLoginResponse(res.data as IUserData);
+          await AsyncStorage.setItem(
+            TOKEN,
+            (res as unknown as ILoginResponse).token,
+          )
+            .then(() => {})
+            .catch(error => {
+              console.log('error saving token', error);
+            });
           props.navigation.navigate(Constants.TabNavigation);
         } else {
           Alert.alert(res.message ? res.message : 'Something went wrong');

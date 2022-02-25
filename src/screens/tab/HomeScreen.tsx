@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   StyleSheet,
@@ -15,6 +15,9 @@ import common from '../../constants/common';
 import DashboardProductItem from '../../components/items/DashboardProductItem';
 import DashboardCarosel from '../../components/DashboardCarosel';
 import Constants from '../../constants/Constants';
+import {IProductResponse} from '../../types/Type';
+import {allProductResponse} from '../../network/Server';
+import LoadingModal from '../../components/LoadingModal';
 
 const popular = [
   {
@@ -46,6 +49,26 @@ const popular = [
 function HomeScreen(props: any) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isWallet, setIsWallet] = useState(true);
+  const [allProductResponst, setAllProductResponst] =
+    useState<IProductResponse>();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const _getAllProduct = async () => {
+    // setIsLoading(true);
+    await allProductResponse()
+      .then(res => {
+        setIsLoading(false);
+        setAllProductResponst(res as unknown as IProductResponse);
+      })
+      .catch(() => {
+        setIsLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    _getAllProduct();
+  }, []);
+
   return (
     <SafeAreaScreen>
       <ScrollView>
@@ -70,6 +93,8 @@ function HomeScreen(props: any) {
               <Text style={styles.createList}>Create a list</Text>
             </View>
           </View>
+          {isLoading && <LoadingModal isLoading={isLoading} />}
+
           {!isWallet ? (
             <DashboardCarosel />
           ) : (
@@ -88,11 +113,16 @@ function HomeScreen(props: any) {
             <View>
               {/* Popular Items */}
               <View style={styles.listContainer}>
-                <Text style={styles.popular}>Popular</Text>
+                {/* <Text style={styles.popular}>Popular</Text> */}
+                <Text style={styles.popular}>All </Text>
                 <Text style={styles.more}>More</Text>
               </View>
               <FlatList
-                data={popular}
+                data={
+                  allProductResponst && allProductResponst.products
+                    ? allProductResponst.products
+                    : []
+                }
                 horizontal
                 style={styles.flatList}
                 showsHorizontalScrollIndicator={false}
@@ -105,12 +135,13 @@ function HomeScreen(props: any) {
                         item,
                       );
                     }}
+                    image={popular[0].image}
                     item={item}
                   />
                 )}
               />
               {/* New in */}
-              <View style={styles.listContainer}>
+              {/* <View style={styles.listContainer}>
                 <Text style={styles.popular}>New in</Text>
                 <Text style={styles.more}>More</Text>
               </View>
@@ -131,8 +162,8 @@ function HomeScreen(props: any) {
                     item={item}
                   />
                 )}
-              />
-              <View style={styles.listContainer}>
+              /> */}
+              {/* <View style={styles.listContainer}>
                 <Text style={styles.popular}>Highest Ratings</Text>
                 <Text style={styles.more}>More</Text>
               </View>
@@ -153,7 +184,7 @@ function HomeScreen(props: any) {
                     item={item}
                   />
                 )}
-              />
+              /> */}
             </View>
           </View>
         </View>

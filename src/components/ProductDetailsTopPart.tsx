@@ -1,26 +1,12 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {
-  Image,
-  Text,
-  View,
-  StyleSheet,
-  ImageSourcePropType,
-  Pressable,
-} from 'react-native';
+import {Image, Text, View, StyleSheet, Pressable} from 'react-native';
 import {Rating} from 'react-native-ratings';
 import common from '../constants/common';
 import Constants from '../constants/Constants';
+import {IProduct, ISingleProductObject} from '../types/Type';
 import {nullOrUndefineCheck} from '../utilities';
-
-interface Props {
-  id: number;
-  image: ImageSourcePropType;
-  rating: number;
-  sherzPrice: string;
-  marketPrice: string;
-  productName: string;
-}
+import EmptyList from './EmptyList';
 
 const reviews = [
   {
@@ -53,15 +39,21 @@ function ProductDetailsTopPart({
   item,
   rating,
   onFinishRating,
+  onPressIncrease,
+  onPressDecrease,
+  count,
 }: {
-  item: Props;
+  item: IProduct | ISingleProductObject;
   rating: number;
   onFinishRating: (rating: number) => void;
+  onPressIncrease: () => void;
+  onPressDecrease: () => void;
+  count: number;
 }) {
   const navigation = useNavigation();
   const [isDescription, setIsDescription] = useState(false);
   const [isReview, setIsReview] = useState(false);
-  const [count, setCount] = useState(0);
+  // const [count, setCount] = useState(0);
   return (
     <View style={styles.topContainer}>
       <Image
@@ -79,12 +71,12 @@ function ProductDetailsTopPart({
             onFinishRating={onFinishRating}
           />
         </View>
-        <Text style={styles.productName}>{item.productName}</Text>
+        <Text style={styles.productName}>{item.name}</Text>
         <View style={styles.productPriceBodyContainer}>
           <View style={styles.priceContainer}>
             <View style={styles.sherzAndMarketPriceContainer}>
               <Text style={styles.sherzPrice}>
-                N{nullOrUndefineCheck(item ? item.marketPrice : '')}
+                N{nullOrUndefineCheck(item ? item.price : '')}
               </Text>
               <View style={styles.sherzPriceLine}>
                 <Text style={styles.sherzPriceText}>SHERZ PRICE</Text>
@@ -92,7 +84,7 @@ function ProductDetailsTopPart({
             </View>
             <View style={styles.sherzAndMarketPriceContainer}>
               <Text style={styles.marketPrice}>
-                N{nullOrUndefineCheck(item ? item.sherzPrice : '')}
+                N{nullOrUndefineCheck(item ? item.market_price : '')}
               </Text>
               <View style={styles.marketPriceLine}>
                 <Text style={styles.sherzPriceText}>MARKET PRICE</Text>
@@ -122,10 +114,7 @@ function ProductDetailsTopPart({
           </Pressable>
           {isDescription && (
             <Text style={styles.productDescription}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-              hendrerit nisi sed sollicitudin pellentesque. Nunc posuere purus
-              rhoncus pulvinar aliquam. Ut aliquet tristique nisl vitae
-              volutpat.
+              {nullOrUndefineCheck(item ? item.description : '')}
             </Text>
           )}
         </View>
@@ -135,7 +124,9 @@ function ProductDetailsTopPart({
               setIsReview(!isReview);
             }}
             style={styles.productDescriptionButton}>
-            <Text style={styles.productDescriptionButtonText}>Description</Text>
+            <Text style={styles.productDescriptionButtonText}>
+              Reviews and ratings
+            </Text>
             <Image
               source={
                 isReview
@@ -144,61 +135,62 @@ function ProductDetailsTopPart({
               }
             />
           </Pressable>
-          {isReview && (
-            <View style={styles.containerForReview}>
-              <Pressable
-                onPress={() => {
-                  navigation.navigate(Constants.AddReviewScreen);
-                }}
-                style={styles.addReviewButton}>
-                <Text style={styles.addReview}>Add review</Text>
-                <Image
-                  source={require('../../assets/plus-icon.png')}
-                  style={styles.plusIcon}
-                />
-              </Pressable>
-              {reviews.map((review, index) => (
-                <View key={index}>
-                  <View style={styles.reviewContainer}>
-                    <View style={styles.nameAndRatingContainer}>
-                      <View style={styles.nameContainer}>
-                        <Text style={styles.reviewName}>
-                          {review.name}
-                          {'   '}
-                          <Text style={styles.reviewTime}>{review.time}</Text>
+          {item.reviews.length !== 0 ? (
+            <>
+              {isReview && (
+                <View style={styles.containerForReview}>
+                  <Pressable
+                    onPress={() => {
+                      navigation.navigate(Constants.AddReviewScreen);
+                    }}
+                    style={styles.addReviewButton}>
+                    <Text style={styles.addReview}>Add review</Text>
+                    <Image
+                      source={require('../../assets/plus-icon.png')}
+                      style={styles.plusIcon}
+                    />
+                  </Pressable>
+                  {reviews.map((review, index) => (
+                    <View key={index}>
+                      <View style={styles.reviewContainer}>
+                        <View style={styles.nameAndRatingContainer}>
+                          <View style={styles.nameContainer}>
+                            <Text style={styles.reviewName}>
+                              {review.name}
+                              {'   '}
+                              <Text style={styles.reviewTime}>
+                                {review.time}
+                              </Text>
+                            </Text>
+                          </View>
+                          <View style={styles.ratingContainer} />
+                          <Text style={styles.reviewRating}>3</Text>
+                          <Image
+                            source={require('../../assets/star.png')}
+                            style={styles.star}
+                          />
+                        </View>
+                        <Text style={styles.content}>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing
+                          elit. Nam hendrerit nisi sed sollicitudin
+                          pellentesque.
                         </Text>
                       </View>
-                      <View style={styles.ratingContainer} />
-                      <Text style={styles.reviewRating}>3</Text>
-                      <Image
-                        source={require('../../assets/star.png')}
-                        style={styles.star}
-                      />
                     </View>
-                    <Text style={styles.content}>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Nam hendrerit nisi sed sollicitudin pellentesque.
-                    </Text>
-                  </View>
+                  ))}
                 </View>
-              ))}
-            </View>
+              )}
+            </>
+          ) : (
+            <>{isReview && <EmptyList />}</>
           )}
         </View>
         <View style={styles.countCountainer}>
-          <Pressable
-            onPress={() => {
-              setCount(count > 0 ? count - 1 : 0);
-            }}
-            style={styles.countPress}>
+          <Pressable onPress={onPressDecrease} style={styles.countPress}>
             <Text style={styles.countPressText}>-</Text>
           </Pressable>
           <Text style={styles.count}>{count}</Text>
-          <Pressable
-            onPress={() => {
-              setCount(count + 1);
-            }}
-            style={styles.countPress}>
+          <Pressable onPress={onPressIncrease} style={styles.countPress}>
             <Text style={styles.countPressText}>+</Text>
           </Pressable>
         </View>

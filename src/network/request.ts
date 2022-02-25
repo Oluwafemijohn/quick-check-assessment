@@ -1,6 +1,7 @@
 import {BaseResponse} from './api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {TOKEN} from '../constants/ConstantString';
+import {Alert} from 'react-native';
 
 // import RNFetchBlob from 'rn-fetch-blob';
 
@@ -146,6 +147,7 @@ export const requestClan = async <T>({
       console.log(responseJSON);
       if (response.status === 401) {
         // TODO: LOG USER OUT
+        Alert.alert('Session Expired', 'Please login again');
       }
       return {
         ...responseJSON,

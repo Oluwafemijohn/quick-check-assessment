@@ -4,6 +4,7 @@ export interface BaseResponse<T = any> {
   message: string;
   error?: string;
   statusCode: number;
-  bodyStatusCode: number;
+  // bodyStatusCode: number;
   data?: T;
+  payload?: T;
 }

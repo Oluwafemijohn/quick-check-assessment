@@ -7,44 +7,53 @@ import {
   ImageSourcePropType,
   Pressable,
 } from 'react-native';
-import {Rating} from 'react-native-ratings';
 import common from '../../constants/common';
-import {IProduct} from '../../types/Type';
+import {ICategoryList} from '../../types/Type';
 
-function DashboardProductItem({
+interface IItem {
+  id: number;
+  image: ImageSourcePropType;
+  rating: number;
+  sherzPrice: string;
+  marketPrice: string;
+  productName: string;
+}
+function CategoryProductItem({
   item,
   onPress,
-  image,
-}: {
-  item: IProduct;
+}: // image,
+{
+    item: IItem;
+  // image: ImageSourcePropType;
   onPress: () => void;
-  image: ImageSourcePropType;
 }) {
   return (
     <Pressable onPress={onPress} style={styles.productItemContainer}>
-      <Image source={image} style={styles.productImage} />
-      <Rating
-        fractions={1}
-        startingValue={item.averageRating}
-        imageSize={11}
-        style={styles.rating}
-        ratingCount={5}
-      />
-      <Text style={styles.productName}>{item.name}</Text>
+      <Image source={item.image} style={styles.productImage} />
+      <Text style={styles.productName}>
+        {item.productName ? item.productName : ''}
+      </Text>
       <View style={styles.priceContainer}>
         <View style={styles.sherzAndMarketPriceContainer}>
-          <Text style={styles.sherzPrice}>N{item.price}</Text>
+          <Text style={styles.sherzPrice}>N{item.sherzPrice}</Text>
           <View style={styles.sherzPriceLine}>
             <Text style={styles.sherzPriceText}>SHERZ PRICE</Text>
           </View>
         </View>
         <View style={styles.sherzAndMarketPriceContainer}>
-          <Text style={styles.marketPrice}>N{item.market_price}</Text>
+          <Text style={styles.marketPrice}>N{item.marketPrice}</Text>
           <View style={styles.marketPriceLine}>
             <Text style={styles.sherzPriceText}>MARKET PRICE</Text>
           </View>
         </View>
       </View>
+      <Pressable
+        onPress={() => {
+          console.log('add to list');
+        }}
+        style={styles.onPressAddToList}>
+        <Text style={styles.addToListText}>Add To List</Text>
+      </Pressable>
     </Pressable>
   );
 }
@@ -55,12 +64,13 @@ const styles = StyleSheet.create({
     backgroundColor: common.colors.white,
     paddingBottom: common.WP(5),
     borderRadius: common.WP(4),
+    width: common.WP(42.5),
+    marginBottom: common.WP(5),
   },
   productImage: {
-    width: common.WP(60),
-    height: common.WP(50),
+    width: common.WP(42.5),
+    height: common.WP(30),
     resizeMode: 'stretch',
-    // borderRadius: common.WP(4),
   },
   rating: {
     paddingVertical: common.WP(3),
@@ -69,12 +79,12 @@ const styles = StyleSheet.create({
   },
   productName: {
     fontSize: common.WP(3),
-    marginLeft: common.WP(5),
+    marginLeft: common.WP(2),
     marginVertical: common.WP(2),
   },
   priceContainer: {
     flexDirection: 'row',
-    marginHorizontal: common.WP(5),
+    marginHorizontal: common.WP(2),
     justifyContent: 'space-between',
   },
   sherzAndMarketPriceContainer: {},
@@ -101,9 +111,23 @@ const styles = StyleSheet.create({
     borderRadius: common.WP(4),
   },
   sherzPriceText: {
-    fontSize: common.WP(2.5),
+    fontSize: common.WP(2),
     color: common.colors.white,
+  },
+  onPressAddToList: {
+    backgroundColor: common.colors.paleYellow,
+    paddingVertical: common.WP(4),
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: common.WP(4),
+    marginTop: common.WP(5),
+    marginHorizontal: common.WP(2),
+  },
+  addToListText: {
+    fontSize: common.WP(3),
+    color: common.colors.black,
+    fontWeight: 'bold',
   },
 });
 
-export default DashboardProductItem;
+export default CategoryProductItem;
