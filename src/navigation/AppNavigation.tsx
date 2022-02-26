@@ -18,6 +18,9 @@ import ProductDetailsScreen from '../screens/others/ProductDetailsScreen';
 import {createStackNavigator} from '@react-navigation/stack';
 import AddReviewScreen from '../screens/others/AddReviewScreen';
 import common from '../constants/common';
+import ListScreen from '../screens/tab/ListScreen';
+import ListDetailsScreen from '../screens/others/ListDetailsScreen';
+import DeliveryDetailsScreen from '../screens/others/DeliveryDetailsScreen';
 // import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createStackNavigator();
@@ -125,13 +128,6 @@ function AppNavigation() {
           headerTitle: 'Password reset',
         }}
       />
-      {/* <Stack.Screen
-        name={Constants.MainAppNavigation}
-        component={MainAppNavigation}
-        options={{
-          headerTitle: 'Password reset',
-        }}
-      /> */}
       <Stack.Screen
         name={Constants.ProductDetailsScreen}
         component={ProductDetailsScreen}
@@ -144,6 +140,21 @@ function AppNavigation() {
         component={AddReviewScreen}
         options={{
           headerTitle: 'Add review',
+        }}
+      />
+      <Stack.Screen name={Constants.ListScreen} component={ListScreen} />
+      <Stack.Screen
+        name={Constants.ListDetailsScreen}
+        component={ListDetailsScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={Constants.DeliveryDetailsScreen}
+        component={DeliveryDetailsScreen}
+        options={{
+          headerShown: false,
         }}
       />
     </Stack.Navigator>

@@ -1,3 +1,5 @@
+import {ImageSourcePropType} from 'react-native';
+
 export interface IUser {
   firstname: string;
   email: string;
@@ -121,4 +123,13 @@ export interface ICategoryList {
   __v: number;
   authorID: string;
   categoryName: string;
+}
+
+export interface IItem {
+  id: number;
+  image: ImageSourcePropType;
+  rating: number;
+  sherzPrice: string;
+  marketPrice: string;
+  productName: string;
 }

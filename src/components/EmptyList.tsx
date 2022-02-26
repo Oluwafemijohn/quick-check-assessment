@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
     fontSize: common.WP(5),
     color: common.colors.black,
     fontStyle: 'italic',
+    marginTop: common.W_5,
   },
 });
 

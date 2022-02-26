@@ -1,3 +1,5 @@
+import {RadioButtonProps} from 'react-native-radio-buttons-group';
+
 export const TOKEN = '@TOKEN';
 export const CELL_COUNT = 4;
 export const LOGIN_RESPONSE_CACHE_KEY = '@LOGIN_RESPONSE_CACHE_KEY';
@@ -38,3 +40,19 @@ export const category = [
     productName: 'Product Name',
   },
 ];
+
+export const radioButtonsData: RadioButtonProps[] = [
+  {
+    id: '1', // acts as primary key, should be unique and non-empty string
+    label: 'Ascending',
+    value: 'Ascending',
+    size: 30,
+  },
+  {
+    id: '2',
+    label: 'Decending',
+    value: 'Decending',
+  },
+];
+
+export const listArray = ['Monthlies', 'Extral'];

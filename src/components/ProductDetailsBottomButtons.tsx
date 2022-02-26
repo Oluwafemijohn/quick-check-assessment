@@ -4,10 +4,8 @@ import common from '../constants/common';
 import AppButton from './form/AppButton';
 
 function ProductDetailsBottomButtons({
-  onPressAddToCart,
   onPressAddToList,
 }: {
-  onPressAddToCart: () => void;
   onPressAddToList: () => void;
 }) {
   return (

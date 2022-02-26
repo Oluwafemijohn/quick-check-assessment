@@ -60,6 +60,15 @@ function ProductDetailsTopPart({
         source={require('../../assets/details-image.png')}
         style={styles.image}
       />
+      <View style={styles.countCountainer}>
+        <Pressable onPress={onPressDecrease} style={styles.countPress}>
+          <Text style={styles.countPressText}>-</Text>
+        </Pressable>
+        <Text style={styles.count}>{count}</Text>
+        <Pressable onPress={onPressIncrease} style={styles.countPress}>
+          <Text style={styles.countPressText}>+</Text>
+        </Pressable>
+      </View>
       <View style={styles.detailsContainer}>
         <View style={styles.foodStyleContainer}>
           <Text style={styles.foodType}>Dairy</Text>
@@ -135,21 +144,21 @@ function ProductDetailsTopPart({
               }
             />
           </Pressable>
+          <Pressable
+            onPress={() => {
+              navigation.navigate(Constants.AddReviewScreen);
+            }}
+            style={styles.addReviewButton}>
+            <Text style={styles.addReview}>Add review</Text>
+            <Image
+              source={require('../../assets/plus-icon.png')}
+              style={styles.plusIcon}
+            />
+          </Pressable>
           {item.reviews.length !== 0 ? (
             <>
               {isReview && (
                 <View style={styles.containerForReview}>
-                  <Pressable
-                    onPress={() => {
-                      navigation.navigate(Constants.AddReviewScreen);
-                    }}
-                    style={styles.addReviewButton}>
-                    <Text style={styles.addReview}>Add review</Text>
-                    <Image
-                      source={require('../../assets/plus-icon.png')}
-                      style={styles.plusIcon}
-                    />
-                  </Pressable>
                   {reviews.map((review, index) => (
                     <View key={index}>
                       <View style={styles.reviewContainer}>
@@ -185,15 +194,6 @@ function ProductDetailsTopPart({
             <>{isReview && <EmptyList />}</>
           )}
         </View>
-        <View style={styles.countCountainer}>
-          <Pressable onPress={onPressDecrease} style={styles.countPress}>
-            <Text style={styles.countPressText}>-</Text>
-          </Pressable>
-          <Text style={styles.count}>{count}</Text>
-          <Pressable onPress={onPressIncrease} style={styles.countPress}>
-            <Text style={styles.countPressText}>+</Text>
-          </Pressable>
-        </View>
       </View>
     </View>
   );
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
   },
   detailsContainer: {
     flex: 1,
-    marginTop: common.W_10,
+    // marginTop: common.W_10,
     backgroundColor: common.colors.white,
     borderTopLeftRadius: common.W_10,
     borderTopRightRadius: common.W_10,
@@ -361,7 +361,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: common.W_10,
+    marginTop: common.W_10,
   },
   reviewTime: {
     fontSize: common.W_3,

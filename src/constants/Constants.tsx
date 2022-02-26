@@ -19,4 +19,6 @@ export default Object.freeze({
   ProductDetailsScreen: 'ProductDetailsScreen',
   MainAppNavigation: 'MainAppNavigation',
   AddReviewScreen: 'AddReviewScreen',
+  ListDetailsScreen: 'ListDetailsScreen',
+  DeliveryDetailsScreen: 'DeliveryDetailsScreen',
 });

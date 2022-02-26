@@ -7,6 +7,7 @@ import CategoryProductItem from '../../components/items/CategoryProductItem';
 import LoadingModal from '../../components/LoadingModal';
 import common from '../../constants/common';
 import {array, category} from '../../constants/ConstantString';
+import TextConstant from '../../constants/TextConstant';
 import {productCategory} from '../../network/Server';
 import {ICategoryList} from '../../types/Type';
 
@@ -43,6 +44,7 @@ function CategoryScreen(props: any) {
         onPress={() => {
           setIsModalVisible(true);
         }}
+        title={TextConstant.categoryTitle}
       />
       <View style={styles.bodyContainer}>
         {isLoading && <LoadingModal isLoading={isLoading} />}
@@ -97,6 +99,7 @@ function CategoryScreen(props: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: common.colors.background,
   },
   searchInput: {},
   searchInput2: {

@@ -1,10 +1,21 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Image, Pressable, View, StyleSheet, Text} from 'react-native';
+import {Pressable, View, StyleSheet, Text} from 'react-native';
 import common from '../constants/common';
-import TextConstant from '../constants/TextConstant';
+import FilterIconSvgComponent from './svg/FilterIconSvgComponent';
+import GoBackArrorSvgComponent from './svg/GobackArrorwSvgComponent';
 
-function HeaderBar({onPress}: {onPress: () => void}) {
+function HeaderBar({
+  onPress,
+  actionText,
+  onPressActionText,
+  title,
+}: {
+  onPress?: () => void;
+  onPressActionText?: () => void;
+  actionText?: string;
+  title?: string;
+}) {
   const navigation = useNavigation();
 
   return (
@@ -13,17 +24,17 @@ function HeaderBar({onPress}: {onPress: () => void}) {
         onPress={() => {
           navigation.goBack();
         }}>
-        <Image
-          source={require('../../assets/go-back-arrow.png')}
-          style={styles.gobackArrow}
-        />
+        <GoBackArrorSvgComponent style={styles.gobackArrow} />
       </Pressable>
-      <Text style={styles.title}>{TextConstant.categoryTitle}</Text>
+      <Text style={styles.title}>{title}</Text>
       <Pressable style={styles.rightActionButton} onPress={onPress}>
-        <Image
-          source={require('../../assets/filter-icon.png')}
-          style={styles.rightAction}
-        />
+        {actionText ? (
+          <Text onPress={onPressActionText} style={styles.actionText}>
+            {actionText}
+          </Text>
+        ) : (
+          <FilterIconSvgComponent style={styles.rightAction} />
+        )}
       </Pressable>
     </View>
   );
@@ -45,13 +56,16 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     marginRight: common.W_5,
   },
+  actionText: {
+    marginRight: common.W_5,
+    fontSize: common.W_4,
+    color: common.colors.lightGreen,
+  },
   title: {
     fontSize: common.W_4,
     fontWeight: 'bold',
   },
-  rightActionButton: {
-    backgroundColor: common.colors.red,
-  },
+  rightActionButton: {},
 });
 
 export default HeaderBar;

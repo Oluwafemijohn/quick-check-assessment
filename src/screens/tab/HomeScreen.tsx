@@ -94,7 +94,6 @@ function HomeScreen(props: any) {
             </View>
           </View>
           {isLoading && <LoadingModal isLoading={isLoading} />}
-
           {!isWallet ? (
             <DashboardCarosel />
           ) : (

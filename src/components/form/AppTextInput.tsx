@@ -39,7 +39,7 @@ function AppTextInput({
   icon = false,
 }: Props) {
   return (
-    <>
+    <View style={[style]}>
       <View style={[styles.container, {width}, style]}>
         <TextInput
           onBlur={onBlur}
@@ -59,7 +59,7 @@ function AppTextInput({
         )}
       </View>
       {errors && <Text style={[styles.error, {width}]}>{errors}</Text>}
-    </>
+    </View>
   );
 }
 

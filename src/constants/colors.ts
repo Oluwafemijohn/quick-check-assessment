@@ -22,4 +22,5 @@ export default {
   lightLightGrey: '#F6F6F6',
   veryLighrGrey: '#ECECEC',
   transparent: 'rgba(0, 0, 0, 0)',
+  background: '#F2F2F2',
 };

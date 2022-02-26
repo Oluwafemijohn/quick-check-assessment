@@ -1,30 +1,13 @@
 import React from 'react';
-import {
-  Image,
-  Text,
-  View,
-  StyleSheet,
-  ImageSourcePropType,
-  Pressable,
-} from 'react-native';
+import {Image, Text, View, StyleSheet, Pressable} from 'react-native';
 import common from '../../constants/common';
-import {ICategoryList} from '../../types/Type';
+import {IItem} from '../../types/Type';
 
-interface IItem {
-  id: number;
-  image: ImageSourcePropType;
-  rating: number;
-  sherzPrice: string;
-  marketPrice: string;
-  productName: string;
-}
 function CategoryProductItem({
   item,
   onPress,
-}: // image,
-{
-    item: IItem;
-  // image: ImageSourcePropType;
+}: {
+  item: IItem;
   onPress: () => void;
 }) {
   return (

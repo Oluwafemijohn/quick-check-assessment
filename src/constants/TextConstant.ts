@@ -3,4 +3,6 @@ export default Object.freeze({
   likeOrDislike: 'What did you like or dislike?',
   addReview: 'Add a review',
   categoryTitle: 'Category',
+  List: 'List',
+  deliveryDetails: 'Delivery Details',
 });

@@ -77,7 +77,6 @@ function ProductDetailsScreen(props: any) {
         )}
       </ScrollView>
       <ProductDetailsBottomButtons
-        onPressAddToCart={() => {}}
         onPressAddToList={() => {
           _addToList();
         }}
