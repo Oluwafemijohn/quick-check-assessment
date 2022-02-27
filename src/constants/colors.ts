@@ -23,4 +23,5 @@ export default {
   veryLighrGrey: '#ECECEC',
   transparent: 'rgba(0, 0, 0, 0)',
   background: '#F2F2F2',
+  lightDarkText: '#686868',
 };

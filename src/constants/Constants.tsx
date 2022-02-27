@@ -21,4 +21,5 @@ export default Object.freeze({
   AddReviewScreen: 'AddReviewScreen',
   ListDetailsScreen: 'ListDetailsScreen',
   DeliveryDetailsScreen: 'DeliveryDetailsScreen',
+  ListSummaryScreen: 'ListSummaryScreen',
 });

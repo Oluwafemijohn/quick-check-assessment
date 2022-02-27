@@ -5,4 +5,6 @@ export default Object.freeze({
   categoryTitle: 'Category',
   List: 'List',
   deliveryDetails: 'Delivery Details',
+  listSummary: 'Summary',
+  settings: 'Settings',
 });

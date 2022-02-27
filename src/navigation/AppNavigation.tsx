@@ -21,6 +21,7 @@ import common from '../constants/common';
 import ListScreen from '../screens/tab/ListScreen';
 import ListDetailsScreen from '../screens/others/ListDetailsScreen';
 import DeliveryDetailsScreen from '../screens/others/DeliveryDetailsScreen';
+import ListSummaryScreen from '../screens/others/ListSummaryScreen';
 // import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createStackNavigator();
@@ -153,6 +154,13 @@ function AppNavigation() {
       <Stack.Screen
         name={Constants.DeliveryDetailsScreen}
         component={DeliveryDetailsScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={Constants.ListSummaryScreen}
+        component={ListSummaryScreen}
         options={{
           headerShown: false,
         }}

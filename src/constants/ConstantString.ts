@@ -56,3 +56,65 @@ export const radioButtonsData: RadioButtonProps[] = [
 ];
 
 export const listArray = ['Monthlies', 'Extral'];
+
+export const weekDays = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+];
+
+export const deliveryDetails = [
+  'Ojota',
+  'Lekki',
+  'Ikeja',
+  'Surulere',
+  'Ikorodu',
+  'Epe',
+];
+
+export const deliverySummary = [
+  {
+    id: 1,
+    productName: 'Pure Irish Butter',
+    quantity: '1',
+    membershipPrice: '1,500',
+    total: '4,500',
+    retailPrice: '4,950',
+  },
+  {
+    id: 2,
+    productName: 'Pure Irish Butter',
+    quantity: '1',
+    membershipPrice: '1,500',
+    total: '4,500',
+    retailPrice: '4,950',
+  },
+  {
+    id: 3,
+    productName: 'Pure Irish Butter',
+    quantity: '1',
+    membershipPrice: '1,500',
+    total: '4,500',
+    retailPrice: '4,950',
+  },
+  {
+    id: 4,
+    productName: 'Pure Irish Butter',
+    quantity: '1',
+    membershipPrice: '1,500',
+    total: '4,500',
+    retailPrice: '4,950',
+  },
+  {
+    id: 5,
+    productName: 'Pure Irish Butter',
+    quantity: '1',
+    membershipPrice: '1,500',
+    total: '4,500',
+    retailPrice: '4,950',
+  },
+];

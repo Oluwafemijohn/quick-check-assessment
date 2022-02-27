@@ -10,11 +10,13 @@ import {
 import {widthPercentageToDP as WP} from 'react-native-responsive-screen';
 
 import colors from '../../constants/colors';
+import common from '../../constants/common';
 import defaultStyle from '../../constants/defaultStyle';
 
 interface Props {
   width: number | undefined;
   style?: ViewStyle;
+  errorStyle?: ViewStyle;
   placeholder: string;
   errors?: string | boolean | undefined;
   onBlur?: (e: any) => void;
@@ -24,12 +26,15 @@ interface Props {
   onChangeText?: (e: string | ChangeEvent<any>) => void;
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters' | undefined;
   icon?: boolean;
+  marginTop?: number;
+  marginBottom?: number;
 }
 
 function AppTextInput({
   onBlur,
   placeholder,
   style,
+  errorStyle,
   value,
   errors,
   width,
@@ -37,9 +42,18 @@ function AppTextInput({
   onChangeText,
   autoCapitalize,
   icon = false,
+  marginTop = 5,
+  marginBottom = 5,
 }: Props) {
   return (
-    <View style={[style]}>
+    <View
+      style={[
+        style,
+        {
+          marginTop: common.WP(marginTop),
+          marginBottom: common.WP(marginBottom),
+        },
+      ]}>
       <View style={[styles.container, {width}, style]}>
         <TextInput
           onBlur={onBlur}
@@ -58,7 +72,9 @@ function AppTextInput({
           />
         )}
       </View>
-      {errors && <Text style={[styles.error, {width}]}>{errors}</Text>}
+      {errors && (
+        <Text style={[styles.error, errorStyle, {width}]}>{errors}</Text>
+      )}
     </View>
   );
 }
@@ -68,7 +84,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     flexDirection: 'row',
     padding: WP(1),
-    marginVertical: WP(5),
+    // marginVertical: WP(5),
     alignItems: 'center',
     borderBottomWidth: 1,
 

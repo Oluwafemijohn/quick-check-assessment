@@ -12,6 +12,7 @@ interface Props {
   submitting?: boolean;
   backgroundColor?: string;
   marginTop?: number;
+  marginBottom?: number;
   borderColor?: string;
 }
 
@@ -22,6 +23,7 @@ export default function AppButton({
   onPress,
   backgroundColor = common.colors.paleYellow,
   marginTop = 4,
+  marginBottom = 4,
   borderColor = common.colors.paleYellow,
 }: // submitting = false,
 Props) {
@@ -36,6 +38,7 @@ Props) {
           width: WP(width),
           backgroundColor,
           marginTop: WP(marginTop),
+          marginBottom: WP(marginBottom),
           borderColor,
         },
       ]}
