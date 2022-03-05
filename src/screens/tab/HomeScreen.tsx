@@ -6,8 +6,6 @@ import {
   Image,
   FlatList,
   ScrollView,
-  ImageBackground,
-  Pressable,
 } from 'react-native';
 
 import SafeAreaScreen from '../../components/SafeAreaScreen';
@@ -20,6 +18,7 @@ import {allProductResponse} from '../../network/Server';
 import LoadingModal from '../../components/LoadingModal';
 import {loginResponseState} from '../../store/State';
 import {useRecoilState} from 'recoil';
+import WalletComponent from '../../components/WalletComponent';
 
 function HomeScreen(props: any) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -30,9 +29,6 @@ function HomeScreen(props: any) {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loginResponse, setLoginResponse] = useRecoilState(loginResponseState);
-  console.log('====================================');
-  console.log('HomeScreen', loginResponse);
-  console.log('====================================');
   const _getAllProduct = async () => {
     // setIsLoading(true);
     await allProductResponse()
@@ -77,16 +73,21 @@ function HomeScreen(props: any) {
           {!isWallet ? (
             <DashboardCarosel />
           ) : (
-            <View style={styles.walletCOntainer}>
-              <ImageBackground
-                source={require('../../../assets/wallet-background.png')}
-                style={styles.walletBackground}>
-                <Text style={styles.balance}>12,000.00</Text>
-                <Pressable style={styles.fundWallet}>
-                  <Text style={styles.fundWalletText}>Fund</Text>
-                </Pressable>
-              </ImageBackground>
-            </View>
+            // <View style={styles.walletCOntainer}>
+            //   <ImageBackground
+            //     source={require('../../../assets/wallet-background.png')}
+            //     style={styles.walletBackground}>
+            //     <Text style={styles.balance}>12,000.00</Text>
+            //     <Pressable style={styles.fundWallet}>
+            //       <Text style={styles.fundWalletText}>Fund</Text>
+            //     </Pressable>
+            //   </ImageBackground>
+            // </View>
+            <WalletComponent
+              onPress={() => {
+                console.log('WalletPress');
+              }}
+            />
           )}
           <View style={styles.productContainer}>
             <View>
