@@ -22,6 +22,13 @@ import ListScreen from '../screens/tab/ListScreen';
 import ListDetailsScreen from '../screens/others/ListDetailsScreen';
 import DeliveryDetailsScreen from '../screens/others/DeliveryDetailsScreen';
 import ListSummaryScreen from '../screens/others/ListSummaryScreen';
+import NotificationScreen from '../screens/settings/NotificationScreen';
+import EditProfileScreen from '../screens/settings/EditProfileScreen';
+import FeedbacksScreen from '../screens/settings/FeedbacksScreen';
+import OrderHistoryScreen from '../screens/settings/OrderHistoryScreen';
+import ReferralsScreen from '../screens/settings/ReferralsScreen';
+import SubscriptionScreen from '../screens/settings/SubscriptionScreen';
+import WalletScreen from '../screens/settings/WalletScreen';
 // import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createStackNavigator();
@@ -161,6 +168,55 @@ function AppNavigation() {
       <Stack.Screen
         name={Constants.ListSummaryScreen}
         component={ListSummaryScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={Constants.NotificationScreen}
+        component={NotificationScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={Constants.EditProfileScreen}
+        component={EditProfileScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={Constants.FeedbacksScreen}
+        component={FeedbacksScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={Constants.OrderHistoryScreen}
+        component={OrderHistoryScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={Constants.ReferralsScreen}
+        component={ReferralsScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={Constants.SubscriptionScreen}
+        component={SubscriptionScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={Constants.WalletScreen}
+        component={WalletScreen}
         options={{
           headerShown: false,
         }}

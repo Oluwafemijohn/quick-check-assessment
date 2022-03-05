@@ -58,7 +58,7 @@ function DeliveryDetailsScreen(props: any) {
             }) => {
               return (
                 <>
-                  <Text style={styles.label}>Email Address</Text>
+                  <Text style={styles.label}>Delivery Address</Text>
                   <AppTextInput
                     value={values.deliveryAddress}
                     placeholder="Delivery Address"

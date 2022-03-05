@@ -88,6 +88,7 @@ function ProductDetailsScreen(props: any) {
 const styles = StyleSheet.create({
   topContainer: {
     flex: 0.7,
+    backgroundColor: common.colors.background,
   },
   topContainerScrollView: {
     flex: 0.7,

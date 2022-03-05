@@ -97,6 +97,7 @@ function ListSummaryScreen(props: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: common.colors.background,
   },
   content: {
     paddingVertical: common.W_6,

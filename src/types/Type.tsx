@@ -61,7 +61,7 @@ export interface IProduct {
   price: number;
   market_price: number;
   description: string;
-  imageurl: string;
+  imageUrl: string;
   category: string;
   company: string;
   colors: string[];

@@ -25,6 +25,16 @@ function ListScreen(props: any) {
         title={TextConstant.List}
         actionText="Create+"
       />
+      <CreateListModal
+        onBackdropPress={() => {
+          setIsModalVisible(false);
+        }}
+        onPress={listName => {
+          console.log('Create List', listName);
+          setIsModalVisible(false);
+        }}
+        isModalVisible={isModalVisible}
+      />
       {isListEmpty ? (
         <>
           <View style={styles.listEmptyBodyContainer}>
@@ -41,16 +51,6 @@ function ListScreen(props: any) {
               width={60}
             />
           </View>
-          <CreateListModal
-            onBackdropPress={() => {
-              setIsModalVisible(false);
-            }}
-            onPress={listName => {
-              console.log('Create List', listName);
-              setIsModalVisible(false);
-            }}
-            isModalVisible={isModalVisible}
-          />
         </>
       ) : (
         <View style={styles.listItemContainer}>

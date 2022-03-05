@@ -29,6 +29,7 @@ function CreateListModal({
       animationIn="zoomIn"
       isVisible={isModalVisible}
       onBackdropPress={onBackdropPress}
+      backdropOpacity={0.5}
       style={styles.modal}>
       <View style={styles.centeredView}>
         <View style={styles.filterByContainer}>

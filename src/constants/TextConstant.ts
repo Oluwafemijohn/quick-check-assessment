@@ -7,4 +7,11 @@ export default Object.freeze({
   deliveryDetails: 'Delivery Details',
   listSummary: 'Summary',
   settings: 'Settings',
+  Notifications: 'Notifications',
+  Wallet: 'Wallet',
+  Subscription: 'Subscription',
+  Referrals: 'Referrals',
+  Feedback: 'Feedback',
+  OrderHistory: 'Order History',
+  Logout: 'Log out',
 });

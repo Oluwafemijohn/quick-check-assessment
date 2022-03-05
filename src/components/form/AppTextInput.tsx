@@ -12,6 +12,7 @@ import {widthPercentageToDP as WP} from 'react-native-responsive-screen';
 import colors from '../../constants/colors';
 import common from '../../constants/common';
 import defaultStyle from '../../constants/defaultStyle';
+import EditSvgIcon from '../svg/EditSvgIcon';
 
 interface Props {
   width: number | undefined;
@@ -28,6 +29,9 @@ interface Props {
   icon?: boolean;
   marginTop?: number;
   marginBottom?: number;
+  editIcon?: boolean;
+  backgroundColor?: string;
+  textColor?: string;
 }
 
 function AppTextInput({
@@ -44,6 +48,9 @@ function AppTextInput({
   icon = false,
   marginTop = 5,
   marginBottom = 5,
+  editIcon = false,
+  backgroundColor = colors.white,
+  textColor = colors.darkCard,
 }: Props) {
   return (
     <View
@@ -54,13 +61,17 @@ function AppTextInput({
           marginBottom: common.WP(marginBottom),
         },
       ]}>
-      <View style={[styles.container, {width}, style]}>
+      <View style={[styles.container, {width, backgroundColor}, style]}>
         <TextInput
           onBlur={onBlur}
           onChangeText={onChangeText}
           keyboardType={keyboardType}
           placeholderTextColor={colors.lightGrey}
-          style={[defaultStyle.text, styles.input]}
+          style={[
+            defaultStyle.text,
+            styles.input,
+            {backgroundColor, color: textColor},
+          ]}
           placeholder={placeholder}
           value={value}
           autoCapitalize={autoCapitalize}
@@ -71,6 +82,7 @@ function AppTextInput({
             style={styles.emailIcon}
           />
         )}
+        {editIcon && <EditSvgIcon />}
       </View>
       {errors && (
         <Text style={[styles.error, errorStyle, {width}]}>{errors}</Text>

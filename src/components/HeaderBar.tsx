@@ -10,11 +10,13 @@ function HeaderBar({
   actionText,
   onPressActionText,
   title,
+  notificationCount,
 }: {
   onPress?: () => void;
   onPressActionText?: () => void;
   actionText?: string;
   title?: string;
+  notificationCount?: number;
 }) {
   const navigation = useNavigation();
 
@@ -26,7 +28,14 @@ function HeaderBar({
         }}>
         <GoBackArrorSvgComponent style={styles.gobackArrow} />
       </Pressable>
-      <Text style={styles.title}>{title}</Text>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>{title}</Text>
+        {notificationCount !== undefined && (
+          <View style={styles.notificationCountContainer}>
+            <Text style={styles.notificationCount}>{notificationCount}</Text>
+          </View>
+        )}
+      </View>
       <Pressable style={styles.rightActionButton} onPress={onPress}>
         {actionText ? (
           <Text onPress={onPressActionText} style={styles.actionText}>
@@ -47,6 +56,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: common.colors.white,
+    shadowColor: common.colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    elevation: 6,
+    shadowOpacity: 0.25,
+    borderBottomColor: common.colors.lightLightGrey,
   },
   gobackArrow: {
     resizeMode: 'contain',
@@ -66,6 +83,21 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   rightActionButton: {},
+  notificationCount: {
+    color: common.colors.white,
+  },
+  titleContainer: {
+    flexDirection: 'row',
+  },
+  notificationCountContainer: {
+    height: common.W_5,
+    width: common.W_5,
+    borderRadius: common.W_5,
+    backgroundColor: common.colors.lightPurple,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: common.W_2,
+  },
 });
 
 export default HeaderBar;

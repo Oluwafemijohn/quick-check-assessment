@@ -118,3 +118,31 @@ export const deliverySummary = [
     retailPrice: '4,950',
   },
 ];
+
+export const notificationMessages = [
+  {
+    id: 1,
+    title: 'You are welcome',
+    message:
+      'Hi there, we are glad to have you here. It promises to be a great time! Cheers.',
+    time: '22 Nov, 2022 at 09:15am',
+  },
+  {
+    id: 2,
+    title: 'We have received your order!',
+    message: 'Thank you for using Sherz, your order has just been confirmed.',
+    time: '22 Nov, 2022 at 09:15am',
+  },
+  {
+    id: 3,
+    title: 'We have received your order!',
+    message: 'Thank you for using Sherz, your order has just been confirmed.',
+    time: '22 Nov, 2022 at 09:15am',
+  },
+  {
+    id: 4,
+    title: 'We have received your order!',
+    message: 'Thank you for using Sherz, your order has just been confirmed.',
+    time: '22 Nov, 2022 at 09:15am',
+  },
+];

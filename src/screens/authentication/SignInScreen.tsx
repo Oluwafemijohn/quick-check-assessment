@@ -16,7 +16,7 @@ import AppTextInputPassWord from '../../components/form/AppTextInputPassWord';
 import colors from '../../constants/colors';
 import Constants from '../../constants/Constants';
 import {signIn} from '../../network/Server';
-import {ILoginResponse, ISignIn, IUserData} from '../../types/Type';
+import {ILoginResponse, ISignIn} from '../../types/Type';
 import common from '../../constants/common';
 import LoadingModal from '../../components/LoadingModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -46,7 +46,7 @@ function SignInScreen(props: any) {
       .then(async res => {
         setIsLoading(false);
         if (res.statusCode === 200) {
-          setLoginResponse(res.data as IUserData);
+          setLoginResponse((res as ILoginResponse).payload);
           await AsyncStorage.setItem(
             TOKEN,
             (res as unknown as ILoginResponse).token,

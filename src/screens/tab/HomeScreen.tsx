@@ -18,33 +18,8 @@ import Constants from '../../constants/Constants';
 import {IProductResponse} from '../../types/Type';
 import {allProductResponse} from '../../network/Server';
 import LoadingModal from '../../components/LoadingModal';
-
-const popular = [
-  {
-    id: 1,
-    image: require('../../../assets/popular-image.png'),
-    rating: 3,
-    sherzPrice: '1500',
-    marketPrice: '1,800',
-    productName: 'Pure Irish Butter',
-  },
-  {
-    id: 2,
-    image: require('../../../assets/popular-image.png'),
-    rating: 5,
-    sherzPrice: '800',
-    marketPrice: '1,800',
-    productName: 'Product Name',
-  },
-  {
-    id: 3,
-    image: require('../../../assets/popular-image.png'),
-    rating: 2,
-    sherzPrice: '800',
-    marketPrice: '1,800',
-    productName: 'Product Name',
-  },
-];
+import {loginResponseState} from '../../store/State';
+import {useRecoilState} from 'recoil';
 
 function HomeScreen(props: any) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -53,6 +28,11 @@ function HomeScreen(props: any) {
     useState<IProductResponse>();
   const [isLoading, setIsLoading] = useState(false);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [loginResponse, setLoginResponse] = useRecoilState(loginResponseState);
+  console.log('====================================');
+  console.log('HomeScreen', loginResponse);
+  console.log('====================================');
   const _getAllProduct = async () => {
     // setIsLoading(true);
     await allProductResponse()
@@ -134,7 +114,6 @@ function HomeScreen(props: any) {
                         item,
                       );
                     }}
-                    image={popular[0].image}
                     item={item}
                   />
                 )}
@@ -196,6 +175,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginBottom: common.HP(2),
+    backgroundColor: common.colors.background,
   },
   headerContainer: {
     height: common.WP(25),

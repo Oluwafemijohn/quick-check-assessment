@@ -22,4 +22,11 @@ export default Object.freeze({
   ListDetailsScreen: 'ListDetailsScreen',
   DeliveryDetailsScreen: 'DeliveryDetailsScreen',
   ListSummaryScreen: 'ListSummaryScreen',
+  NotificationScreen: 'NotificationScreen',
+  EditProfileScreen: 'EditProfileScreen',
+  FeedbacksScreen: 'FeedbacksScreen',
+  OrderHistoryScreen: 'OrderHistoryScreen',
+  ReferralsScreen: 'ReferralsScreen',
+  SubscriptionScreen: 'SubscriptionScreen',
+  WalletScreen: 'WalletScreen',
 });
