@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import HeaderBar from '../../components/HeaderBar';
+import common from '../../constants/common';
 import TextConstant from '../../constants/TextConstant';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -20,6 +21,7 @@ function OrderHistoryScreen(props: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: common.colors.background,
   },
 });
 export default OrderHistoryScreen;

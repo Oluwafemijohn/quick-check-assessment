@@ -73,16 +73,6 @@ function HomeScreen(props: any) {
           {!isWallet ? (
             <DashboardCarosel />
           ) : (
-            // <View style={styles.walletCOntainer}>
-            //   <ImageBackground
-            //     source={require('../../../assets/wallet-background.png')}
-            //     style={styles.walletBackground}>
-            //     <Text style={styles.balance}>12,000.00</Text>
-            //     <Pressable style={styles.fundWallet}>
-            //       <Text style={styles.fundWalletText}>Fund</Text>
-            //     </Pressable>
-            //   </ImageBackground>
-            // </View>
             <WalletComponent
               onPress={() => {
                 console.log('WalletPress');

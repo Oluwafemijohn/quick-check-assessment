@@ -146,3 +146,30 @@ export const notificationMessages = [
     time: '22 Nov, 2022 at 09:15am',
   },
 ];
+
+export const walletSummary = [
+  {
+    id: 1,
+    title: 'Subscription fee',
+    month: 'January',
+    amount: '1,500',
+  },
+  {
+    id: 2,
+    title: 'Subscription fee',
+    month: 'February',
+    amount: '2,500',
+  },
+  {
+    id: 1,
+    title: 'Subscription fee',
+    month: 'April',
+    amount: '2,000',
+  },
+  {
+    id: 1,
+    title: 'Subscription fee',
+    month: 'May',
+    amount: '1,500',
+  },
+];
