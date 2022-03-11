@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,22 +7,22 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
-import {widthPercentageToDP as WP} from 'react-native-responsive-screen';
+import { widthPercentageToDP as WP } from 'react-native-responsive-screen';
 import * as Yup from 'yup';
-import {Formik} from 'formik';
+import { Formik } from 'formik';
 import AppTextInput from '../../components/form/AppTextInput';
 import AppButton from '../../components/form/AppButton';
 import AppTextInputPassWord from '../../components/form/AppTextInputPassWord';
 import colors from '../../constants/colors';
 import Constants from '../../constants/Constants';
-import {signIn} from '../../network/Server';
-import {ILoginResponse, ISignIn} from '../../types/Type';
+import { signIn } from '../../network/Server';
+import { ILoginResponse, ISignIn } from '../../types/Type';
 import common from '../../constants/common';
 import LoadingModal from '../../components/LoadingModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {TOKEN} from '../../constants/ConstantString';
-import {useRecoilState} from 'recoil';
-import {loginResponseState} from '../../store/State';
+import { TOKEN } from '../../constants/ConstantString';
+import { useRecoilState } from 'recoil';
+import { loginResponseState } from '../../store/State';
 const LoginDetails = {
   email: '',
   password: '',
@@ -51,7 +51,7 @@ function SignInScreen(props: any) {
             TOKEN,
             (res as unknown as ILoginResponse).token,
           )
-            .then(() => {})
+            .then(() => { })
             .catch(error => {
               console.log('error saving token', error);
             });
@@ -78,7 +78,8 @@ function SignInScreen(props: any) {
               <Formik
                 initialValues={LoginDetails}
                 onSubmit={values => {
-                  handleCall(values);
+                  // handleCall(values);
+                  props.navigation.navigate(Constants.TabNavigation);
                 }}
                 validationSchema={validationSchema}>
                 {({
@@ -90,7 +91,7 @@ function SignInScreen(props: any) {
                   isSubmitting,
                   handleSubmit,
                 }) => {
-                  const {email, password} = values;
+                  const { email, password } = values;
 
                   return (
                     <>
@@ -167,9 +168,10 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     height: '100%',
+    marginTop: common.WP(-5),
   },
   header: {
-    flex: 0.5,
+    flex: 0.35,
   },
   content: {
     flex: 0.85,

@@ -1,16 +1,16 @@
 import React from 'react';
-import {Text, StyleSheet, View, Alert} from 'react-native';
-import {widthPercentageToDP as WP} from 'react-native-responsive-screen';
+import { Text, StyleSheet, View, Alert } from 'react-native';
+import { widthPercentageToDP as WP } from 'react-native-responsive-screen';
 import * as Yup from 'yup';
-import {Formik} from 'formik';
+import { Formik } from 'formik';
 import SafeAreaScreen from '../../components/SafeAreaScreen';
 import AppButton from '../../components/form/AppButton';
 import colors from '../../constants/colors';
 import Constants from '../../constants/Constants';
-import {registerUser} from '../../network/Server';
+import { registerUser } from '../../network/Server';
 import common from '../../constants/common';
 import AppTextInputPassWord from '../../components/form/AppTextInputPassWord';
-import {IUser} from '../../types/Type';
+import { IUser } from '../../types/Type';
 import LoadingModal from '../../components/LoadingModal';
 
 const passwordDetails = {
@@ -113,7 +113,7 @@ function SignUpPasswordScreen(props: any) {
                   submitting={isSubmitting}
                   onPress={handleSubmit}
                   width={80}
-                  marginTop={55}
+                  marginTop={35}
                 />
               </>
             );

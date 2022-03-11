@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Image, Text, ScrollView} from 'react-native';
+import { View, StyleSheet, Image, Text, ScrollView, Dimensions } from 'react-native';
 import AppButton from '../../components/form/AppButton';
 
 import SafeAreaScreen from '../../components/SafeAreaScreen';
@@ -79,7 +79,9 @@ const styles = StyleSheet.create({
     flex: 0.5,
   },
   topImage: {
-    resizeMode: 'contain',
+    width: common.WP(50),
+    height: Dimensions.get('window').height * 0.3,
+    resizeMode: 'stretch',
     alignSelf: 'center',
     marginTop: common.WP(6),
   },

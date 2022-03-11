@@ -1,8 +1,8 @@
 import React from 'react';
-import {Text, StyleSheet, View} from 'react-native';
-import {widthPercentageToDP as WP} from 'react-native-responsive-screen';
+import { Text, StyleSheet, View } from 'react-native';
+import { widthPercentageToDP as WP } from 'react-native-responsive-screen';
 import * as Yup from 'yup';
-import {Formik} from 'formik';
+import { Formik } from 'formik';
 import SafeAreaScreen from '../../components/SafeAreaScreen';
 import AppTextInput from '../../components/form/AppTextInput';
 import AppButton from '../../components/form/AppButton';
@@ -96,7 +96,7 @@ function SignUpScreen(props: any) {
                   submitting={isSubmitting}
                   onPress={handleSubmit}
                   width={80}
-                  marginTop={60}
+                  marginTop={40}
                 />
               </>
             );
