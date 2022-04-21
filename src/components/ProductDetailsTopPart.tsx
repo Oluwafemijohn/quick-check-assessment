@@ -1,11 +1,13 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useState} from 'react';
-import {Image, Text, View, StyleSheet, Pressable} from 'react-native';
-import {Rating} from 'react-native-ratings';
+import { useNavigation } from '@react-navigation/native';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { Image, Text, View, StyleSheet, Pressable } from 'react-native';
+import { Rating } from 'react-native-ratings';
 import common from '../constants/common';
 import Constants from '../constants/Constants';
-import {IProduct, ISingleProductObject} from '../types/Type';
-import {nullOrUndefineCheck} from '../utilities';
+import { getProductReview } from '../network/Server';
+import { IProduct, IReview, IReviews, ISingleProductObject } from '../types/Type';
+import { nullOrUndefineCheck } from '../utilities';
 import EmptyList from './EmptyList';
 
 const reviews = [
@@ -43,7 +45,7 @@ function ProductDetailsTopPart({
   onPressDecrease,
   count,
 }: {
-  item: IProduct | ISingleProductObject;
+  item: ISingleProductObject;
   rating: number;
   onFinishRating: (rating: number) => void;
   onPressIncrease: () => void;
@@ -53,11 +55,28 @@ function ProductDetailsTopPart({
   const navigation = useNavigation();
   const [isDescription, setIsDescription] = useState(false);
   const [isReview, setIsReview] = useState(false);
-  // const [count, setCount] = useState(0);
+  const [reviews, setReviews] = useState<IReview[]>([]);
+
+  const _getProductReview = async () => {
+    await getProductReview()
+      .then((res) => {
+        if (res.statusCode === 200) {
+          setReviews((res.payload as unknown as IReviews).reviews as IReview[])
+        }
+      })
+      .catch(() => {
+
+      })
+  }
+
+  useEffect(() => {
+    _getProductReview();
+  }, [])
+
   return (
     <View style={styles.topContainer}>
       <Image
-        source={require('../../assets/details-image.png')}
+        source={{ uri: item.imageUrl }}
         style={styles.image}
       />
       <View style={styles.countCountainer}>
@@ -73,7 +92,7 @@ function ProductDetailsTopPart({
         <View style={styles.foodStyleContainer}>
           <Text style={styles.foodType}>Dairy</Text>
           <Rating
-            startingValue={rating}
+            startingValue={item.averageRating}
             imageSize={15}
             style={styles.rating}
             ratingCount={5}
@@ -146,7 +165,8 @@ function ProductDetailsTopPart({
           </Pressable>
           <Pressable
             onPress={() => {
-              navigation.navigate(Constants.AddReviewScreen);
+              //@ts-ignore
+              navigation.navigate(Constants.AddReviewScreen, item);
             }}
             style={styles.addReviewButton}>
             <Text style={styles.addReview}>Add review</Text>
@@ -165,24 +185,23 @@ function ProductDetailsTopPart({
                         <View style={styles.nameAndRatingContainer}>
                           <View style={styles.nameContainer}>
                             <Text style={styles.reviewName}>
-                              {review.name}
+                              {review.product.name}
                               {'   '}
                               <Text style={styles.reviewTime}>
-                                {review.time}
+                                {moment(review.createdAt, 'YYYY-MM-DD').fromNow()}
                               </Text>
                             </Text>
                           </View>
-                          <View style={styles.ratingContainer} />
-                          <Text style={styles.reviewRating}>3</Text>
-                          <Image
-                            source={require('../../assets/star.png')}
-                            style={styles.star}
-                          />
+                          <View style={styles.ratingContainer} >
+                            <Image
+                              source={require('../../assets/star.png')}
+                              style={styles.star}
+                            />
+                            <Text style={styles.reviewRating}>{review.rating}</Text>
+                          </View>
                         </View>
                         <Text style={styles.content}>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit. Nam hendrerit nisi sed sollicitudin
-                          pellentesque.
+                          {review.comment}
                         </Text>
                       </View>
                     </View>

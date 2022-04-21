@@ -14,4 +14,9 @@ export default Object.freeze({
   Feedback: 'Feedback',
   OrderHistory: 'Order History',
   Logout: 'Log out',
+  Complement: 'Complement',
+  Complaint: 'Complaint',
+  Productrequest: 'Product request',
+  addFeedback: 'Add feedback',
+  Description: 'Description',
 });

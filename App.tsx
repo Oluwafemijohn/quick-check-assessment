@@ -1,7 +1,7 @@
 import React from 'react';
 import AppNavigation from './src/navigation/AppNavigation';
-import {NavigationContainer} from '@react-navigation/native';
-import {RecoilRoot} from 'recoil';
+import { NavigationContainer } from '@react-navigation/native';
+import { RecoilRoot } from 'recoil';
 
 import SafeAreaScreen from './src/components/SafeAreaScreen';
 

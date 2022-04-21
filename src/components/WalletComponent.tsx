@@ -8,20 +8,23 @@ import {
   ViewStyle,
 } from 'react-native';
 import common from '../constants/common';
+import { formatCurrencyWithDecimal, formatCurrencyWithDecimalWithoutSign } from '../utilities';
 
 function WalletComponent({
   style,
   onPress,
+  balance,
 }: {
   style?: ViewStyle;
   onPress: () => void;
+  balance: number;
 }) {
   return (
     <View style={[styles.walletCOntainer, style]}>
       <ImageBackground
         source={require('../../assets/wallet-background.png')}
         style={styles.walletBackground}>
-        <Text style={styles.balance}>12,000.00</Text>
+        <Text style={styles.balance}>{formatCurrencyWithDecimalWithoutSign(balance)} </Text>
         <Pressable onPress={onPress} style={styles.fundWallet}>
           <Text style={styles.fundWalletText}>Fund</Text>
         </Pressable>

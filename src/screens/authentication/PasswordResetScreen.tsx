@@ -1,15 +1,16 @@
-import {Formik} from 'formik';
+import { Formik } from 'formik';
 import React from 'react';
-import {Text, StyleSheet, View, Alert} from 'react-native';
+import { Text, StyleSheet, View, Alert } from 'react-native';
 import * as Yup from 'yup';
 import AppButton from '../../components/form/AppButton';
 import AppTextInputPassWord from '../../components/form/AppTextInputPassWord';
+import KeyboardAvoidingViewAndKeyBoardDisMiss from '../../components/KeyboardAvoidingViewAndKeyBoardDisMiss';
 import LoadingModal from '../../components/LoadingModal';
 
 import SafeAreaScreen from '../../components/SafeAreaScreen';
 import common from '../../constants/common';
 import Constants from '../../constants/Constants';
-import {passwordReset} from '../../network/Server';
+import { passwordReset } from '../../network/Server';
 
 const LoginDetails = {
   password: '',
@@ -61,68 +62,70 @@ function PasswordResetScreen(props: any) {
   return (
     <SafeAreaScreen>
       <View style={styles.container}>
-        <Text style={styles.enterPasswordText}>
-          Please enter a{'\n'}
-          new password
-        </Text>
-        <Text style={styles.yourNewPasswordText}>
-          Your new password must be different from the previous one(s).
-        </Text>
-        {isLoading && <LoadingModal isLoading={isLoading} />}
-        <Formik
-          initialValues={LoginDetails}
-          onSubmit={values => {
-            // console.log(values);
-            handlePasswordReset(values.password);
-            // props.navigation.navigate(Constants.PasswordResetSuccessfulScreen);
-          }}
-          validationSchema={validationSchema}>
-          {({
-            values,
-            handleChange,
-            handleBlur,
-            errors,
-            touched,
-            isSubmitting,
-            handleSubmit,
-          }) => {
-            const {password, confirmPassword} = values;
+        <KeyboardAvoidingViewAndKeyBoardDisMiss>
+          <Text style={styles.enterPasswordText}>
+            Please enter a{'\n'}
+            new password
+          </Text>
+          <Text style={styles.yourNewPasswordText}>
+            Your new password must be different from the previous one(s).
+          </Text>
+          {isLoading && <LoadingModal isLoading={isLoading} />}
+          <Formik
+            initialValues={LoginDetails}
+            onSubmit={values => {
+              // console.log(values);
+              handlePasswordReset(values.password);
+              // props.navigation.navigate(Constants.PasswordResetSuccessfulScreen);
+            }}
+            validationSchema={validationSchema}>
+            {({
+              values,
+              handleChange,
+              handleBlur,
+              errors,
+              touched,
+              isSubmitting,
+              handleSubmit,
+            }) => {
+              const { password, confirmPassword } = values;
 
-            return (
-              <>
-                <Text style={styles.label}>New Password</Text>
-                <AppTextInputPassWord
-                  value={password}
-                  placeholder="New Password"
-                  errors={touched.password && errors.password}
-                  onChangeText={handleChange('password')}
-                  onBlur={handleBlur('password')}
-                  width={common.WP('80%')}
-                  keyboardType="default"
-                  icon={require('../../../assets/show-password-icon.png')}
-                />
-                <Text style={styles.label}>Confirm New Password</Text>
-                <AppTextInputPassWord
-                  value={confirmPassword}
-                  placeholder="Confirm new password "
-                  errors={touched.confirmPassword && errors.confirmPassword}
-                  onChangeText={handleChange('confirmPassword')}
-                  onBlur={handleBlur('confirmPassword')}
-                  width={common.WP('80%')}
-                  keyboardType="default"
-                  icon={require('../../../assets/show-password-icon.png')}
-                />
-                <AppButton
-                  style={styles.button}
-                  title="Reset Password"
-                  submitting={isSubmitting}
-                  onPress={handleSubmit}
-                  width={80}
-                />
-              </>
-            );
-          }}
-        </Formik>
+              return (
+                <>
+                  <Text style={styles.label}>New Password</Text>
+                  <AppTextInputPassWord
+                    value={password}
+                    placeholder="New Password"
+                    errors={touched.password && errors.password}
+                    onChangeText={handleChange('password')}
+                    onBlur={handleBlur('password')}
+                    width={common.WP('80%')}
+                    keyboardType="default"
+                    icon={require('../../../assets/show-password-icon.png')}
+                  />
+                  <Text style={styles.label}>Confirm New Password</Text>
+                  <AppTextInputPassWord
+                    value={confirmPassword}
+                    placeholder="Confirm new password "
+                    errors={touched.confirmPassword && errors.confirmPassword}
+                    onChangeText={handleChange('confirmPassword')}
+                    onBlur={handleBlur('confirmPassword')}
+                    width={common.WP('80%')}
+                    keyboardType="default"
+                    icon={require('../../../assets/show-password-icon.png')}
+                  />
+                  <AppButton
+                    style={styles.button}
+                    title="Reset Password"
+                    submitting={isSubmitting}
+                    onPress={handleSubmit}
+                    width={80}
+                  />
+                </>
+              );
+            }}
+          </Formik>
+        </KeyboardAvoidingViewAndKeyBoardDisMiss>
       </View>
     </SafeAreaScreen>
   );

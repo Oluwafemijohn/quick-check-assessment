@@ -78,8 +78,8 @@ function SignInScreen(props: any) {
               <Formik
                 initialValues={LoginDetails}
                 onSubmit={values => {
-                  // handleCall(values);
-                  props.navigation.navigate(Constants.TabNavigation);
+                  handleCall(values);
+                  // props.navigation.navigate(Constants.TabNavigation);
                 }}
                 validationSchema={validationSchema}>
                 {({

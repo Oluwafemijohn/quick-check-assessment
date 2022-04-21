@@ -1,39 +1,40 @@
 import React from 'react';
-import {Image, Text, View, StyleSheet, Pressable} from 'react-native';
+import { Image, Text, View, StyleSheet, Pressable } from 'react-native';
 import common from '../../constants/common';
-import {IItem} from '../../types/Type';
+import { IItem, IProductsByCategoryName } from '../../types/Type';
+import { formatCurrencyWithDecimal } from '../../utilities';
 
 function CategoryProductItem({
   item,
   onPress,
+  addToList,
 }: {
-  item: IItem;
+  item: IProductsByCategoryName;
   onPress: () => void;
+  addToList: () => void;
 }) {
   return (
     <Pressable onPress={onPress} style={styles.productItemContainer}>
-      <Image source={item.image} style={styles.productImage} />
+      <Image source={{ uri: item.imageUrl }} style={styles.productImage} />
       <Text style={styles.productName}>
-        {item.productName ? item.productName : ''}
+        {item.name ? item.name : ''}
       </Text>
       <View style={styles.priceContainer}>
         <View style={styles.sherzAndMarketPriceContainer}>
-          <Text style={styles.sherzPrice}>N{item.sherzPrice}</Text>
+          <Text style={styles.sherzPrice}>{formatCurrencyWithDecimal(item.price)}</Text>
           <View style={styles.sherzPriceLine}>
             <Text style={styles.sherzPriceText}>SHERZ PRICE</Text>
           </View>
         </View>
         <View style={styles.sherzAndMarketPriceContainer}>
-          <Text style={styles.marketPrice}>N{item.marketPrice}</Text>
+          <Text style={styles.marketPrice}>{formatCurrencyWithDecimal(item.market_price)}</Text>
           <View style={styles.marketPriceLine}>
             <Text style={styles.sherzPriceText}>MARKET PRICE</Text>
           </View>
         </View>
       </View>
       <Pressable
-        onPress={() => {
-          console.log('add to list');
-        }}
+        onPress={addToList}
         style={styles.onPressAddToList}>
         <Text style={styles.addToListText}>Add To List</Text>
       </Pressable>
@@ -73,11 +74,11 @@ const styles = StyleSheet.create({
   sherzAndMarketPriceContainer: {},
   sherzPrice: {
     color: common.colors.paleYellow,
-    fontSize: common.WP(6),
+    fontSize: common.WP(4),
   },
   marketPrice: {
     color: common.colors.red,
-    fontSize: common.WP(6),
+    fontSize: common.WP(4),
     textDecorationLine: 'line-through',
     textDecorationStyle: 'solid',
   },

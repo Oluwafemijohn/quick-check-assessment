@@ -1,19 +1,22 @@
-import {Formik} from 'formik';
-import React, {useState} from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import {useRecoilState} from 'recoil';
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useRecoilState } from 'recoil';
 import * as Yup from 'yup';
 import AppButton from '../../components/form/AppButton';
 import AppPicker from '../../components/form/AppPicker';
 import AppTextInput from '../../components/form/AppTextInput';
 
 import HeaderBar from '../../components/HeaderBar';
+import LoadingModal from '../../components/LoadingModal';
 import SettingsTopPart from '../../components/SettingsTopPart';
 import common from '../../constants/common';
-import {deliveryDetails, weekDays} from '../../constants/ConstantString';
+import { deliveryDetails, weekDays } from '../../constants/ConstantString';
 import TextConstant from '../../constants/TextConstant';
-import {loginResponseState} from '../../store/State';
-import {titleCase} from '../../utilities';
+import { getUser, updateUser } from '../../network/Server';
+import { loginResponseState, userDetails } from '../../store/State';
+import { IGetUser, IUpdateUser } from '../../types/Type';
+import { isNullOrUndefined, titleCase } from '../../utilities';
 
 const signUpDetails = {
   firstname: '',
@@ -34,29 +37,95 @@ const validationSchema = Yup.object({
     .required()
     .label('Phone Number'),
   deliveryAddress: Yup.string().required().label('Delivery Address'),
-  state: Yup.string().required().label('State'),
+  // state: Yup.string().required().label('State'),
 });
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function EditProfileScreen(props: any) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loginResponse, setLoginResponse] = useRecoilState(loginResponseState);
+  const [isLoading, setIsLoading] = useState(false);
+  // const [user, setUser] = useState<IGetUser>();
+  const [user, setUser] = useRecoilState(userDetails)
+
+
+
+  // const [open, setOpen] = useState(false);
+  // const [location, setLocation] = useState('');
+  // const [weekDay, setWeekDay] = useState('');
+  // const [err, setErr] = useState({
+  //   location: '',
+  //   weekDay: '',
+  // });
+
+  // const signUpDetails = {
+  //   firstname: '',
+  //   lastname: '',
+  //   email: '',
+  //   phoneNumber: '',
+  //   deliveryAddress: '',
+  //   state: '',
+  // };
+
+  console.log('====================================');
+  console.log('user', user?.user.firstname);
+  console.log('====================================');
 
   const [open, setOpen] = useState(false);
-  const [loaction, setLoaction] = useState('');
-  const [weekDay, setWeekDay] = useState('');
+  const [location, setLocation] = useState(isNullOrUndefined(user) && isNullOrUndefined(user?.user.deliveryDetails) ? '' : user?.user.deliveryDetails.location);
+  const [weekDay, setWeekDay] = useState(isNullOrUndefined(user) || isNullOrUndefined(user?.user.deliveryDetails) ? '' : user?.user.deliveryDetails.deliveryDay);
   const [err, setErr] = useState({
-    loaction: '',
+    location: '',
     weekDay: '',
   });
+
+  const signUpDetails = {
+    firstname: isNullOrUndefined(user) ? '' : user?.user.firstname,
+    lastname: isNullOrUndefined(user) ? '' : user?.user.lastname,
+    email: isNullOrUndefined(user) ? '' : user?.user.email,
+    phoneNumber: isNullOrUndefined(user) ? '' : user?.user.phoneNumber,
+    deliveryAddress: isNullOrUndefined(user) && isNullOrUndefined(user?.user.deliveryDetails) ? '' : user?.user.deliveryDetails.deliveryAddress,
+    state: '',
+  };
+
+  const _updateUser = async (body: IUpdateUser) => {
+    setIsLoading(true);
+    await updateUser(body)
+      .then((res) => {
+        setIsLoading(false)
+        if (res.statusCode === 200) {
+          Alert.alert('Profile updated successfully.');
+        } else {
+          Alert.alert(res.message)
+        }
+      })
+      .catch(() => {
+        setIsLoading(false)
+      })
+  }
+
+  const _getUser = async () => {
+    setIsLoading(true)
+    await getUser(loginResponse.id)
+      .then((res) => {
+        setIsLoading(false)
+        if (res.statusCode === 200) {
+          setUser(res as unknown as IGetUser)
+        } else { }
+      })
+      .catch(() => { })
+  }
+
+  useEffect(() => {
+    _getUser();
+  }, [])
 
   return (
     <View style={styles.container}>
       <HeaderBar
         title={TextConstant.Notifications}
         actionText={' '}
-        onPress={() => {}}
+        onPress={() => { }}
       />
+      {isLoading && <LoadingModal isLoading={isLoading} />}
       <SettingsTopPart
         title={titleCase(
           loginResponse.firstname + ' ' + loginResponse.lastname,
@@ -65,9 +134,25 @@ function EditProfileScreen(props: any) {
       <View style={styles.content}>
         <ScrollView>
           <Formik
-            initialValues={signUpDetails}
+            initialValues={{
+              firstname: user?.user.firstname,
+              lastname: !isNullOrUndefined(user) ? user?.user.lastname : '',
+              email: isNullOrUndefined(user) ? '' : user?.user.email,
+              phoneNumber: isNullOrUndefined(user) ? '' : user?.user.phoneNumber,
+              deliveryAddress: isNullOrUndefined(user) && isNullOrUndefined(user?.user.deliveryDetails) ? '' : user?.user.deliveryDetails.deliveryAddress,
+              state: '',
+            }}
             onSubmit={values => {
-              console.log(values);
+              _updateUser(
+                {
+                  phoneNumber: values.phoneNumber!,
+                  deliveryDetails: {
+                    deliveryAddress: values.deliveryAddress!,
+                    location: location!,
+                    deliveryDay: weekDay!,
+                  }
+                }
+              )
             }}
             validationSchema={validationSchema}>
             {({
@@ -94,14 +179,16 @@ function EditProfileScreen(props: any) {
                         keyboardType="default"
                         style={styles.input}
                         autoCapitalize="none"
-                        editIcon={true}
+                        // editIcon={true}
+                        backgroundColor={common.colors.veryLighrGrey}
+                        textColor={common.colors.lightGrey}
                       />
                     </View>
                     <View style={styles.rightNameContainer}>
                       <Text style={styles.nameLabel}>Last Name</Text>
                       <AppTextInput
                         value={values.lastname}
-                        placeholder="Last last name"
+                        placeholder="Last name"
                         errors={touched.lastname && errors.lastname}
                         onChangeText={handleChange('lastname')}
                         onBlur={handleBlur('lastname')}
@@ -109,7 +196,9 @@ function EditProfileScreen(props: any) {
                         keyboardType="default"
                         style={styles.input}
                         autoCapitalize="none"
-                        editIcon={true}
+                        // editIcon={true}
+                        backgroundColor={common.colors.veryLighrGrey}
+                        textColor={common.colors.lightGrey}
                       />
                     </View>
                   </View>
@@ -159,19 +248,19 @@ function EditProfileScreen(props: any) {
                   <View style={styles.locationContainer}>
                     <AppPicker
                       onPress={() => setOpen(!open)}
-                      value={loaction}
+                      value={location!}
                       placeholder="Select Location"
                       width={common.WP('45%')}
                       data={deliveryDetails}
                       setValue={(value: any) => {
-                        setLoaction(value);
-                        setErr({...err, loaction: ''});
+                        setLocation(value);
+                        setErr({ ...err, location: '' });
                       }}
-                      error={err.loaction}
+                      error={err.location}
                     />
 
                     <AppTextInput
-                      value={values.state}
+                      value={'Lagos'}
                       placeholder="State"
                       errors={touched.state && errors.state}
                       onChangeText={handleChange('state')}
@@ -183,19 +272,21 @@ function EditProfileScreen(props: any) {
                       marginBottom={0}
                       marginTop={0}
                       errorStyle={styles.stateTextInput}
+                      backgroundColor={common.colors.veryLighrGrey}
+                      textColor={common.colors.lightGrey}
                     />
                   </View>
 
                   <Text style={styles.label}>Preferred Delivery Day</Text>
                   <AppPicker
                     onPress={() => setOpen(!open)}
-                    value={weekDay}
+                    value={weekDay!}
                     placeholder="Prefered day"
                     width={common.WP('85%')}
                     data={weekDays}
                     setValue={(value: any) => {
                       setWeekDay(value);
-                      setErr({...err, weekDay: ''});
+                      setErr({ ...err, weekDay: '' });
                     }}
                     error={err.weekDay}
                   />

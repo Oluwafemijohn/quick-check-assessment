@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {Text, View, StyleSheet, Alert} from 'react-native';
-import {widthPercentageToDP as WP} from 'react-native-responsive-screen';
+import React, { useEffect, useState } from 'react';
+import { Text, View, StyleSheet, Alert } from 'react-native';
+import { widthPercentageToDP as WP } from 'react-native-responsive-screen';
 import {
   CodeField,
   Cursor,
@@ -12,15 +12,16 @@ import SafeAreaScreen from '../../components/SafeAreaScreen';
 import colors from '../../constants/colors';
 import Constants from '../../constants/Constants';
 import common from '../../constants/common';
-import {sendOtp, verifyUser} from '../../network/Server';
-import {CELL_COUNT} from '../../constants/ConstantString';
+import { sendOtp, verifyUser } from '../../network/Server';
+import { CELL_COUNT } from '../../constants/ConstantString';
 import LoadingModal from '../../components/LoadingModal';
+import KeyboardAvoidingViewAndKeyBoardDisMiss from '../../components/KeyboardAvoidingViewAndKeyBoardDisMiss';
 
 function OTPScreen(props: any) {
   const email = props.route.params;
   const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState('');
-  const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
+  const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [prop, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
     setValue,
@@ -70,43 +71,45 @@ function OTPScreen(props: any) {
   return (
     <SafeAreaScreen>
       <View style={styles.background}>
-        <View style={styles.container}>
-          <Text style={styles.enterOtp}>Enter OTP</Text>
-          <Text style={styles.topText}>
-            An OTP has been sent to your email: {email}
-          </Text>
-          {isLoading && <LoadingModal isLoading={isLoading} />}
-
-          <CodeField
-            ref={ref}
-            {...prop}
-            value={value}
-            onChangeText={setValue}
-            cellCount={CELL_COUNT}
-            rootStyle={styles.codeFieldRoot}
-            keyboardType="number-pad"
-            textContentType="oneTimeCode"
-            renderCell={({index, symbol, isFocused}) => (
-              <View
-                key={index}
-                style={[styles.cell, isFocused && styles.focusCell]}
-                onLayout={getCellOnLayoutHandler(index)}>
-                <Text style={[styles.cell, isFocused && styles.focusCell]}>
-                  {symbol || (isFocused ? <Cursor /> : null)}
-                </Text>
-              </View>
-            )}
-          />
-
-          <Text style={styles.dontReceiveOTP}>
-            Didn’t receive code?
-            {'\n'}
-            {'\n'}
-            <Text onPress={() => handleSendOtp()} style={styles.resendOTP}>
-              Resend OTP
+        <KeyboardAvoidingViewAndKeyBoardDisMiss>
+          <View style={styles.container}>
+            <Text style={styles.enterOtp}>Enter OTP</Text>
+            <Text style={styles.topText}>
+              An OTP has been sent to your email: {email}
             </Text>
-          </Text>
-        </View>
+            {isLoading && <LoadingModal isLoading={isLoading} />}
+
+            <CodeField
+              ref={ref}
+              {...prop}
+              value={value}
+              onChangeText={setValue}
+              cellCount={CELL_COUNT}
+              rootStyle={styles.codeFieldRoot}
+              keyboardType="number-pad"
+              textContentType="oneTimeCode"
+              renderCell={({ index, symbol, isFocused }) => (
+                <View
+                  key={index}
+                  style={[styles.cell, isFocused && styles.focusCell]}
+                  onLayout={getCellOnLayoutHandler(index)}>
+                  <Text style={[styles.cell, isFocused && styles.focusCell]}>
+                    {symbol || (isFocused ? <Cursor /> : null)}
+                  </Text>
+                </View>
+              )}
+            />
+
+            <Text style={styles.dontReceiveOTP}>
+              Didn’t receive code?
+              {'\n'}
+              {'\n'}
+              <Text onPress={() => handleSendOtp()} style={styles.resendOTP}>
+                Resend OTP
+              </Text>
+            </Text>
+          </View>
+        </KeyboardAvoidingViewAndKeyBoardDisMiss>
       </View>
     </SafeAreaScreen>
   );
@@ -116,7 +119,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  title: {textAlign: 'center', fontSize: 30},
+  title: { textAlign: 'center', fontSize: 30 },
   codeInputField: {
     width: '80%',
     height: 200,

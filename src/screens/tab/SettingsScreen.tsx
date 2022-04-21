@@ -1,25 +1,46 @@
-import React from 'react';
-import {View, StyleSheet, ScrollView, Dimensions} from 'react-native';
-import {useRecoilState} from 'recoil';
+import { useIsFocused } from '@react-navigation/native';
+import React, { useEffect } from 'react';
+import { View, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { useRecoilState } from 'recoil';
 import HeaderBar from '../../components/HeaderBar';
 import SettingsItems from '../../components/items/SettingsItems';
 import SettingsTopPart from '../../components/SettingsTopPart';
 import common from '../../constants/common';
 import Constants from '../../constants/Constants';
 import TextConstant from '../../constants/TextConstant';
-import {loginResponseState} from '../../store/State';
-import {titleCase} from '../../utilities';
+import { getUser } from '../../network/Server';
+import { loginResponseState, userDetails } from '../../store/State';
+import { IGetUser } from '../../types/Type';
+import { titleCase } from '../../utilities';
 
 function SettingsScreen(props: any) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loginResponse, setLoginResponse] = useRecoilState(loginResponseState);
+  const [user, setUser] = useRecoilState(userDetails)
+  const isFocus = useIsFocused()
+
+  const _getUser = async () => {
+    // setIsLoading(true)
+    await getUser(loginResponse.id)
+      .then((res) => {
+        // setIsLoading(false)
+        if (res.statusCode === 200) {
+          setUser(res as unknown as IGetUser)
+        } else { }
+      })
+      .catch(() => { })
+  }
+
+  useEffect(() => {
+    _getUser();
+  }, [isFocus])
 
   return (
     <View style={styles.container}>
       <HeaderBar
         title={TextConstant.settings}
         actionText={' '}
-        onPress={() => {}}
+        onPress={() => { }}
       />
       <ScrollView>
         <View style={styles.content}>
@@ -54,13 +75,13 @@ function SettingsScreen(props: any) {
               title={TextConstant.Subscription}
               itemNumber={3}
             />
-            <SettingsItems
+            {/* <SettingsItems
               onPress={() => {
                 props.navigation.navigate(Constants.ReferralsScreen);
               }}
               title={TextConstant.Referrals}
               itemNumber={4}
-            />
+            /> */}
             <SettingsItems
               onPress={() => {
                 props.navigation.navigate(Constants.FeedbacksScreen);

@@ -1,37 +1,35 @@
 import React from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import common from '../../constants/common';
-import {IItem} from '../../types/Type';
-import {nullOrUndefineCheck} from '../../utilities';
+import { IProductDashboard } from '../../types/Type';
+import { nullOrUndefineCheck } from '../../utilities';
 
 function ListProductItem({
   item,
   onPressIncrease,
   onPressDecrease,
-  count,
 }: {
-  item: IItem;
+  item: IProductDashboard;
   onPressIncrease: () => void;
   onPressDecrease: () => void;
-  count: number;
 }) {
   return (
     <View style={styles.container}>
       <View style={styles.groupContainer}>
-        <Image source={item.image} style={styles.image} />
+        <Image source={{ uri: item.imageUrl }} style={styles.image} />
       </View>
       <View style={styles.groupContainer}>
-        <Text style={styles.productName}>{item.productName}</Text>
+        <Text style={styles.productName}>{item.name}</Text>
         <View style={styles.productPriceBodyContainer}>
           <View style={styles.priceContainer}>
             <View style={styles.sherzAndMarketPriceContainer}>
               <Text style={styles.sherzPrice}>
-                N{nullOrUndefineCheck(item ? item.sherzPrice : '')}
+                N{nullOrUndefineCheck(item ? item.price : '')}
               </Text>
             </View>
             <View style={styles.sherzAndMarketPriceContainer}>
               <Text style={styles.marketPrice}>
-                N{nullOrUndefineCheck(item ? item.marketPrice : '')}
+                N{nullOrUndefineCheck(item ? item.market_price : '')}
               </Text>
             </View>
           </View>
@@ -42,7 +40,7 @@ function ListProductItem({
           <Pressable onPress={onPressDecrease} style={styles.countPress}>
             <Text style={styles.countPressText}>-</Text>
           </Pressable>
-          <Text style={styles.count}>{count}</Text>
+          <Text style={styles.count}>{item.qty}</Text>
           <Pressable onPress={onPressIncrease} style={styles.countPress}>
             <Text style={styles.countPressText}>+</Text>
           </Pressable>

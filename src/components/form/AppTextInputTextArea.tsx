@@ -1,8 +1,9 @@
-import React, {ChangeEvent} from 'react';
-import {TextInput, StyleSheet, View, ViewStyle, Text} from 'react-native';
-import {widthPercentageToDP as WP} from 'react-native-responsive-screen';
+import React, { ChangeEvent } from 'react';
+import { TextInput, StyleSheet, View, ViewStyle, Text } from 'react-native';
+import { widthPercentageToDP as WP } from 'react-native-responsive-screen';
 
 import colors from '../../constants/colors';
+import common from '../../constants/common';
 import defaultStyle from '../../constants/defaultStyle';
 
 interface Props {
@@ -17,6 +18,9 @@ interface Props {
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters' | undefined;
   numberOfLines?: number;
   multiline?: boolean;
+  marginTop?: number;
+  errors?: string | boolean | undefined;
+  errorStyle?: ViewStyle;
 }
 
 function AppTextInputTextArea({
@@ -29,10 +33,13 @@ function AppTextInputTextArea({
   onChangeText,
   autoCapitalize,
   numberOfLines = 10,
+  marginTop = 5,
+  errors,
+  errorStyle,
 }: Props) {
   return (
     <>
-      <View style={[styles.container, {width}, style]}>
+      <View style={[styles.container, { width, marginTop: common.WP(marginTop) }, style]}>
         <TextInput
           onBlur={onBlur}
           onChangeText={onChangeText}
@@ -52,6 +59,9 @@ function AppTextInputTextArea({
           {3000 - (value ? value.length : 0)} characters left
         </Text>
       )}
+      {errors !== '' && (
+        <Text style={[styles.error, errorStyle, { width }]}>{errors}</Text>
+      )}
     </>
   );
 }
@@ -62,7 +72,7 @@ const styles = StyleSheet.create({
     borderRadius: WP('2%'),
     flexDirection: 'row',
     padding: WP(1),
-    marginTop: WP(5),
+    // marginTop: WP(5),
     // alignItems: 'center',
     borderWidth: 1,
     borderColor: colors.silver,
@@ -75,8 +85,13 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     backgroundColor: colors.white,
-    // height: '100%',
+    marginLeft: common.W_2,
     fontSize: WP(4),
+  },
+  error: {
+    color: colors.red,
+    fontSize: WP(4),
+    marginTop: 5,
   },
 });
 

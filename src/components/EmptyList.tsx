@@ -1,11 +1,19 @@
 import React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
+import { useRecoilValue } from 'recoil';
 import common from '../constants/common';
+import EmptyListSvgComponent from './svg/EmptyListSvgComponent';
 
 function EmptyList() {
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}> Your list is empty </Text>
+      <View>
+        <EmptyListSvgComponent />
+      </View>
+      <Text style={[styles.text, {
+        color: common.colors.black
+      }]}> No record yet</Text>
     </View>
   );
 }
@@ -13,14 +21,15 @@ function EmptyList() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
   text: {
     fontSize: common.WP(5),
-    color: common.colors.black,
+    marginTop: common.HP(-10),
+    color: common.colors.white,
     fontStyle: 'italic',
-    marginTop: common.W_5,
   },
 });
 

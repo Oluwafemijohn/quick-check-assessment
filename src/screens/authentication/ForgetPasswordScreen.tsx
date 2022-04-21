@@ -1,15 +1,16 @@
-import {Formik} from 'formik';
+import { Formik } from 'formik';
 import React from 'react';
-import {Text, View, StyleSheet, Image, Alert} from 'react-native';
+import { Text, View, StyleSheet, Image, Alert } from 'react-native';
 import * as Yup from 'yup';
 
 import AppButton from '../../components/form/AppButton';
 import AppTextInput from '../../components/form/AppTextInput';
+import KeyboardAvoidingViewAndKeyBoardDisMiss from '../../components/KeyboardAvoidingViewAndKeyBoardDisMiss';
 import LoadingModal from '../../components/LoadingModal';
 import SafeAreaScreen from '../../components/SafeAreaScreen';
 import common from '../../constants/common';
 import Constants from '../../constants/Constants';
-import {sendOtp} from '../../network/Server';
+import { sendOtp } from '../../network/Server';
 
 const LoginDetails = {
   email: '',
@@ -47,59 +48,61 @@ function ForgetPasswordScreen(props: any) {
   return (
     <SafeAreaScreen>
       <View style={styles.container}>
-        <Image
-          source={require('../../../assets/forget-password-image.png')}
-          style={styles.topImage}
-        />
-        <Text style={styles.forgetPassword}>Forgot your password?</Text>
-        <Text style={styles.emailDescription}>
-          Enter the email associated with your account and we’ll send an email
-          with instructions to reset your password
-        </Text>
-        {isLoading && <LoadingModal isLoading={isLoading} />}
-        <Formik
-          initialValues={LoginDetails}
-          onSubmit={values => {
-            handleSendOtp(values.email);
-            // props.navigation.navigate(Constants.ForgetPasswordCheckEmailScreen);
-          }}
-          validationSchema={validationSchema}>
-          {({
-            values,
-            handleChange,
-            handleBlur,
-            errors,
-            touched,
-            isSubmitting,
-            handleSubmit,
-          }) => {
-            const {email} = values;
+        <KeyboardAvoidingViewAndKeyBoardDisMiss>
+          <Image
+            source={require('../../../assets/forget-password-image.png')}
+            style={styles.topImage}
+          />
+          <Text style={styles.forgetPassword}>Forgot your password?</Text>
+          <Text style={styles.emailDescription}>
+            Enter the email associated with your account and we’ll send an email
+            with instructions to reset your password
+          </Text>
+          {isLoading && <LoadingModal isLoading={isLoading} />}
+          <Formik
+            initialValues={LoginDetails}
+            onSubmit={values => {
+              handleSendOtp(values.email);
+              // props.navigation.navigate(Constants.ForgetPasswordCheckEmailScreen);
+            }}
+            validationSchema={validationSchema}>
+            {({
+              values,
+              handleChange,
+              handleBlur,
+              errors,
+              touched,
+              isSubmitting,
+              handleSubmit,
+            }) => {
+              const { email } = values;
 
-            return (
-              <>
-                <Text style={styles.label}>Email Address</Text>
-                <AppTextInput
-                  value={email}
-                  placeholder="Enter Email"
-                  errors={touched.email && errors.email}
-                  onChangeText={handleChange('email')}
-                  onBlur={handleBlur('email')}
-                  width={common.WP('80%')}
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  icon={true}
-                />
-                <AppButton
-                  style={styles.button}
-                  title="Send"
-                  submitting={isSubmitting}
-                  onPress={handleSubmit}
-                  width={80}
-                />
-              </>
-            );
-          }}
-        </Formik>
+              return (
+                <>
+                  <Text style={styles.label}>Email Address</Text>
+                  <AppTextInput
+                    value={email}
+                    placeholder="Enter Email"
+                    errors={touched.email && errors.email}
+                    onChangeText={handleChange('email')}
+                    onBlur={handleBlur('email')}
+                    width={common.WP('80%')}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    icon={true}
+                  />
+                  <AppButton
+                    style={styles.button}
+                    title="Send"
+                    submitting={isSubmitting}
+                    onPress={handleSubmit}
+                    width={80}
+                  />
+                </>
+              );
+            }}
+          </Formik>
+        </KeyboardAvoidingViewAndKeyBoardDisMiss>
       </View>
     </SafeAreaScreen>
   );

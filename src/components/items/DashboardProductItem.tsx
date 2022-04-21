@@ -1,19 +1,19 @@
 import React from 'react';
-import {Image, Text, View, StyleSheet, Pressable} from 'react-native';
-import {Rating} from 'react-native-ratings';
+import { Image, Text, View, StyleSheet, Pressable } from 'react-native';
+import { Rating } from 'react-native-ratings';
 import common from '../../constants/common';
-import {IProduct} from '../../types/Type';
+import { IHighRatingProduct, INewIn, IProduct } from '../../types/Type';
 
 function DashboardProductItem({
   item,
   onPress,
 }: {
-  item: IProduct;
+  item: IHighRatingProduct | INewIn | IProduct;
   onPress: () => void;
 }) {
   return (
     <Pressable onPress={onPress} style={styles.productItemContainer}>
-      <Image source={{uri: item.imageUrl}} style={styles.productImage} />
+      <Image source={{ uri: item.imageUrl }} style={styles.productImage} />
       <Rating
         fractions={1}
         startingValue={item.averageRating}

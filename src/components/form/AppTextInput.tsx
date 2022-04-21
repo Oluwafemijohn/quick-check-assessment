@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, { ChangeEvent } from 'react';
 import {
   TextInput,
   StyleSheet,
@@ -7,7 +7,7 @@ import {
   Text,
   Image,
 } from 'react-native';
-import {widthPercentageToDP as WP} from 'react-native-responsive-screen';
+import { widthPercentageToDP as WP } from 'react-native-responsive-screen';
 
 import colors from '../../constants/colors';
 import common from '../../constants/common';
@@ -61,7 +61,7 @@ function AppTextInput({
           marginBottom: common.WP(marginBottom),
         },
       ]}>
-      <View style={[styles.container, {width, backgroundColor}, style]}>
+      <View style={[styles.container, { width, backgroundColor }, style]}>
         <TextInput
           onBlur={onBlur}
           onChangeText={onChangeText}
@@ -70,7 +70,7 @@ function AppTextInput({
           style={[
             defaultStyle.text,
             styles.input,
-            {backgroundColor, color: textColor},
+            { backgroundColor, color: textColor },
           ]}
           placeholder={placeholder}
           value={value}
@@ -85,7 +85,7 @@ function AppTextInput({
         {editIcon && <EditSvgIcon />}
       </View>
       {errors && (
-        <Text style={[styles.error, errorStyle, {width}]}>{errors}</Text>
+        <Text style={[styles.error, errorStyle, { width }]}>{errors}</Text>
       )}
     </View>
   );
@@ -112,6 +112,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     height: WP(10),
     fontSize: WP(4),
+    marginLeft: common.W_2,
   },
   emailIcon: {
     resizeMode: 'contain',

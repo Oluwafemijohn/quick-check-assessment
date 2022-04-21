@@ -1,64 +1,114 @@
-import React from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import React, { useState } from 'react';
+import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useRecoilState } from 'recoil';
 import AppButton from '../../components/form/AppButton';
 import HeaderBar from '../../components/HeaderBar';
+import LoadingModal from '../../components/LoadingModal';
 import SaveMarkSvgComponent from '../../components/svg/SaveMarkSvgComponent';
 import common from '../../constants/common';
-import {deliverySummary} from '../../constants/ConstantString';
+import Constants from '../../constants/Constants';
+import { deliverySummary } from '../../constants/ConstantString';
 import TextConstant from '../../constants/TextConstant';
+import { createOrder } from '../../network/Server';
+import { updateList } from '../../store/State';
+import { formatCurrencyWithDecimal } from '../../utilities';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+interface IData {
+  deliveryAddress: string;
+  state: string;
+  location: string;
+  weekDay: string;
+  setAsDefault: boolean;
+  listId: string;
+  phoneNo: string;
+}
 function ListSummaryScreen(props: any) {
+  const data: IData = props.route.params;
+  const [updateMyListItems, setUpdateMyListItems] = useRecoilState(updateList);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const _createOrder = async () => {
+    setIsLoading(true);
+    const createdOrderData = {
+      items: updateMyListItems[data.listId].map((item: any) => {
+        return {
+          product: item._id,
+          quantity: item.qty,
+        }
+      }),
+      deliveryDetails: {
+        phoneNo: data.phoneNo,
+        deliveryAddress: data.deliveryAddress,
+        location: data.location,
+        deliveryDate: data.weekDay,
+      },
+    }
+    await createOrder(createdOrderData)
+      .then((res) => {
+        setIsLoading(false);
+        if (res.statusCode === 201) {
+          Alert.alert('Order created successfully');
+          props.navigation.navigate(Constants.DashboardScreen)
+        } else {
+          Alert.alert(res.msg)
+        }
+      })
+      .catch(() => {
+        setIsLoading(false)
+      });
+  }
+
   return (
     <View style={styles.container}>
       <HeaderBar
-        onPressActionText={() => {}}
+        onPressActionText={() => { }}
         title={TextConstant.listSummary}
         actionText=" "
       />
+      {isLoading && <LoadingModal isLoading={isLoading} />}
       <ScrollView>
         <View style={styles.content}>
           <View style={styles.deliveryDetails}>
             <Text style={styles.deliveryAddress}>Delivery Address</Text>
             <Text style={styles.address}>
-              No 1, Benson Street, Gbagada, Lagos.
+              {data.deliveryAddress}
             </Text>
             <View style={styles.locationContainerAndDeliveryDay}>
               <View style={styles.locationContainer}>
                 <Text style={styles.title}>Location</Text>
-                <Text style={styles.locationDeliveryDayText}>Gbagada</Text>
+                <Text style={styles.locationDeliveryDayText}>{data.location}</Text>
               </View>
               <View style={styles.locationContainer}>
                 <Text style={styles.title}>Delivery Day</Text>
-                <Text style={styles.locationDeliveryDayText}>Monday</Text>
+                <Text style={styles.locationDeliveryDayText}>{data.weekDay}</Text>
               </View>
             </View>
           </View>
           <View style={styles.list}>
-            {deliverySummary.map((item, index: number) => {
+            {updateMyListItems[data.listId].map((item, index: number) => {
               return (
                 <View style={styles.listItem} key={index}>
-                  <Text style={styles.listItemText}>{item.productName}</Text>
+                  <Text style={styles.listItemText}>{item.name}</Text>
                   <View style={styles.row}>
                     <View style={styles.listItemColumn}>
                       <Text style={styles.listItemTwo}>Qty:</Text>
-                      <Text style={styles.listItemValue}>{item.quantity}</Text>
+                      <Text style={styles.listItemValue}>{item.qty}</Text>
                     </View>
                     <View style={styles.listItemColumn2}>
                       <Text style={styles.listItemTwo}>Member price</Text>
                       <Text style={styles.listItemValue}>
-                        {item.membershipPrice}
+                        {item.price}
                       </Text>
-                    </View>
-                    <View style={styles.listItemColumn2}>
-                      <Text style={styles.total}>Total</Text>
-                      <Text style={styles.listItemValue}>{item.total}</Text>
                     </View>
                     <View style={styles.listItemColumn3}>
                       <Text style={styles.retailPrice}>Retail price</Text>
                       <Text style={styles.listItemValue}>
-                        {item.retailPrice}
+                        {item.qty * item.market_price}
                       </Text>
+                    </View>
+                    <View style={styles.listItemColumn2}>
+                      <Text style={styles.total}>Total</Text>
+                      <Text style={styles.listItemValue}>{(item.qty * item.price)}</Text>
                     </View>
                   </View>
                 </View>
@@ -68,8 +118,9 @@ function ListSummaryScreen(props: any) {
           <View style={styles.totalContainer}>
             <Text style={styles.totalOrder}>Order Total</Text>
             <View style={styles.totalOrderRow}>
-              <Text style={styles.totalOrderValue}>13,500</Text>
-              <Text style={styles.totalOrderRetailer}>14,850</Text>
+              <Text style={styles.totalOrderValue}>{formatCurrencyWithDecimal(updateMyListItems[data.listId].reduce((total, item) => {
+                return total + item.qty * item.price;
+              }, 0))}</Text>
             </View>
           </View>
         </View>
@@ -77,7 +128,14 @@ function ListSummaryScreen(props: any) {
           <Text style={styles.youSave}>You save</Text>
           <View style={styles.savedContainer}>
             <Text style={styles.savedBalance}>
-              #1,350 <Text style={styles.perMonth}>/ month</Text>
+              {formatCurrencyWithDecimal(updateMyListItems[data.listId].reduce((total, item) => {
+                return total + item.qty * item.market_price;
+              }, 0)
+                -
+                updateMyListItems[data.listId].reduce((total, item) => {
+                  return total + item.qty * item.price;
+                }, 0)
+              )} <Text style={styles.perMonth}>/ month</Text>
             </Text>
             <SaveMarkSvgComponent style={styles.svg} />
           </View>
@@ -85,7 +143,9 @@ function ListSummaryScreen(props: any) {
         <AppButton
           style={styles.button}
           title="Confirm"
-          onPress={() => {}}
+          onPress={() => {
+            _createOrder()
+          }}
           width={80}
           marginBottom={10}
         />

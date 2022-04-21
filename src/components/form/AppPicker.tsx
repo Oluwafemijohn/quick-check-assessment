@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -6,10 +6,11 @@ import {
   ViewStyle,
   Image,
   Pressable,
+  FlatList,
 } from 'react-native';
 import Modal from 'react-native-modal';
 
-import {widthPercentageToDP as WP} from 'react-native-responsive-screen';
+import { widthPercentageToDP as WP } from 'react-native-responsive-screen';
 
 // import AppText from '../components/AppText';
 import colors from '../../constants/colors';
@@ -90,22 +91,27 @@ function AppPicker({
         isVisible={open}
         backdropOpacity={0}
         onBackdropPress={() => setOpen(false)}
-        style={[styles.modal, {top: viewHeight + common.WP(5), width}]}>
+        style={[styles.modal, { top: viewHeight + common.WP(5), width }]}>
         <View style={styles.centeredView}>
-          {data.map((item, index) => (
-            <Pressable
-              onPress={() => {
-                setValue(item);
-                setOpen(false);
-              }}
-              style={[styles.modalView, {width}]}
-              key={index}>
-              <Text style={styles.modalText}>{item}</Text>
-            </Pressable>
-          ))}
+          <FlatList
+            data={data}
+            style={styles.list}
+            renderItem={({ item }) => (
+              <Pressable
+                onPress={() => {
+                  setValue(item);
+                  setOpen(false);
+                }}
+                style={[styles.modalView, { width }]}
+              >
+                <Text style={styles.modalText}>{item}</Text>
+              </Pressable>
+            )}
+            keyExtractor={item => `${item}`}
+          />
         </View>
       </Modal>
-      {error !== '' && <Text style={[styles.error, {width}]}>{error}</Text>}
+      {error !== '' && <Text style={[styles.error, { width }]}>{error}</Text>}
     </View>
   );
 }
@@ -144,6 +150,7 @@ const styles = StyleSheet.create({
   centeredView: {
     backgroundColor: common.colors.white,
     marginLeft: WP(5),
+    marginBottom: WP(50),
   },
   modalView: {
     paddingVertical: common.WP(4),
@@ -157,6 +164,9 @@ const styles = StyleSheet.create({
   modalText: {
     fontSize: common.WP(4),
     color: common.colors.black,
+  },
+  list: {
+    marginBottom: common.WP(100),
   },
 });
 

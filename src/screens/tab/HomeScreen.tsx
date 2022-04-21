@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Text,
   StyleSheet,
@@ -6,6 +6,8 @@ import {
   Image,
   FlatList,
   ScrollView,
+  RefreshControl,
+  Pressable,
 } from 'react-native';
 
 import SafeAreaScreen from '../../components/SafeAreaScreen';
@@ -13,41 +15,123 @@ import common from '../../constants/common';
 import DashboardProductItem from '../../components/items/DashboardProductItem';
 import DashboardCarosel from '../../components/DashboardCarosel';
 import Constants from '../../constants/Constants';
-import {IProductResponse} from '../../types/Type';
-import {allProductResponse} from '../../network/Server';
+import { IAllProduct, IGetListResponse, IHighRating, INewInData, IProduct, IWallet } from '../../types/Type';
+import { allProductResponse, getHighestRating, getList, getNewIn, getWallet } from '../../network/Server';
 import LoadingModal from '../../components/LoadingModal';
-import {loginResponseState} from '../../store/State';
-import {useRecoilState} from 'recoil';
+import { getListData, loginResponseState, wallet } from '../../store/State';
+import { useRecoilState } from 'recoil';
 import WalletComponent from '../../components/WalletComponent';
 
 function HomeScreen(props: any) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isWallet, setIsWallet] = useState(true);
-  const [allProductResponst, setAllProductResponst] =
-    useState<IProductResponse>();
+  const [fetchAllProductResponse, setFetchAllProductResponse] =
+    useState<IAllProduct>();
+  const [highRating, setHighRating] = useState<IHighRating>();
+  const [newIn, setNewIn] = useState<INewInData>();
   const [isLoading, setIsLoading] = useState(false);
+  const [getListResponse, setGetListResponse] = useRecoilState(getListData);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
+  // GLobal State
+  const [loginState, setLoginState] = useRecoilState(loginResponseState);
+  const [myWallet, setMyWallet] = useRecoilState(wallet);
+
   const [loginResponse, setLoginResponse] = useRecoilState(loginResponseState);
   const _getAllProduct = async () => {
-    // setIsLoading(true);
+    setIsLoading(true);
     await allProductResponse()
       .then(res => {
         setIsLoading(false);
-        setAllProductResponst(res as unknown as IProductResponse);
+        if (res.statusCode === 200) {
+          setFetchAllProductResponse(res as unknown as IAllProduct);
+        }
       })
       .catch(() => {
         setIsLoading(false);
       });
   };
 
-  useEffect(() => {
+  const _getHighestRating = async () => {
+    setIsLoading(true);
+    await getHighestRating()
+      .then(res => {
+        setIsLoading(false);
+        setHighRating(res.payload as unknown as IHighRating);
+      })
+      .catch(() => {
+        setIsLoading(false);
+      });
+  }
+
+  const _getNewIn = async () => {
+    setIsLoading(true);
+    await getNewIn()
+      .then((res) => {
+        setIsLoading(false);
+        if (res.statusCode === 200) {
+          setNewIn(res as unknown as INewInData);
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+      })
+  }
+
+  const _getList = async () => {
+    setIsLoading(true);
+    await getList()
+      .then((res) => {
+        setIsLoading(false);
+        setGetListResponse(res as unknown as IGetListResponse)
+      })
+      .catch(() => {
+        setIsLoading(false);
+      })
+  }
+
+  const _getWallet = async () => {
+    setIsLoading(true);
+    await getWallet()
+      .then((res) => {
+        setIsLoading(false);
+        if (res.statusCode === 200) {
+          setMyWallet(res as unknown as IWallet);
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+      })
+  }
+
+  const allCalls = () => {
     _getAllProduct();
+    _getHighestRating();
+    _getNewIn();
+    _getList();
+    _getWallet();
+  }
+
+  useEffect(() => {
+    allCalls();
   }, []);
 
+
+
+  console.log('myWallet', myWallet);
   return (
     <SafeAreaScreen>
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={false}
+            onRefresh={() => {
+              setTimeout(() => {
+                allCalls()
+              }, 500)
+            }}
+          />
+        }
+      >
         <View style={styles.container}>
           <View style={styles.headerContainer}>
             <View style={styles.headerLeftContainer}>
@@ -65,18 +149,26 @@ function HomeScreen(props: any) {
                 <Text style={styles.userName}>userName</Text>
               </View>
             </View>
-            <View style={styles.headerRigthContainer}>
-              <Text style={styles.createList}>Create a list</Text>
-            </View>
+            {
+              getListResponse.lists.length === 0 &&
+              (
+                <Pressable onPress={() => {
+                  props.navigation.navigate(Constants.ListScreen);
+                }} style={styles.headerRigthContainer}>
+                  <Text style={styles.createList}>Create a list</Text>
+                </Pressable>
+              )
+            }
           </View>
           {isLoading && <LoadingModal isLoading={isLoading} />}
-          {!isWallet ? (
+          {myWallet === undefined || myWallet.wallet === undefined || myWallet.wallet.balance === undefined ? (
             <DashboardCarosel />
           ) : (
             <WalletComponent
               onPress={() => {
-                console.log('WalletPress');
+                props.navigation.navigate(Constants.WalletScreen);
               }}
+              balance={myWallet.wallet.balance}
             />
           )}
           <View style={styles.productContainer}>
@@ -89,15 +181,15 @@ function HomeScreen(props: any) {
               </View>
               <FlatList
                 data={
-                  allProductResponst && allProductResponst.products
-                    ? allProductResponst.products
+                  fetchAllProductResponse && fetchAllProductResponse.products
+                    ? fetchAllProductResponse.products
                     : []
                 }
                 horizontal
                 style={styles.flatList}
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={(item: any) => item.id.toString()}
-                renderItem={({item}) => (
+                renderItem={({ item }) => (
                   <DashboardProductItem
                     onPress={() => {
                       props.navigation.navigate(
@@ -110,17 +202,20 @@ function HomeScreen(props: any) {
                 )}
               />
               {/* New in */}
-              {/* <View style={styles.listContainer}>
+              <View style={styles.listContainer}>
                 <Text style={styles.popular}>New in</Text>
                 <Text style={styles.more}>More</Text>
               </View>
               <FlatList
-                data={popular}
+                data={
+                  newIn ? newIn.data
+                    : []
+                }
                 horizontal
                 style={styles.flatList}
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={(item: any) => item.id.toString()}
-                renderItem={({item}) => (
+                renderItem={({ item }) => (
                   <DashboardProductItem
                     onPress={() => {
                       props.navigation.navigate(
@@ -131,18 +226,20 @@ function HomeScreen(props: any) {
                     item={item}
                   />
                 )}
-              /> */}
-              {/* <View style={styles.listContainer}>
+              />
+              <View style={styles.listContainer}>
                 <Text style={styles.popular}>Highest Ratings</Text>
                 <Text style={styles.more}>More</Text>
               </View>
               <FlatList
-                data={popular}
+                data={highRating && highRating.data
+                  ? highRating.data
+                  : []}
                 horizontal
                 style={styles.flatList}
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={(item: any) => item.id.toString()}
-                renderItem={({item}) => (
+                renderItem={({ item }) => (
                   <DashboardProductItem
                     onPress={() => {
                       props.navigation.navigate(
@@ -153,7 +250,7 @@ function HomeScreen(props: any) {
                     item={item}
                   />
                 )}
-              /> */}
+              />
             </View>
           </View>
         </View>

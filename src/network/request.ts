@@ -139,15 +139,15 @@ export const requestClan = async <T>({
     });
 
     let header = await buildHeader(isSecure);
-    console.log('🔒 header', header);
+    console.log(route, '🔒 header', header);
 
     if (response) {
       onResponse && onResponse();
       const responseJSON = await response.json();
-      console.log(responseJSON);
+      console.log(route, responseJSON);
       if (response.status === 401) {
         // TODO: LOG USER OUT
-        Alert.alert('Session Expired', 'Please login again');
+        // Alert.alert('Session Expired', 'Please login again');
       }
       return {
         ...responseJSON,
@@ -181,7 +181,7 @@ export const requestClan = async <T>({
     // TODO: Log error to sentry
     let errorMsg = '=== An error occurred, please try again later.';
     return {
-      message: errorMsg,
+      message: error.message,
       statusCode: 0,
       bodyStatusCode: 0,
     };

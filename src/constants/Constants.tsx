@@ -29,4 +29,10 @@ export default Object.freeze({
   ReferralsScreen: 'ReferralsScreen',
   SubscriptionScreen: 'SubscriptionScreen',
   WalletScreen: 'WalletScreen',
+  OrderHistoryDetailsScreen: 'OrderHistoryDetailsScreen',
+  Complement: 'Complement',
+  Productrequest: 'Product request',
+  ComplaintScreen: 'ComplaintScreen',
+  ProductRequestScreen: 'ProductRequestScreen',
+  MyWebView: 'MyWebView',
 });

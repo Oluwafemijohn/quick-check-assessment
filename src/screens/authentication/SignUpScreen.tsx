@@ -9,6 +9,7 @@ import AppButton from '../../components/form/AppButton';
 import colors from '../../constants/colors';
 import Constants from '../../constants/Constants';
 import common from '../../constants/common';
+import KeyboardAvoidingViewAndKeyBoardDisMiss from '../../components/KeyboardAvoidingViewAndKeyBoardDisMiss';
 
 const signUpDetails = {
   firstname: '',
@@ -26,82 +27,84 @@ function SignUpScreen(props: any) {
   return (
     <SafeAreaScreen>
       <View style={styles.container}>
-        <Text style={styles.enterYouFullName}>
-          Enter your email and full name to get started
-        </Text>
-        <Formik
-          initialValues={signUpDetails}
-          onSubmit={values => {
-            props.navigation.navigate(Constants.SignUpPasswordScreen, values);
-          }}
-          validationSchema={validationSchema}>
-          {({
-            values,
-            handleChange,
-            handleBlur,
-            errors,
-            touched,
-            isSubmitting,
-            handleSubmit,
-          }) => {
-            return (
-              <>
-                <View style={styles.nameContainer}>
-                  <View style={styles.leftNameContainer}>
-                    <Text style={styles.nameLabel}>First Name</Text>
-                    <AppTextInput
-                      value={values.firstname}
-                      placeholder="First  Name"
-                      errors={touched.firstname && errors.firstname}
-                      onChangeText={handleChange('firstname')}
-                      onBlur={handleBlur('firstname')}
-                      width={WP('40%')}
-                      keyboardType="default"
-                      style={styles.input}
-                      autoCapitalize="none"
-                    />
+        <KeyboardAvoidingViewAndKeyBoardDisMiss>
+          <Text style={styles.enterYouFullName}>
+            Enter your email and full name to get started
+          </Text>
+          <Formik
+            initialValues={signUpDetails}
+            onSubmit={values => {
+              props.navigation.navigate(Constants.SignUpPasswordScreen, values);
+            }}
+            validationSchema={validationSchema}>
+            {({
+              values,
+              handleChange,
+              handleBlur,
+              errors,
+              touched,
+              isSubmitting,
+              handleSubmit,
+            }) => {
+              return (
+                <>
+                  <View style={styles.nameContainer}>
+                    <View style={styles.leftNameContainer}>
+                      <Text style={styles.nameLabel}>First Name</Text>
+                      <AppTextInput
+                        value={values.firstname}
+                        placeholder="First  Name"
+                        errors={touched.firstname && errors.firstname}
+                        onChangeText={handleChange('firstname')}
+                        onBlur={handleBlur('firstname')}
+                        width={WP('40%')}
+                        keyboardType="default"
+                        style={styles.input}
+                        autoCapitalize="none"
+                      />
+                    </View>
+                    <View style={styles.rightNameContainer}>
+                      <Text style={styles.nameLabel}>Last Name</Text>
+                      <AppTextInput
+                        value={values.lastname}
+                        placeholder="Last last name"
+                        errors={touched.lastname && errors.lastname}
+                        onChangeText={handleChange('lastname')}
+                        onBlur={handleBlur('lastname')}
+                        width={WP('40%')}
+                        keyboardType="default"
+                        style={styles.input}
+                        autoCapitalize="none"
+                      />
+                    </View>
                   </View>
-                  <View style={styles.rightNameContainer}>
-                    <Text style={styles.nameLabel}>Last Name</Text>
-                    <AppTextInput
-                      value={values.lastname}
-                      placeholder="Last last name"
-                      errors={touched.lastname && errors.lastname}
-                      onChangeText={handleChange('lastname')}
-                      onBlur={handleBlur('lastname')}
-                      width={WP('40%')}
-                      keyboardType="default"
-                      style={styles.input}
-                      autoCapitalize="none"
-                    />
-                  </View>
-                </View>
 
-                <Text style={styles.label}>Email</Text>
-                <AppTextInput
-                  value={values.email}
-                  placeholder="Email"
-                  errors={touched.email && errors.email}
-                  onChangeText={handleChange('email')}
-                  onBlur={handleBlur('email')}
-                  width={WP('85%')}
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  icon={true}
-                />
+                  <Text style={styles.label}>Email</Text>
+                  <AppTextInput
+                    value={values.email}
+                    placeholder="Email"
+                    errors={touched.email && errors.email}
+                    onChangeText={handleChange('email')}
+                    onBlur={handleBlur('email')}
+                    width={WP('85%')}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    icon={true}
+                  />
 
-                <AppButton
-                  style={styles.button}
-                  title="Next"
-                  submitting={isSubmitting}
-                  onPress={handleSubmit}
-                  width={80}
-                  marginTop={40}
-                />
-              </>
-            );
-          }}
-        </Formik>
+                  <AppButton
+                    style={styles.button}
+                    title="Next"
+                    submitting={isSubmitting}
+                    onPress={handleSubmit}
+                    width={80}
+                    marginTop={40}
+                  />
+                </>
+              );
+            }}
+          </Formik>
+        </KeyboardAvoidingViewAndKeyBoardDisMiss>
       </View>
     </SafeAreaScreen>
   );

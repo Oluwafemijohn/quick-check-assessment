@@ -9,11 +9,13 @@ export const isEmptyString = (val: any) => {
   return val === null || val === undefined || val.length === 0;
 };
 
-export const makeSentenceCase = (val: string) => {
+export const makeSentenceCase = (val: string | undefined) => {
   let res = val;
   if (!isEmptyString(val)) {
-    val = val.toLowerCase();
+    val = val!.toLowerCase();
     res = val.length > 0 ? val.charAt(0).toUpperCase() + val.slice(1) : val;
+  } else {
+    res = '';
   }
   return res;
 };
@@ -41,4 +43,59 @@ export const capitaliseFirstLetter = (val: string) => {
 
 export const titleCase = (str: string) => {
   return str.toLowerCase().replace(/(^|\s)\S/g, L => L.toUpperCase());
+};
+
+export const isNullOrUndefined = (value: any) => {
+  return value === null || value === undefined;
+};
+
+export const formatNumberWhileTyping = (value: string) => {
+  // console.log('formatNumberWhileTyping', value );
+  if (isNullOrUndefined(value) || value === '') {
+    return '';
+  }
+  // eslint-disable-next-line radix
+  return parseInt(value.replace(/,/g, '')).toLocaleString();
+};
+
+export function currencyFormat(num: number) {
+  return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+}
+
+export const formatCurrencyWithDecimal = (
+  amount: number | string | undefined,
+) => {
+  // @ts-ignore
+  let num = typeof amount === 'string' ? parseFloat(amount) : amount;
+
+  if (num === 0 || isNullOrUndefined(num)) {
+    return '₦ 0';
+  }
+
+  const currFormat = currencyFormat(num!);
+
+  return isNullOrUndefined(currFormat) || isEmptyString(currFormat)
+    ? ''
+    : '₦ '.concat(currencyFormat(num!));
+};
+
+export const formatCurrencyWithDecimalWithoutSign = (
+  amount: number | string | undefined,
+) => {
+  // @ts-ignore
+  let num = typeof amount === 'string' ? parseFloat(amount) : amount;
+
+  if (num === 0 || isNullOrUndefined(num)) {
+    return '₦ 0';
+  }
+
+  const currFormat = currencyFormat(num!);
+
+  return isNullOrUndefined(currFormat) || isEmptyString(currFormat)
+    ? ''
+    : currencyFormat(num!);
+};
+
+export const formatDateOfBirth = (date: string) => {
+  return date.split('-').reverse().join('/');
 };

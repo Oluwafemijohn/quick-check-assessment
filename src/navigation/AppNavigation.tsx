@@ -6,8 +6,8 @@ import Constants from '../constants/Constants';
 import OTPScreen from '../screens/authentication/OTPScreen';
 import SignUpSuccessfulScreen from '../screens/authentication/SignUpSuccessfulScreen';
 import TabNavigation from './TabNavigation';
-import {Image, Pressable, StyleSheet} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import { Image, Pressable, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import SignUpPasswordScreen from '../screens/authentication/SignUpPasswordScreen';
 import PasswordResetScreen from '../screens/authentication/PasswordResetScreen';
 import ForgetPasswordScreen from '../screens/authentication/ForgetPasswordScreen';
@@ -15,7 +15,7 @@ import ForgetPasswordCheckEmailScreen from '../screens/authentication/ForgetPass
 import PasswordResetSuccessfulScreen from '../screens/authentication/PasswordResetSuccessfulScreen';
 import ForgetPasswordOTPScreen from '../screens/authentication/ForgetPasswordOTPScreen';
 import ProductDetailsScreen from '../screens/others/ProductDetailsScreen';
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import AddReviewScreen from '../screens/others/AddReviewScreen';
 import common from '../constants/common';
 import ListScreen from '../screens/tab/ListScreen';
@@ -29,6 +29,11 @@ import OrderHistoryScreen from '../screens/settings/OrderHistoryScreen';
 import ReferralsScreen from '../screens/settings/ReferralsScreen';
 import SubscriptionScreen from '../screens/settings/SubscriptionScreen';
 import WalletScreen from '../screens/settings/WalletScreen';
+import OrderHistoryDetailsScreen from '../screens/settings/OrderHistoryDetailsScreen';
+import ComplementScreen from '../screens/settings/ComplementScreen';
+import ComplaintScreen from '../screens/settings/ComplaintScreen';
+import ProductRequestScreen from '../screens/settings/ProductRequestScreen';
+import MyWebView from '../screens/others/MyWebView';
 // import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createStackNavigator();
@@ -217,6 +222,41 @@ function AppNavigation() {
       <Stack.Screen
         name={Constants.WalletScreen}
         component={WalletScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={Constants.OrderHistoryDetailsScreen}
+        component={OrderHistoryDetailsScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={Constants.Complement}
+        component={ComplementScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={Constants.ComplaintScreen}
+        component={ComplaintScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={Constants.ProductRequestScreen}
+        component={ProductRequestScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={Constants.MyWebView}
+        component={MyWebView}
         options={{
           headerShown: false,
         }}

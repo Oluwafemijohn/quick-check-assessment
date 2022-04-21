@@ -1,21 +1,57 @@
-import React, {useState} from 'react';
-import {View, StyleSheet, FlatList, Text, Pressable} from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, FlatList, Text, Pressable, Alert } from 'react-native';
+import { useRecoilState } from 'recoil';
+import EmptyList from '../../components/EmptyList';
 import AppTextInputSearch from '../../components/form/AppTextInputSearch';
 import HeaderBar from '../../components/HeaderBar';
 import ListProductItem from '../../components/items/ListProductItem';
 import common from '../../constants/common';
 import Constants from '../../constants/Constants';
-import {category} from '../../constants/ConstantString';
 import TextConstant from '../../constants/TextConstant';
+import { uploadItemsToList } from '../../network/Server';
+import { savedProducts, updateList } from '../../store/State';
+import { IList, IProductDashboard } from '../../types/Type';
+import { formatCurrencyWithDecimal } from '../../utilities';
 
 function ListDetailsScreen(props: any) {
+  const list: IList = props.route.params;
   const [search, setSearch] = useState('');
-  const [count, setCount] = useState(1);
+  const [updateMyListItems, setUpdateMyListItems] = useRecoilState(updateList);
+  const [savedProduct, setSavedProduct] = useRecoilState(savedProducts);
+  // const data: IProductDashboard[] = updateMyListItems[list._id];
+  const [data, setData] = useState(updateMyListItems[list._id]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const _uploadItemsToList = async () => {
+    setIsLoading(true);
+    const payload = {
+      items: data.map(item => {
+        return {
+          product: item._id,
+          quantity: item.qty,
+        }
+      }),
+    }
+
+    uploadItemsToList(list._id, payload)
+      .then(res => {
+        setIsLoading(false);
+        if (res.statusCode === 200) {
+          props.navigation.navigate(Constants.DeliveryDetailsScreen, list._id);
+          setSavedProduct(data);
+        } else {
+          Alert.alert(res.message)
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+      })
+  }
 
   return (
     <View style={styles.container}>
       <HeaderBar
-        onPressActionText={() => {}}
+        onPressActionText={() => { }}
         title={TextConstant.List}
         actionText="Add +"
       />
@@ -28,29 +64,36 @@ function ListDetailsScreen(props: any) {
           onChangeText={text => setSearch(text as string)}
         />
         <FlatList
-          data={category}
-          renderItem={({item}) => (
+          data={data}
+
+          renderItem={({ item, index }) => (
             <ListProductItem
               onPressDecrease={() => {
-                setCount(count !== 0 ? count - 1 : 0);
               }}
               onPressIncrease={() => {
-                setCount(count + 1);
+                let something = JSON.parse(JSON.stringify(data));
+                something[index].qty++;
+                setData(something);
               }}
-              count={count}
               item={item}
             />
           )}
-          keyExtractor={item => `${item.id}`}
+          keyExtractor={(item, index) => `${index}`}
+          ListEmptyComponent={() => (<EmptyList />)}
         />
       </View>
       <View style={styles.bottomContainer}>
         <Text style={styles.totalPurchase}>Total</Text>
         <View style={styles.totalPurchaseContainer}>
-          <Text style={styles.totalText}>N50,000</Text>
+          {
+            data !== undefined && <Text style={styles.totalText}>{formatCurrencyWithDecimal(data.reduce((total, item) => {
+              return total + item.qty * item.price;
+            }, 0))}</Text>
+          }
           <Pressable
             onPress={() => {
-              props.navigation.navigate(Constants.DeliveryDetailsScreen);
+              // props.navigation.navigate(Constants.DeliveryDetailsScreen);
+              _uploadItemsToList();
             }}
             style={styles.nextButton}>
             <Text style={styles.nextButtonText}>Next</Text>

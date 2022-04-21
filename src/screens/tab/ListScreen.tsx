@@ -1,20 +1,58 @@
-import React, {useState} from 'react';
-import {View, StyleSheet, Text, FlatList, Pressable} from 'react-native';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Text, FlatList, Pressable } from 'react-native';
+import { useRecoilState } from 'recoil';
 import CreateListModal from '../../components/CreateListModal';
+import EmptyList from '../../components/EmptyList';
 import AppButton from '../../components/form/AppButton';
 import HeaderBar from '../../components/HeaderBar';
+import LoadingModal from '../../components/LoadingModal';
 import ActionArrowSvgComponent from '../../components/svg/ActionArrowSvgComponent';
 import ListItemIconSvgConponent from '../../components/svg/ListItemIconSvgConponent';
 import ListPageSvgComponent from '../../components/svg/ListPageSvgComponent';
 import common from '../../constants/common';
 import Constants from '../../constants/Constants';
-import {listArray} from '../../constants/ConstantString';
+import { listArray } from '../../constants/ConstantString';
 import TextConstant from '../../constants/TextConstant';
+import { addToList, getList } from '../../network/Server';
+import { getListData } from '../../store/State';
+import { IGetListResponse } from '../../types/Type';
 
 function ListScreen(props: any) {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isListEmpty, setIsListEmpty] = useState(false);
+  // const [isListEmpty, setIsListEmpty] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Global state
+  const [getListResponse, setGetListResponse] = useRecoilState(getListData);
+
+  const _addToList = async (listName: string) => {
+    setIsLoading(true);
+    await addToList({ listName })
+      .then((res) => {
+        if (res.statusCode === 201) {
+          setIsLoading(false);
+          _getList();
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+      })
+  }
+
+  const _getList = async () => {
+    setIsLoading(true);
+    await getList()
+      .then((res) => {
+        setIsLoading(false);
+        setGetListResponse(res as unknown as IGetListResponse)
+      })
+      .catch(() => {
+        setIsLoading(false);
+      })
+  }
+
+
 
   return (
     <View style={styles.container}>
@@ -30,12 +68,14 @@ function ListScreen(props: any) {
           setIsModalVisible(false);
         }}
         onPress={listName => {
-          console.log('Create List', listName);
+          _addToList(listName);
           setIsModalVisible(false);
         }}
         isModalVisible={isModalVisible}
       />
-      {isListEmpty ? (
+      {isLoading && <LoadingModal isLoading={isLoading} />}
+
+      {getListResponse.count <= 0 ? (
         <>
           <View style={styles.listEmptyBodyContainer}>
             <ListPageSvgComponent style={styles.listPageIcon} />
@@ -56,24 +96,29 @@ function ListScreen(props: any) {
         <View style={styles.listItemContainer}>
           <View style={styles.listItemContainer}>
             <FlatList
-              data={listArray}
-              renderItem={({item}) => (
+              data={getListResponse.lists}
+              renderItem={({ item }) => (
                 <Pressable
                   onPress={() => {
-                    props.navigation.navigate(Constants.ListDetailsScreen);
+                    props.navigation.navigate(Constants.ListDetailsScreen,
+                      item
+                    );
+                    console.log(item);
+
                   }}
                   style={styles.listItemFlatlistContainer}>
                   <ListItemIconSvgConponent style={styles.listItemIcon} />
-                  <Text style={styles.listItemText}>{item}</Text>
+                  <Text style={styles.listItemText}>{item.listName}</Text>
                   <Pressable
-                    onPress={() => {}}
+                    onPress={() => { }}
                     style={styles.rightActionContainer}>
                     <Text style={styles.rightActionText}>View</Text>
                     <ActionArrowSvgComponent style={styles.rightActionIcon} />
                   </Pressable>
                 </Pressable>
               )}
-              keyExtractor={index => `${index}`}
+              ListEmptyComponent={() => (<EmptyList />)}
+              keyExtractor={(item, index) => `${index}`}
             />
           </View>
         </View>

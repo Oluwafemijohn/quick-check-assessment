@@ -12,6 +12,7 @@ import common from '../../constants/common';
 import AppTextInputPassWord from '../../components/form/AppTextInputPassWord';
 import { IUser } from '../../types/Type';
 import LoadingModal from '../../components/LoadingModal';
+import KeyboardAvoidingViewAndKeyBoardDisMiss from '../../components/KeyboardAvoidingViewAndKeyBoardDisMiss';
 
 const passwordDetails = {
   password: '',
@@ -63,62 +64,64 @@ function SignUpPasswordScreen(props: any) {
   return (
     <SafeAreaScreen>
       <View style={styles.container}>
-        <Text style={styles.headingText}>Create Password</Text>
-        {isLoading && <LoadingModal isLoading={isLoading} />}
-        <Formik
-          initialValues={passwordDetails}
-          onSubmit={values => {
-            handleCallBack(values.password);
-            // props.navigation.navigate(Constants.OTPScreen);
-            // console.log(values);
-          }}
-          validationSchema={validationSchema}>
-          {({
-            values,
-            handleChange,
-            handleBlur,
-            errors,
-            touched,
-            isSubmitting,
-            handleSubmit,
-          }) => {
-            return (
-              <>
-                <Text style={styles.label}>Create Password</Text>
-                <AppTextInputPassWord
-                  value={values.password}
-                  placeholder="Enter Password "
-                  errors={touched.password && errors.password}
-                  onChangeText={handleChange('password')}
-                  onBlur={handleBlur('password')}
-                  width={WP('80%')}
-                  keyboardType="default"
-                  icon={require('../../../assets/show-password-icon.png')}
-                />
+        <KeyboardAvoidingViewAndKeyBoardDisMiss>
+          <Text style={styles.headingText}>Create Password</Text>
+          {isLoading && <LoadingModal isLoading={isLoading} />}
+          <Formik
+            initialValues={passwordDetails}
+            onSubmit={values => {
+              handleCallBack(values.password);
+              // props.navigation.navigate(Constants.OTPScreen);
+              // console.log(values);
+            }}
+            validationSchema={validationSchema}>
+            {({
+              values,
+              handleChange,
+              handleBlur,
+              errors,
+              touched,
+              isSubmitting,
+              handleSubmit,
+            }) => {
+              return (
+                <>
+                  <Text style={styles.label}>Create Password</Text>
+                  <AppTextInputPassWord
+                    value={values.password}
+                    placeholder="Enter Password "
+                    errors={touched.password && errors.password}
+                    onChangeText={handleChange('password')}
+                    onBlur={handleBlur('password')}
+                    width={WP('80%')}
+                    keyboardType="default"
+                    icon={require('../../../assets/show-password-icon.png')}
+                  />
 
-                <AppTextInputPassWord
-                  value={values.confirmPassword}
-                  placeholder="Enter Password "
-                  errors={touched.confirmPassword && errors.confirmPassword}
-                  onChangeText={handleChange('confirmPassword')}
-                  onBlur={handleBlur('confirmPassword')}
-                  width={WP('80%')}
-                  keyboardType="default"
-                  icon={require('../../../assets/show-password-icon.png')}
-                />
+                  <AppTextInputPassWord
+                    value={values.confirmPassword}
+                    placeholder="Enter Password "
+                    errors={touched.confirmPassword && errors.confirmPassword}
+                    onChangeText={handleChange('confirmPassword')}
+                    onBlur={handleBlur('confirmPassword')}
+                    width={WP('80%')}
+                    keyboardType="default"
+                    icon={require('../../../assets/show-password-icon.png')}
+                  />
 
-                <AppButton
-                  style={styles.button}
-                  title="Next"
-                  submitting={isSubmitting}
-                  onPress={handleSubmit}
-                  width={80}
-                  marginTop={35}
-                />
-              </>
-            );
-          }}
-        </Formik>
+                  <AppButton
+                    style={styles.button}
+                    title="Next"
+                    submitting={isSubmitting}
+                    onPress={handleSubmit}
+                    width={80}
+                    marginTop={35}
+                  />
+                </>
+              );
+            }}
+          </Formik>
+        </KeyboardAvoidingViewAndKeyBoardDisMiss>
       </View>
     </SafeAreaScreen>
   );

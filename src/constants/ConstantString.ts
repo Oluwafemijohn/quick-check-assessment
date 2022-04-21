@@ -173,3 +173,90 @@ export const walletSummary = [
     amount: '1,500',
   },
 ];
+
+export const inviteFriends =
+  'Invite your friends, family and get 15% discount off service charge.';
+export const referFriend = 'Refer a friend';
+
+export const friends = [
+  {
+    id: 1,
+    img: require('../../assets/friends-img1.png'),
+    name: 'Ajayi Davids',
+  },
+  {
+    id: 2,
+    img: require('../../assets/friends-img2.png'),
+    name: 'Angel Damson',
+  },
+  {
+    id: 3,
+    img: require('../../assets/friends-img3.png'),
+    name: 'Christine Chris',
+  },
+  {
+    id: 4,
+    img: require('../../assets/friends-img4.png'),
+    name: 'Chuk Denzel',
+  },
+];
+
+export const orderHistory = [
+  {
+    id: 1,
+    date: '28 Nov 2021',
+    status: 'Pending',
+    tradeId: '#ID001',
+  },
+  {
+    id: 2,
+    date: '28 Nov 2021',
+    status: 'Delivered',
+    tradeId: '#ID001',
+  },
+  {
+    id: 3,
+    date: '28 Nov 2021',
+    status: 'Delivered',
+    tradeId: '#ID001',
+  },
+  {
+    id: 4,
+    date: '28 Nov 2021',
+    status: 'Delivered',
+    tradeId: '#ID001',
+  },
+];
+
+export const orderHistoryDetails = [
+  {
+    id: 1,
+    image: require('../../assets/popular-image.png'),
+    name: 'Pure Irish Butter',
+    price: 'N1,500',
+  },
+  {
+    id: 2,
+    image: require('../../assets/popular-image.png'),
+    name: 'Pure Irish Butter',
+    price: 'N1,500',
+  },
+  {
+    id: 3,
+    image: require('../../assets/popular-image.png'),
+    name: 'Pure Irish Butter',
+    price: 'N1,500',
+  },
+  {
+    id: 4,
+    image: require('../../assets/popular-image.png'),
+    name: 'Pure Irish Butter',
+    price: 'N1,500',
+  },
+  {
+    id: 5,
+    image: require('../../assets/popular-image.png'),
+    name: 'Pure Irish Butter',
+    price: 'N1,500',
+  },
+];
