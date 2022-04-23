@@ -1,6 +1,6 @@
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Alert, Image, Pressable, StyleSheet, Switch, Text, View } from 'react-native';
+import { Alert, FlatList, Image, Pressable, StyleSheet, Switch, Text, View } from 'react-native';
 import { managePanProps } from 'react-native-gesture-handler/lib/typescript/handlers/PanGestureHandler';
 import { useRecoilState } from 'recoil';
 import BottomSheetTemplate from '../../components/BottomSheetTemplate';
@@ -228,37 +228,14 @@ function SubscriptionScreen(props: any) {
           title='Enter Amount'
         >
           <View style={styles.listContainer}>
-            <AppTextInput
-              value={amount}
-              placeholder="Enter amount"
-              errors={err.isError && err.amount}
-              onChangeText={(text) => {
-                console.log(text);
-
-                setErr({ ...err, isError: false, amount: '' });
-                setAmount(text as string);
-              }}
-              width={common.WP('85%')}
-              keyboardType="number-pad"
-              autoCapitalize="none"
-            />
-            <AppButton
-              title="Pay"
-              onPress={() => {
-                if (amount === '') {
-                  setErr({
-                    amount: 'Please enter amount',
-                    isError: true,
-                  });
-                }
-                else {
-                  _createSubscription();
-                  modalClose();
-                }
-              }}
-              width={85}
-              marginTop={10}
-              marginBottom={10}
+            <FlatList
+              data={plans?.plan}
+              renderItem={({ item }) => (
+                <Pressable onPress={() => { }}>
+                  <Text style={styles.listItem}>{item.name + (item.price)}</Text>
+                </Pressable>
+              )}
+              keyExtractor={(item, index) => `${index}`}
             />
           </View>
         </BottomSheetTemplate>
@@ -387,5 +364,9 @@ const styles = StyleSheet.create({
   listContainer: {
     paddingHorizontal: common.W_5,
   },
+  listItem: {
+    fontSize: common.W_4,
+    color: common.colors.darkCard,
+  }
 });
 export default SubscriptionScreen;

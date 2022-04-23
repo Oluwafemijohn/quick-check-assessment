@@ -69,6 +69,9 @@ function ListDetailsScreen(props: any) {
           renderItem={({ item, index }) => (
             <ListProductItem
               onPressDecrease={() => {
+                let something = JSON.parse(JSON.stringify(data));
+                something[index].qty++;
+                setData(something);
               }}
               onPressIncrease={() => {
                 let something = JSON.parse(JSON.stringify(data));
