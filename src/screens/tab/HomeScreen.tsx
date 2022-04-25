@@ -21,6 +21,7 @@ import LoadingModal from '../../components/LoadingModal';
 import { getListData, loginResponseState, wallet } from '../../store/State';
 import { useRecoilState } from 'recoil';
 import WalletComponent from '../../components/WalletComponent';
+import { makeSentenceCase } from '../../utilities';
 
 function HomeScreen(props: any) {
   const [isWallet, setIsWallet] = useState(true);
@@ -56,7 +57,7 @@ function HomeScreen(props: any) {
     await getHighestRating()
       .then(res => {
         setIsLoading(false);
-        setHighRating(res.payload as unknown as IHighRating);
+        setHighRating(res as unknown as IHighRating);
       })
       .catch(() => {
         setIsLoading(false);
@@ -115,11 +116,44 @@ function HomeScreen(props: any) {
     allCalls();
   }, []);
 
-
-
-  console.log('myWallet', myWallet);
   return (
     <SafeAreaScreen>
+      <View style={styles.headerContainer}>
+        <View style={styles.headerLeftContainer}>
+          <View style={styles.imageConatiner}>
+            {/* <Image
+                  source={require('../../../assets/avatar.png')}
+                  style={styles.avater}
+                /> */}
+            <View
+              style={styles.nameInitials}
+            >
+              <Text style={styles.nameInitialsText}>{
+                loginResponse.firstname.charAt(0) + loginResponse.lastname.charAt(0)
+              }</Text>
+            </View>
+            {/* <View style={styles.countCountainer}>
+                  <Text style={styles.count}>3</Text>
+                </View> */}
+          </View>
+          <View style={styles.leftTextContainer}>
+            <Text style={styles.hello}>Hello</Text>
+            <Text style={styles.userName}>{
+              makeSentenceCase(loginResponse.firstname) + ' ' + makeSentenceCase(loginResponse.lastname)
+            }</Text>
+          </View>
+        </View>
+        {
+          getListResponse.lists.length === 0 &&
+          (
+            <Pressable onPress={() => {
+              props.navigation.navigate(Constants.ListScreen);
+            }} style={styles.headerRigthContainer}>
+              <Text style={styles.createList}>Create a list</Text>
+            </Pressable>
+          )
+        }
+      </View>
       <ScrollView
         refreshControl={
           <RefreshControl
@@ -133,33 +167,6 @@ function HomeScreen(props: any) {
         }
       >
         <View style={styles.container}>
-          <View style={styles.headerContainer}>
-            <View style={styles.headerLeftContainer}>
-              <View style={styles.imageConatiner}>
-                <Image
-                  source={require('../../../assets/avatar.png')}
-                  style={styles.avater}
-                />
-                <View style={styles.countCountainer}>
-                  <Text style={styles.count}>3</Text>
-                </View>
-              </View>
-              <View style={styles.leftTextContainer}>
-                <Text style={styles.hello}>Hello</Text>
-                <Text style={styles.userName}>userName</Text>
-              </View>
-            </View>
-            {
-              getListResponse.lists.length === 0 &&
-              (
-                <Pressable onPress={() => {
-                  props.navigation.navigate(Constants.ListScreen);
-                }} style={styles.headerRigthContainer}>
-                  <Text style={styles.createList}>Create a list</Text>
-                </Pressable>
-              )
-            }
-          </View>
           {isLoading && <LoadingModal isLoading={isLoading} />}
           {myWallet === undefined || myWallet.wallet === undefined || myWallet.wallet.balance === undefined ? (
             <DashboardCarosel />
@@ -232,8 +239,8 @@ function HomeScreen(props: any) {
                 <Text style={styles.more}>More</Text>
               </View>
               <FlatList
-                data={highRating && highRating.data
-                  ? highRating.data
+                data={highRating && highRating.product
+                  ? highRating.product
                   : []}
                 horizontal
                 style={styles.flatList}
@@ -296,6 +303,19 @@ const styles = StyleSheet.create({
   imageConatiner: {
     flexDirection: 'row',
   },
+  nameInitials: {
+    backgroundColor: common.colors.veryLighrGrey,
+    width: common.WP(15),
+    height: common.WP(15),
+    borderRadius: common.WP(7.5),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  nameInitialsText: {
+    color: common.colors.darkCard,
+    fontSize: common.WP(7),
+    fontWeight: 'bold',
+  },
   count: {
     textAlign: 'center',
   },
@@ -309,12 +329,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: common.WP(4),
   },
-  avater: {
-    width: common.WP(20),
-    height: common.WP(20),
-    resizeMode: 'stretch',
-    alignSelf: 'center',
-  },
+  // avater: {
+  //   width: common.WP(20),
+  //   height: common.WP(20),
+  //   resizeMode: 'stretch',
+  //   alignSelf: 'center',
+  // },
   leftTextContainer: {
     marginLeft: common.WP(2),
   },
