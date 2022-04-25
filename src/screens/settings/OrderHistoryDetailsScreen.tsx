@@ -10,10 +10,6 @@ import { formatCurrencyWithDecimal } from '../../utilities';
 
 function OrderHistoryDetailsScreen(props: any) {
     const items: IOrderHistory = props.route.params;
-
-    console.log('====================================');
-    console.log('items', items);
-    console.log('====================================');
     return (
         <View style={styles.container}>
             <HeaderBar
