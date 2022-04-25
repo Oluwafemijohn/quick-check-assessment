@@ -2,13 +2,13 @@ import React from 'react';
 import { Image, Text, View, StyleSheet, Pressable } from 'react-native';
 import { Rating } from 'react-native-ratings';
 import common from '../../constants/common';
-import { IHighRatingProduct, INewIn, IProduct } from '../../types/Type';
+import { IAllProductType, IHighRatingProduct, INewIn, IProduct } from '../../types/Type';
 
 function DashboardProductItem({
   item,
   onPress,
 }: {
-  item: IHighRatingProduct | INewIn | IProduct;
+  item: IHighRatingProduct | INewIn | IAllProductType;
   onPress: () => void;
 }) {
   return (
