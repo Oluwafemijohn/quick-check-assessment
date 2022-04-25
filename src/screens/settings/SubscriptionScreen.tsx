@@ -1,5 +1,5 @@
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, FlatList, Image, Pressable, StyleSheet, Switch, Text, View } from 'react-native';
 import { managePanProps } from 'react-native-gesture-handler/lib/typescript/handlers/PanGestureHandler';
 import { useRecoilState } from 'recoil';
@@ -29,17 +29,12 @@ function SubscriptionScreen(props: any) {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [isSubscription, setIsSubscription] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [amount, setAmount] = useState('');
+  // const [amount, setAmount] = useState('');
   const [plans, setPlans] = useState<IPlan>();
 
   const [myWallet, setMyWallet] = useRecoilState(wallet);
 
-
-  const [err, setErr] = useState({
-    amount: '',
-    isError: false,
-  });
-
+  const snapPoints = useMemo(() => ['40%', '50%'], []);
   const bottomSheetRef = useRef<BottomSheetModal>(null);
   const modalPresent = useCallback(() => {
     bottomSheetRef.current?.present();
@@ -49,11 +44,11 @@ function SubscriptionScreen(props: any) {
   }, []);
   //
 
-  const _createSubscription = async () => {
+  const _createSubscription = async (plan: string, amount: number) => {
     setIsLoading(true);
     await createSubscription({
-      plan: 'premium',
-      price: parseInt(amount),
+      plan: plan,
+      price: amount,
     })
       .then(res => {
         setIsLoading(false);
@@ -62,7 +57,7 @@ function SubscriptionScreen(props: any) {
           Alert.alert('Success', res.msg);
           _getWallet();
         } else {
-          Alert.alert('Error', res.msg);
+          Alert.alert('Error', res.error);
         }
       })
       .catch(() => {
@@ -223,6 +218,7 @@ function SubscriptionScreen(props: any) {
           </View>
         </View>
         <BottomSheetTemplate
+          snapPointsShort={snapPoints}
           bottomSheetRef={bottomSheetRef}
           onClose={modalClose}
           title='Enter Amount'
@@ -231,8 +227,13 @@ function SubscriptionScreen(props: any) {
             <FlatList
               data={plans?.plan}
               renderItem={({ item }) => (
-                <Pressable onPress={() => { }}>
-                  <Text style={styles.listItem}>{item.name + (item.price)}</Text>
+                <Pressable
+                  style={styles.subscribeList}
+                  onPress={() => {
+                    modalClose();
+                    _createSubscription(item.name, item.price);
+                  }}>
+                  <Text style={styles.listItem}>{makeSentenceCase(item.name) + '  ' + (item.price)}</Text>
                 </Pressable>
               )}
               keyExtractor={(item, index) => `${index}`}
@@ -367,6 +368,12 @@ const styles = StyleSheet.create({
   listItem: {
     fontSize: common.W_4,
     color: common.colors.darkCard,
+  },
+  subscribeList: {
+    paddingVertical: common.W_3,
+    paddingHorizontal: common.W_5,
+    borderBottomWidth: 1,
+    borderBottomColor: common.colors.lightGrey,
   }
 });
 export default SubscriptionScreen;
