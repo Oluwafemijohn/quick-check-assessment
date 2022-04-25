@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { useEffect } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import EmptyList from '../../components/EmptyList';
@@ -45,18 +46,21 @@ function OrderHistoryScreen(props: any) {
 
       <View style={styles.content}>
         <FlatList
-          data={orders?.orders}
+          data={orders?.orders ?
+            orders.orders.sort((a, b) =>
+              moment(b.createdAt).diff(moment(a.createdAt))
+            )
+            : []}
           renderItem={({ item }) => (
             <OrderHistoryItem
               onPress={() => {
-                console.log('itemmeme', item);
-
                 props.navigation.navigate(Constants.OrderHistoryDetailsScreen, item);
               }}
               item={item} />
           )}
           keyExtractor={(item) => `${item._id}`}
           ListEmptyComponent={() => (<EmptyList />)}
+          style={styles.list}
         />
       </View>
     </View>
@@ -70,6 +74,9 @@ const styles = StyleSheet.create({
   },
   content: {
     marginTop: common.W_5,
+  },
+  list: {
+    marginBottom: common.W_17,
   },
 });
 export default OrderHistoryScreen;
