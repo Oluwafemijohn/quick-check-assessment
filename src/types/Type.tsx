@@ -57,7 +57,6 @@ export interface INewIn {
   __v: number;
   _id: string;
   averageRating: number;
-  category: string;
   createdAt: string;
   description: string;
   id: string;
@@ -71,8 +70,7 @@ export interface INewIn {
 
 
 export interface IHighRating {
-  data: IHighRatingProduct[];
-  count: number;
+  product: IHighRatingProduct[];
 }
 
 export interface IAllProduct {
@@ -117,6 +115,22 @@ export interface IProduct {
   reviews: IReview[];
 }
 
+export interface IAllProductType {
+  __v: number;
+  _id: string;
+  averageRating: number;
+  category: string;
+  createdAt: string;
+  description: string;
+  id: string;
+  imageUrl: string;
+  market_price: number;
+  name: string;
+  numOfReviews: number;
+  price: number;
+  updatedAt: string;
+}
+
 export interface IHighRatingProduct {
   _id: string;
   name: string;
@@ -124,6 +138,7 @@ export interface IHighRatingProduct {
   market_price: number;
   description: string;
   imageUrl: string;
+  category: string;
   averageRating: number;
   numOfReviews: number;
   createdAt: string;
