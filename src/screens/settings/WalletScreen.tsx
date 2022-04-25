@@ -1,7 +1,9 @@
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { useIsFocused } from '@react-navigation/native';
+import moment from 'moment';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Alert, FlatList, Linking, StyleSheet, Text, View } from 'react-native';
-import { useRecoilValue } from 'recoil';
+import { Alert, FlatList, StyleSheet, Text, View } from 'react-native';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import BottomSheetTemplate from '../../components/BottomSheetTemplate';
 import EmptyList from '../../components/EmptyList';
 import AppButton from '../../components/form/AppButton';
@@ -13,11 +15,10 @@ import LoadingModal from '../../components/LoadingModal';
 import WalletComponent from '../../components/WalletComponent';
 import common from '../../constants/common';
 import Constants from '../../constants/Constants';
-import { walletSummary } from '../../constants/ConstantString';
 import TextConstant from '../../constants/TextConstant';
-import { fundAccount, getTransaction } from '../../network/Server';
+import { fundAccount, getTransaction, getWallet } from '../../network/Server';
 import { loginResponseState, wallet } from '../../store/State';
-import { ITransaction } from '../../types/Type';
+import { ITransaction, IWallet } from '../../types/Type';
 
 function WalletScreen(props: any) {
   const loginResponse = useRecoilValue(loginResponseState);
@@ -28,7 +29,8 @@ function WalletScreen(props: any) {
     isError: false,
   });
   const [transactions, setTransactions] = useState<ITransaction[]>()
-  const myWallet = useRecoilValue(wallet);
+  const [myWallet, setMyWallet] = useRecoilState(wallet);
+  const isFocus = useIsFocused();
 
 
 
@@ -76,9 +78,24 @@ function WalletScreen(props: any) {
       })
   }
 
+  const _getWallet = async () => {
+    setIsLoading(true);
+    await getWallet()
+      .then((res) => {
+        setIsLoading(false);
+        if (res.statusCode === 200) {
+          setMyWallet(res as unknown as IWallet);
+        }
+      })
+      .catch(() => {
+        setIsLoading(false);
+      })
+  }
+
   useEffect(() => {
     _getTransaction()
-  }, [])
+    _getWallet()
+  }, [isFocus])
 
   return (
     <View style={styles.container}>
@@ -99,7 +116,11 @@ function WalletScreen(props: any) {
         <Text style={styles.title}>Payment History</Text>
         <View style={styles.historyContainer}>
           <FlatList
-            data={transactions ? transactions : []}
+            data={transactions ? transactions.sort((a, b) =>
+              moment(a.updatedAt).isBefore(moment(b.updatedAt)) ? 1 : -1
+            )
+              : []}
+
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => <PaymentHistoryItem item={item} />}
             style={styles.list}
