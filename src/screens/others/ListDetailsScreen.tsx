@@ -70,13 +70,24 @@ function ListDetailsScreen(props: any) {
             <ListProductItem
               onPressDecrease={() => {
                 let something = JSON.parse(JSON.stringify(data));
-                something[index].qty++;
+                something[index].qty--;
+                console.log('something', something);
                 setData(something);
+                setUpdateMyListItems({
+                  ...updateMyListItems,
+                  [list._id]: something,
+                });
               }}
               onPressIncrease={() => {
                 let something = JSON.parse(JSON.stringify(data));
                 something[index].qty++;
+                console.log('something', something);
                 setData(something);
+                setUpdateMyListItems({
+                  ...updateMyListItems,
+                  [list._id]: something,
+                });
+                // setUpdateMyListItems(something);
               }}
               item={item}
             />
