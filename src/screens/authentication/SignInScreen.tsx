@@ -57,7 +57,7 @@ function SignInScreen(props: any) {
             });
           props.navigation.navigate(Constants.TabNavigation);
         } else {
-          Alert.alert(res.message ? res.message : 'Something went wrong');
+          Alert.alert(res.error ? res.error : 'Something went wrong');
         }
       })
       .catch(() => {
