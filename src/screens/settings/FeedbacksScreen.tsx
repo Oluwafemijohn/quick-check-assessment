@@ -30,13 +30,13 @@ function FeedbacksScreen(props: any) {
           title={TextConstant.Complaint}
           itemNumber={2}
         />
-        <FeedbackItems
+        {/* <FeedbackItems
           onPress={() => {
             props.navigation.navigate(Constants.ProductRequestScreen);
           }}
           title={TextConstant.Productrequest}
           itemNumber={3}
-        />
+        /> */}
       </View>
     </View>
   );
