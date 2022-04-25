@@ -53,14 +53,14 @@ function SettingsScreen(props: any) {
             )}
           />
           <View style={styles.bottomContainer}>
-            <SettingsItems
+            {/* <SettingsItems
               onPress={() => {
                 props.navigation.navigate(Constants.NotificationScreen);
               }}
               title={TextConstant.Notifications}
               notificationCount={3}
               itemNumber={1}
-            />
+            /> */}
             <SettingsItems
               onPress={() => {
                 props.navigation.navigate(Constants.WalletScreen);
