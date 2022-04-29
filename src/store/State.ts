@@ -1,9 +1,9 @@
 import {atom} from 'recoil';
 import {LOGIN_RESPONSE_CACHE_KEY} from '../constants/ConstantString';
 import {
+  ICreateSubscriptionResponse,
   IGetListResponse,
   IGetUser,
-  IList,
   IProductDashboard,
   IProductsByCategoryNameResponse,
   IUpdateList,
@@ -90,6 +90,23 @@ export const wallet = atom<IWallet>({
       createdAt: '',
       updatedAt: '',
       __v: 0,
+    },
+  },
+});
+
+export const subscribedPlans = atom<ICreateSubscriptionResponse>({
+  key: 'subscribedPlans',
+  default: {
+    subscription: {
+      _id: '',
+      plan: '',
+      price: 0,
+      expireDate: '',
+      user: '',
+      createdAt: '',
+      updatedAt: '',
+      __v: 0,
+      features: [],
     },
   },
 });
