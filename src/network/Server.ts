@@ -261,3 +261,11 @@ export const getTransaction = () => {
     route: `${BASE_URL_AND_TAIL}/transaction/me`,
   });
 };
+
+export const getMySubscription = () => {
+  return requestClan({
+    type: 'GET',
+    isSecure: true,
+    route: `${BASE_URL_AND_TAIL}/subscribe/my_sub`,
+  });
+};
