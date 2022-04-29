@@ -215,6 +215,7 @@ function CategoryScreen(props: any) {
                 <Text style={styles.categoryText}>{item.categoryName}</Text>
               </Pressable>
             )}
+            ListEmptyComponent={() => (<EmptyList text='No match' />)}
           />
         }
 
