@@ -36,10 +36,11 @@ function OTPScreen(props: any) {
     })
       .then(res => {
         setIsLoading(false);
+        console.log('res', res);
         if (res.statusCode === 200) {
           props.navigation.navigate(Constants.SignUpSuccessfulScreen);
         } else {
-          Alert.alert(res.message ? res.message : 'Something went wrong');
+          Alert.alert(res.msg ? res.msg : 'Something went wrong');
         }
       })
       .catch(() => {
@@ -52,11 +53,10 @@ function OTPScreen(props: any) {
     await sendOtp({
       email: email,
     }).then(res => {
-      console.log('res', res);
       if (res.statusCode === 200) {
         Alert.alert(res.message ? res.message : 'Otp sent successfully');
       } else {
-        Alert.alert(res.message ? res.message : 'Something went wrong');
+        Alert.alert(res.msg ? res.msg : 'Something went wrong');
       }
     });
   };
