@@ -435,3 +435,19 @@ export interface ITransaction {
   updatedAt: string;
   __v: string;
 }
+
+export interface ICreateSubscriptionResponse {
+  subscription: ISubscription;
+}
+
+export interface ISubscription {
+  _id: string;
+  plan: string;
+  price: number;
+  expireDate: string;
+  user: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  features: string[];
+}
