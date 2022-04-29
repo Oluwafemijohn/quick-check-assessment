@@ -53,7 +53,7 @@ function SignUpPasswordScreen(props: any) {
         if (res.statusCode === 201) {
           props.navigation.navigate(Constants.OTPScreen, data.email);
         } else {
-          Alert.alert(res.message ? res.message : 'Something went wrong');
+          Alert.alert(res.error ? res.error : 'Something went wrong');
         }
       })
       .catch(() => {
