@@ -86,7 +86,7 @@ export const formatCurrencyWithDecimalWithoutSign = (
   let num = typeof amount === 'string' ? parseFloat(amount) : amount;
 
   if (num === 0 || isNullOrUndefined(num)) {
-    return '₦ 0';
+    return '0';
   }
 
   const currFormat = currencyFormat(num!);
