@@ -1,7 +1,7 @@
 import { Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import * as Yup from 'yup';
 import AppButton from '../../components/form/AppButton';
 import AppPicker from '../../components/form/AppPicker';
@@ -14,7 +14,7 @@ import common from '../../constants/common';
 import { deliveryDetails, weekDays } from '../../constants/ConstantString';
 import TextConstant from '../../constants/TextConstant';
 import { getUser, updateUser } from '../../network/Server';
-import { loginResponseState, userDetails } from '../../store/State';
+import { loginResponseState, subscribedPlans, userDetails } from '../../store/State';
 import { IGetUser, IUpdateUser } from '../../types/Type';
 import { isNullOrUndefined, titleCase } from '../../utilities';
 
@@ -43,46 +43,26 @@ const validationSchema = Yup.object({
 function EditProfileScreen(props: any) {
   const [loginResponse, setLoginResponse] = useRecoilState(loginResponseState);
   const [isLoading, setIsLoading] = useState(false);
-  // const [user, setUser] = useState<IGetUser>();
   const [user, setUser] = useRecoilState(userDetails)
+  const subscription = useRecoilValue(subscribedPlans);
 
-
-
-  // const [open, setOpen] = useState(false);
-  // const [location, setLocation] = useState('');
-  // const [weekDay, setWeekDay] = useState('');
-  // const [err, setErr] = useState({
-  //   location: '',
-  //   weekDay: '',
-  // });
-
-  // const signUpDetails = {
-  //   firstname: '',
-  //   lastname: '',
-  //   email: '',
-  //   phoneNumber: '',
-  //   deliveryAddress: '',
-  //   state: '',
-  // };
-
-  console.log('====================================');
-  console.log('user', user?.user.firstname);
-  console.log('====================================');
 
   const [open, setOpen] = useState(false);
-  const [location, setLocation] = useState(isNullOrUndefined(user) && isNullOrUndefined(user?.user.deliveryDetails) ? '' : user?.user.deliveryDetails.location);
-  const [weekDay, setWeekDay] = useState(isNullOrUndefined(user) || isNullOrUndefined(user?.user.deliveryDetails) ? '' : user?.user.deliveryDetails.deliveryDay);
+  const [location, setLocation] = useState(isNullOrUndefined(user?.user.deliveryDetails) ? '' : user?.user.deliveryDetails.location);
+  const [weekDay, setWeekDay] = useState(isNullOrUndefined(user?.user.deliveryDetails) ? '' : user?.user.deliveryDetails.deliveryDay);
   const [err, setErr] = useState({
     location: '',
     weekDay: '',
   });
+
+
 
   const signUpDetails = {
     firstname: isNullOrUndefined(user) ? '' : user?.user.firstname,
     lastname: isNullOrUndefined(user) ? '' : user?.user.lastname,
     email: isNullOrUndefined(user) ? '' : user?.user.email,
     phoneNumber: isNullOrUndefined(user) ? '' : user?.user.phoneNumber,
-    deliveryAddress: isNullOrUndefined(user) && isNullOrUndefined(user?.user.deliveryDetails) ? '' : user?.user.deliveryDetails.deliveryAddress,
+    deliveryAddress: isNullOrUndefined(user?.user.deliveryDetails) ? '' : user?.user.deliveryDetails.deliveryAddress,
     state: '',
   };
 
@@ -127,6 +107,8 @@ function EditProfileScreen(props: any) {
       />
       {isLoading && <LoadingModal isLoading={isLoading} />}
       <SettingsTopPart
+        isSubscription={subscription.subscription ? true : false}
+        initials={loginResponse.firstname.charAt(0).toUpperCase() + loginResponse.lastname.charAt(0).toUpperCase()}
         title={titleCase(
           loginResponse.firstname + ' ' + loginResponse.lastname,
         )}
@@ -139,7 +121,7 @@ function EditProfileScreen(props: any) {
               lastname: !isNullOrUndefined(user) ? user?.user.lastname : '',
               email: isNullOrUndefined(user) ? '' : user?.user.email,
               phoneNumber: isNullOrUndefined(user) ? '' : user?.user.phoneNumber,
-              deliveryAddress: isNullOrUndefined(user) && isNullOrUndefined(user?.user.deliveryDetails) ? '' : user?.user.deliveryDetails.deliveryAddress,
+              deliveryAddress: isNullOrUndefined(user?.user.deliveryDetails) ? '' : user?.user.deliveryDetails.deliveryAddress,
               state: '',
             }}
             onSubmit={values => {
