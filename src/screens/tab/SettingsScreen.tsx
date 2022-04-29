@@ -8,15 +8,16 @@ import SettingsTopPart from '../../components/SettingsTopPart';
 import common from '../../constants/common';
 import Constants from '../../constants/Constants';
 import TextConstant from '../../constants/TextConstant';
-import { getUser } from '../../network/Server';
-import { loginResponseState, userDetails } from '../../store/State';
-import { IGetUser } from '../../types/Type';
+import { getMySubscription, getUser } from '../../network/Server';
+import { loginResponseState, subscribedPlans, userDetails } from '../../store/State';
+import { ICreateSubscriptionResponse, IGetUser } from '../../types/Type';
 import { titleCase } from '../../utilities';
 
 function SettingsScreen(props: any) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loginResponse, setLoginResponse] = useRecoilState(loginResponseState);
   const [user, setUser] = useRecoilState(userDetails)
+  const [subscription, setSubscription] = useRecoilState(subscribedPlans);
   const isFocus = useIsFocused()
 
   const _getUser = async () => {
@@ -31,8 +32,17 @@ function SettingsScreen(props: any) {
       .catch(() => { })
   }
 
+  const _getMySubscription = async () => {
+    await getMySubscription()
+      .then((res) => {
+        setSubscription(res as unknown as ICreateSubscriptionResponse)
+      })
+      .catch(() => { })
+  }
+
   useEffect(() => {
     _getUser();
+    _getMySubscription();
   }, [isFocus])
 
   return (
@@ -45,6 +55,8 @@ function SettingsScreen(props: any) {
       <ScrollView>
         <View style={styles.content}>
           <SettingsTopPart
+            isSubscription={subscription.subscription ? true : false}
+            initials={loginResponse.firstname.charAt(0).toUpperCase() + loginResponse.lastname.charAt(0).toUpperCase()}
             onPress={() => {
               props.navigation.navigate(Constants.EditProfileScreen);
             }}
