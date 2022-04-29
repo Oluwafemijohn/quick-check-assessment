@@ -129,7 +129,7 @@ function HomeScreen(props: any) {
               style={styles.nameInitials}
             >
               <Text style={styles.nameInitialsText}>{
-                loginResponse.firstname.charAt(0) + loginResponse.lastname.charAt(0)
+                loginResponse.firstname.charAt(0).toUpperCase() + loginResponse.lastname.charAt(0).toUpperCase()
               }</Text>
             </View>
             {/* <View style={styles.countCountainer}>
@@ -168,7 +168,7 @@ function HomeScreen(props: any) {
       >
         <View style={styles.container}>
           {isLoading && <LoadingModal isLoading={isLoading} />}
-          {myWallet === undefined || myWallet.wallet === undefined || myWallet.wallet.balance === undefined ? (
+          {myWallet.wallet.balance === 0 ? (
             <DashboardCarosel />
           ) : (
             <WalletComponent
@@ -313,7 +313,7 @@ const styles = StyleSheet.create({
   },
   nameInitialsText: {
     color: common.colors.darkCard,
-    fontSize: common.WP(7),
+    fontSize: common.WP(6),
     fontWeight: 'bold',
   },
   count: {
