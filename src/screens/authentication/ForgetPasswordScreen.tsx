@@ -37,7 +37,7 @@ function ForgetPasswordScreen(props: any) {
             email,
           );
         } else if (res.statusCode === 400) {
-          Alert.alert('Error', 'Invalid credentials');
+          Alert.alert(res.msg ? res.msg : 'Something went wrong');
         }
       })
       .catch(() => {
