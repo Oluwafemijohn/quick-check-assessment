@@ -18,9 +18,9 @@ import SubscribeSvgComponent from '../../components/svg/SubscribeSvgComponent';
 import SubscriptionSvgIcon from '../../components/svg/SubscriptionSvgIcon';
 import common from '../../constants/common';
 import TextConstant from '../../constants/TextConstant';
-import { createSubscription, getPlans, getWallet } from '../../network/Server';
-import { wallet } from '../../store/State';
-import { IPlan, IWallet } from '../../types/Type';
+import { createSubscription, getMySubscription, getPlans, getWallet } from '../../network/Server';
+import { subscribedPlans, wallet } from '../../store/State';
+import { ICreateSubscriptionResponse, IPlan, IWallet } from '../../types/Type';
 import { formatCurrencyWithDecimal, makeSentenceCase } from '../../utilities';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -33,6 +33,8 @@ function SubscriptionScreen(props: any) {
   const [plans, setPlans] = useState<IPlan>();
 
   const [myWallet, setMyWallet] = useRecoilState(wallet);
+  const [subscription, setSubscription] = useRecoilState(subscribedPlans);
+
 
   const snapPoints = useMemo(() => ['40%', '50%'], []);
   const bottomSheetRef = useRef<BottomSheetModal>(null);
@@ -52,10 +54,10 @@ function SubscriptionScreen(props: any) {
     })
       .then(res => {
         setIsLoading(false);
-        console.log('res', res);
         if (res.statusCode === 201) {
           Alert.alert('Success', res.msg);
           _getWallet();
+          _getMySubscription();
         } else {
           Alert.alert('Error', res.error);
         }
@@ -89,11 +91,24 @@ function SubscriptionScreen(props: any) {
       .catch(() => { })
   }
 
+  const _getMySubscription = async () => {
+    await getMySubscription()
+      .then((res) => {
+        setSubscription(res as unknown as ICreateSubscriptionResponse)
+      })
+      .catch(() => { })
+  }
+
   useEffect(() => {
     _getPlans();
   }, []);
 
+  // const myPlan = subscription.subscription;
   const myPlan = plans?.plan[0];
+
+  console.log('myPlan', myPlan);
+  console.log('subscription', subscription.subscription);
+
 
   return (
     <View style={styles.container}>
