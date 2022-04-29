@@ -14,9 +14,13 @@ import StartSvgSvgComponent from './svg/StarSvgComponent';
 function SettingsTopPart({
   title,
   onPress,
+  initials,
+  isSubscription
 }: {
   onPress?: () => void;
   title: string;
+  initials: string;
+  isSubscription?: boolean;
 }) {
   return (
     <View
@@ -28,14 +32,29 @@ function SettingsTopPart({
             : Dimensions.get('window').height * 0.25,
         },
       ]}>
-      <Image
+      {/* <Image
         source={require('../../assets/avatar.png')}
         style={styles.avatar}
-      />
+      /> */}
+      <View
+        style={styles.nameInitials}
+      >
+        <Text style={styles.nameInitialsText}>{initials}</Text>
+      </View>
       <Text style={styles.name}>{title}</Text>
+
       <View style={styles.membershipContainer}>
-        <StartSvgSvgComponent />
-        <Text style={styles.membership}>Member</Text>
+        {
+          isSubscription ? (
+            <>
+              <StartSvgSvgComponent />
+              <Text style={styles.membership}>Member</Text>
+            </>
+          ) : (
+            <Text style={styles.membership}>Not a member</Text>
+          )
+        }
+
       </View>
       {onPress && (
         <Pressable onPress={onPress} style={styles.editProfile}>
@@ -86,6 +105,19 @@ const styles = StyleSheet.create({
   editProfileText: {
     color: common.colors.black,
     marginHorizontal: common.W_2,
+  },
+  nameInitials: {
+    backgroundColor: common.colors.veryLighrGrey,
+    width: common.WP(20),
+    height: common.WP(20),
+    borderRadius: common.WP(10),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  nameInitialsText: {
+    color: common.colors.darkCard,
+    fontSize: common.WP(6),
+    fontWeight: 'bold',
   },
 });
 
