@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import common from '../constants/common';
 import EmptyListSvgComponent from './svg/EmptyListSvgComponent';
 
-function EmptyList() {
+function EmptyList({ text }: { text?: string }) {
 
   return (
     <View style={styles.container}>
@@ -13,7 +13,7 @@ function EmptyList() {
       </View>
       <Text style={[styles.text, {
         color: common.colors.black
-      }]}> No record yet</Text>
+      }]}> {text ? text : 'No record yet'}</Text>
     </View>
   );
 }
