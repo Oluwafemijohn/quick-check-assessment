@@ -41,7 +41,7 @@ function ForgetPasswordOTPScreen(props: any) {
         if (res.statusCode === 200) {
           props.navigation.navigate(Constants.PasswordResetScreen, email);
         } else {
-          Alert.alert(res.message ? res.message : 'Something went wrong');
+          Alert.alert(res.msg ? res.msg : 'Something went wrong');
         }
       })
       .catch(() => {
@@ -60,7 +60,7 @@ function ForgetPasswordOTPScreen(props: any) {
         if (res.statusCode === 200) {
           Alert.alert(res.message ? res.message : 'Otp sent successfully');
         } else {
-          Alert.alert(res.message ? res.message : 'Something went wrong');
+          Alert.alert(res.msg ? res.msg : 'Something went wrong');
         }
       })
       .catch(() => {
