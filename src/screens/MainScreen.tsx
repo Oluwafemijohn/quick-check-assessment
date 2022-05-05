@@ -331,13 +331,14 @@ function MainScreen(props: any) {
                             //@ts-ignore
                             data={list.filter(item => item !== 200 && item !== undefined)}
                             renderItem={({ item }) => (
-                                <>
-                                    <Text>
-                                        {
+                                <View style={styles.listContainer}>
+                                    <Text style={styles.name}>
+                                        Name{
                                             item.first_name + ' ' + item.last_name
                                         }
                                     </Text>
-                                </>)
+                                    <Text style={styles.email}>{item.email}</Text>
+                                </View>)
                             }
                             keyExtractor={(item, index) => index.toString()}
                         />
@@ -411,7 +412,22 @@ const styles = StyleSheet.create({
     },
     SecondBody: {
 
-    }
+    },
+    listContainer: {
+        marginHorizontal: common.WP(5),
+        marginVertical: common.WP(2),
+        borderBottomWidth: 1,
+        borderColor: common.colors.lightGrey,
+    },
+    name: {
+        fontSize: common.W_4,
+        color: common.colors.black,
+    },
+    email: {
+        fontSize: common.W_4,
+        color: common.colors.black,
+        marginTop: common.W_2,
+    },
 });
 
 export default MainScreen;
