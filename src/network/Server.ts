@@ -16,3 +16,12 @@ export const getUser = (body: IUser) => {
     data: body,
   });
 };
+
+export const getList = (token: string) => {
+  return requestClan({
+    type: 'GET',
+    route: `https://buyoncampus.pythonanywhere.com/api/user/list/`,
+    token: token,
+    isSecure: true,
+  });
+};

@@ -25,7 +25,7 @@ export const buildHeader = async (
   };
   if (secure) {
     Object.assign(header, {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Token ${token}`,
     });
   }
   return header;

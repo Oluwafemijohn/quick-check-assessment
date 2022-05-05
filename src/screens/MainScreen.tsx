@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Pressable, Text, Image, Alert } from 'react-native';
+import { View, StyleSheet, Pressable, Text, Image, Alert, FlatList } from 'react-native';
 import AppDatePicker2 from '../components/form/AppDatePicker2';
 import AppTextInput from '../components/form/AppTextInput';
 import HeaderBar from '../components/HeaderBar';
@@ -11,7 +11,8 @@ import { radioButtonsData } from '../constants/Constants';
 import AppTextInputPassWord from '../components/form/AppTextInputPassWord copy';
 import AppButton from '../components/form/AppButton';
 import { ScrollView } from 'react-native-gesture-handler';
-import { getUser, registerUser } from '../network/Server';
+import { getList, getUser, registerUser } from '../network/Server';
+import { IList } from '../types/Type';
 
 function MainScreen(props: any) {
     const [isFirstTab, setIsFirstTab] = useState(true);
@@ -29,6 +30,7 @@ function MainScreen(props: any) {
         address: '',
         username: '',
     });
+
 
 
 
@@ -64,6 +66,7 @@ function MainScreen(props: any) {
         }));
         setRadioButtons(radioButtonsArray);
     }
+    const [list, setList] = useState<IList[]>([]);
 
     const _createUser = async () => {
 
@@ -131,9 +134,7 @@ function MainScreen(props: any) {
             }
             await getUser(myData)
                 .then(res => {
-                    console.log('====================================');
-                    console.log(res);
-                    console.log('====================================');
+                    _getList(res.token)
                 })
                 .catch(err => { })
         } else {
@@ -141,6 +142,23 @@ function MainScreen(props: any) {
         }
 
     }
+
+    const _getList = async (token: string) => {
+        await getList(token)
+            .then(res => {
+                console.log('ressssss', res);
+
+                setList(Object.values(res));
+                // setList(Object.values(res).filter((item: IList) => {
+                //     return item.email !== undefined;
+                // }));
+            })
+            .catch(err => { })
+    }
+
+    console.log('====================================');
+    console.log('list', list);
+    console.log('====================================');
 
     return (
         <View style={styles.container} >
@@ -309,9 +327,20 @@ function MainScreen(props: any) {
                 )
 
                     : (
-                        <ScrollView>
-                            <View style={styles.SecondBody}></View>
-                        </ScrollView>
+                        <FlatList
+                            //@ts-ignore
+                            data={list.filter(item => item !== 200 && item !== undefined)}
+                            renderItem={({ item }) => (
+                                <>
+                                    <Text>
+                                        {
+                                            item.first_name + ' ' + item.last_name
+                                        }
+                                    </Text>
+                                </>)
+                            }
+                            keyExtractor={(item, index) => index.toString()}
+                        />
                     )
             }
         </View>
