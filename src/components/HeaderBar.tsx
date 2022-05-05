@@ -1,8 +1,8 @@
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import {Pressable, View, StyleSheet, Text} from 'react-native';
+import { Pressable, View, StyleSheet, Text } from 'react-native';
 import common from '../constants/common';
-import FilterIconSvgComponent from './svg/FilterIconSvgComponent';
+// import FilterIconSvgComponent from './svg/FilterIconSvgComponent';
 import GoBackArrorSvgComponent from './svg/GobackArrorwSvgComponent';
 
 function HeaderBar({
@@ -42,7 +42,8 @@ function HeaderBar({
             {actionText}
           </Text>
         ) : (
-          <FilterIconSvgComponent style={styles.rightAction} />
+          null
+          // <FilterIconSvgComponent style={styles.rightAction} />
         )}
       </Pressable>
     </View>
@@ -56,14 +57,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: common.colors.white,
-    shadowColor: common.colors.black,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    elevation: 6,
-    shadowOpacity: 0.25,
-    borderBottomColor: common.colors.lightLightGrey,
+    // shadowColor: common.colors.black,
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // elevation: 6,
+    // shadowOpacity: 0.25,
+    // borderBottomColor: common.colors.lightLightGrey,
   },
   gobackArrow: {
     resizeMode: 'contain',

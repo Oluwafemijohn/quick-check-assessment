@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import {
   TextInput,
   StyleSheet,
@@ -9,7 +9,7 @@ import {
   ImageSourcePropType,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {widthPercentageToDP as WP} from 'react-native-responsive-screen';
+import { widthPercentageToDP as WP } from 'react-native-responsive-screen';
 
 import colors from '../../constants/colors';
 import defaultStyle from '../../constants/defaultStyle';
@@ -44,7 +44,7 @@ function AppTextInputPassWord({
   const [securePassword, setSecurePassword] = useState(true);
   return (
     <>
-      <View style={[styles.container, {width}]}>
+      <View style={[styles.container, { width }]}>
         {countryCode && <Text style={styles.countryCode}>{countryCode}</Text>}
         <TextInput
           onBlur={onBlur}
@@ -69,7 +69,7 @@ function AppTextInputPassWord({
           Show
         </Text> */}
       </View>
-      {errors && <Text style={[styles.error, {width}]}>{errors}</Text>}
+      {errors && <Text style={[styles.error, { width }]}>{errors}</Text>}
     </>
   );
 }
@@ -84,6 +84,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
     borderColor: colors.lightGrey,
+    marginHorizontal: WP(5),
+    marginTop: WP(0),
   },
   icon: {
     marginRight: 10,

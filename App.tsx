@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import AppNavigation from './src/navigation/AppNavigation';
 import { NavigationContainer } from '@react-navigation/native';
 import { RecoilRoot } from 'recoil';
 import SplashScreen from 'react-native-splash-screen';
-
 import SafeAreaScreen from './src/components/SafeAreaScreen';
+import MainScreen from './src/screens/MainScreen';
 
 const App = () => {
   useEffect(() => {
@@ -16,7 +15,9 @@ const App = () => {
     <SafeAreaScreen>
       <RecoilRoot>
         <NavigationContainer>
-          <AppNavigation />
+          {/* <AppNavigation /> */}
+          {/* <Text>Hello</Text> */}
+          <MainScreen />
         </NavigationContainer>
       </RecoilRoot>
     </SafeAreaScreen>

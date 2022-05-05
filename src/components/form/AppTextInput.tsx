@@ -12,7 +12,6 @@ import { widthPercentageToDP as WP } from 'react-native-responsive-screen';
 import colors from '../../constants/colors';
 import common from '../../constants/common';
 import defaultStyle from '../../constants/defaultStyle';
-import EditSvgIcon from '../svg/EditSvgIcon';
 
 interface Props {
   width: number | undefined;
@@ -45,10 +44,8 @@ function AppTextInput({
   keyboardType,
   onChangeText,
   autoCapitalize,
-  icon = false,
   marginTop = 5,
   marginBottom = 5,
-  editIcon = false,
   backgroundColor = colors.white,
   textColor = colors.darkCard,
 }: Props) {
@@ -76,13 +73,6 @@ function AppTextInput({
           value={value}
           autoCapitalize={autoCapitalize}
         />
-        {icon && (
-          <Image
-            source={require('../../../assets/email-icon.png')}
-            style={styles.emailIcon}
-          />
-        )}
-        {editIcon && <EditSvgIcon />}
       </View>
       {errors && (
         <Text style={[styles.error, errorStyle, { width }]}>{errors}</Text>
@@ -98,9 +88,10 @@ const styles = StyleSheet.create({
     padding: WP(1),
     // marginVertical: WP(5),
     alignItems: 'center',
-    borderBottomWidth: 1,
-
+    // borderBottomWidth: 1,
     borderColor: colors.lightGrey,
+    borderWidth: 1,
+    borderRadius: common.W_2,
   },
   error: {
     color: colors.red,

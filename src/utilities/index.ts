@@ -50,11 +50,9 @@ export const isNullOrUndefined = (value: any) => {
 };
 
 export const formatNumberWhileTyping = (value: string) => {
-  // console.log('formatNumberWhileTyping', value );
   if (isNullOrUndefined(value) || value === '') {
     return '';
   }
-  // eslint-disable-next-line radix
   return parseInt(value.replace(/,/g, '')).toLocaleString();
 };
 

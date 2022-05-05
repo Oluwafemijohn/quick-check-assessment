@@ -1,7 +1,7 @@
 import {BaseResponse} from './api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {TOKEN} from '../constants/ConstantString';
 import {Alert} from 'react-native';
+import {TOKEN} from '../constants/Constants';
 
 // import RNFetchBlob from 'rn-fetch-blob';
 
@@ -15,8 +15,9 @@ import {Alert} from 'react-native';
 export const buildHeader = async (
   secure = false,
   // encrypted = false,
+  token = '',
 ): Promise<HeadersInit_> => {
-  const token = await AsyncStorage.getItem(TOKEN);
+  // const token = await AsyncStorage.getItem(TOKEN);
 
   let header = {
     'Content-Type': 'application/json',
@@ -110,6 +111,7 @@ export const requestClan = async <T>({
   queryParams,
   route,
   isSecure = false,
+  token,
 }: RequestObject): Promise<BaseResponse<T>> => {
   let response: Response | null = null;
 
@@ -134,11 +136,11 @@ export const requestClan = async <T>({
 
     response = await fetch(routePlusParams.trim(), {
       method: type,
-      headers: await buildHeader(isSecure),
+      headers: await buildHeader(isSecure, token),
       body,
     });
 
-    let header = await buildHeader(isSecure);
+    let header = await buildHeader(isSecure, token);
     console.log(route, '🔒 header', header);
 
     if (response) {
