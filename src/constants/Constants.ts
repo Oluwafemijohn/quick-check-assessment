@@ -9,7 +9,7 @@ export default Object.freeze({
 const styles = StyleSheet.create({
   ca: {
     borderWidth: 1,
-    borderColor: common.colors.silver,
+    borderColor: common.colors.text1,
     paddingVertical: common.W_3,
     width: common.WP(42),
     paddingLeft: common.W_2,

@@ -3,7 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { RecoilRoot } from 'recoil';
 import SplashScreen from 'react-native-splash-screen';
 import SafeAreaScreen from './src/components/SafeAreaScreen';
-import MainScreen from './src/screens/MainScreen';
+import MainScreen from './src/screens/Account';
+import AppTabNavigation from './src/navigations/AppTabNavigation';
 
 const App = () => {
   useEffect(() => {
@@ -15,9 +16,7 @@ const App = () => {
     <SafeAreaScreen>
       <RecoilRoot>
         <NavigationContainer>
-          {/* <AppNavigation /> */}
-          {/* <Text>Hello</Text> */}
-          <MainScreen />
+          <AppTabNavigation />
         </NavigationContainer>
       </RecoilRoot>
     </SafeAreaScreen>
