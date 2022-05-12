@@ -21,3 +21,13 @@ export const statementOfAccounts = [
     date: 'on Tue,15 Oct at 21:29',
   },
 ];
+
+export const monthData = [
+  '1 month',
+  '2 months',
+  '3 months',
+  '4 months',
+  '5 months',
+];
+
+export const typeData = ['Restock', 'Restock', 'Restock', 'Restock', 'Restock'];

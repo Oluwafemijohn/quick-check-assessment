@@ -54,6 +54,9 @@ function Credit(props: any) {
 
                     ))
                 }
+                <ImageBackground source={require('../../assets/getStarted.png')} style={styles.image2} >
+                    <Text style={styles.getStarted} >Get Started Now</Text>
+                </ImageBackground>
             </ScrollView>
         </View>
     );
@@ -79,6 +82,18 @@ const styles = StyleSheet.create({
         width: common.WP(81),
         height: common.WP(46),
         marginRight: common.W_2,
+    },
+    image2: {
+        width: common.WP(90),
+        height: common.WP(38),
+        marginRight: common.W_2,
+    },
+    getStarted: {
+        fontSize: common.W_3,
+        fontWeight: '600',
+        color: common.colors.blue,
+        marginTop: common.W_28,
+        marginLeft: common.W_22
     },
     yourSupplier: {
         fontSize: common.WP(3),

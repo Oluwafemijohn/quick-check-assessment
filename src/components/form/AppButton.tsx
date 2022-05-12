@@ -1,6 +1,6 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, ViewStyle} from 'react-native';
-import {widthPercentageToDP as WP} from 'react-native-responsive-screen';
+import { StyleSheet, Text, TouchableOpacity, ViewStyle } from 'react-native';
+import { widthPercentageToDP as WP } from 'react-native-responsive-screen';
 import colors from '../../constants/colors';
 import common from '../../constants/common';
 
@@ -21,12 +21,12 @@ export default function AppButton({
   style,
   width,
   onPress,
-  backgroundColor = common.colors.paleYellow,
+  backgroundColor = common.colors.buttonColor,
   marginTop = 4,
   marginBottom = 4,
-  borderColor = common.colors.paleYellow,
+  borderColor = common.colors.buttonColor,
 }: // submitting = false,
-Props) {
+  Props) {
   // const backgroundColor = submitting ? "grey" : colors.paleYellow;
 
   return (
@@ -50,7 +50,7 @@ Props) {
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 5,
+    borderRadius: WP('7%'),
     justifyContent: 'center',
     alignItems: 'center',
     padding: 15,
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   text: {
-    color: colors.primaryBlack,
+    color: colors.white,
     fontSize: WP('4.5%'),
     // fontWeight: 'bold',
   },

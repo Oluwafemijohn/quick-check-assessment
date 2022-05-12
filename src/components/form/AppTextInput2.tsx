@@ -34,7 +34,7 @@ interface Props {
   countryCode?: string;
 }
 
-function AppTextInput({
+function AppTextInput2({
   onBlur,
   placeholder,
   style,
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     // marginVertical: WP(5),
     alignItems: 'center',
     // borderBottomWidth: 1,
-    borderColor: colors.red,
+    borderColor: colors.activeTabText,
     borderWidth: 1,
     borderRadius: common.W_2,
   },
@@ -138,9 +138,8 @@ const styles = StyleSheet.create({
     marginLeft: WP(5),
   },
   countryCodeContainer: {
-    borderRightWidth: 1,
-    borderColor: colors.grey,
+
   }
 });
 
-export default AppTextInput;
+export default AppTextInput2;

@@ -5,6 +5,7 @@ import SplashScreen from 'react-native-splash-screen';
 import SafeAreaScreen from './src/components/SafeAreaScreen';
 import MainScreen from './src/screens/Account';
 import AppTabNavigation from './src/navigations/AppTabNavigation';
+import AppNavigation from './src/navigations/OnboardingNavigation';
 
 const App = () => {
   useEffect(() => {
@@ -16,7 +17,7 @@ const App = () => {
     <SafeAreaScreen>
       <RecoilRoot>
         <NavigationContainer>
-          <AppTabNavigation />
+          <AppNavigation />
         </NavigationContainer>
       </RecoilRoot>
     </SafeAreaScreen>

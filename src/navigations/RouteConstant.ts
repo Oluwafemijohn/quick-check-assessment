@@ -4,4 +4,8 @@ export default Object.freeze({
   Credit: 'Credit',
   Order: 'Order',
   Account: 'Account',
+  AppTabNavigation: 'AppTabNavigation',
+  RepaymentPlanScreen: 'RepaymentPlanScreen',
+  PinScreen: 'PinScreen',
+  FaceIdScreen: 'FaceIdScreen',
 });

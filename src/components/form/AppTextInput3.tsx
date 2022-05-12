@@ -31,7 +31,6 @@ interface Props {
   editIcon?: boolean;
   backgroundColor?: string;
   textColor?: string;
-  countryCode?: string;
 }
 
 function AppTextInput({
@@ -49,24 +48,7 @@ function AppTextInput({
   marginBottom = 5,
   backgroundColor = colors.white,
   textColor = common.colors.text1,
-  countryCode,
 }: Props) {
-
-  const placeholderStyle = StyleSheet.create({
-    placeholder: {
-      position: 'absolute',
-      left: 0,
-      top: WP(-8),
-      fontSize: WP('3.5%'),
-      // bottom: WP(),
-      color: common.colors.grey,
-      marginTop: WP(5),
-      backgroundColor: colors.white,
-      marginLeft: WP(5),
-      paddingHorizontal: WP(1),
-    },
-  });
-
   return (
     <View
       style={[
@@ -76,13 +58,7 @@ function AppTextInput({
           marginBottom: common.WP(marginBottom),
         },
       ]}>
-
       <View style={[styles.container, { width, backgroundColor }, style]}>
-        {countryCode && <View style={styles.countryCodeContainer} >
-          <Text style={[styles.countryCode, { color: common.colors.text1 }]}>{countryCode}</Text>
-        </View>}
-        <Text style={placeholderStyle.placeholder}>{placeholder}</Text>
-
         <TextInput
           onBlur={onBlur}
           onChangeText={onChangeText}
@@ -113,7 +89,7 @@ const styles = StyleSheet.create({
     // marginVertical: WP(5),
     alignItems: 'center',
     // borderBottomWidth: 1,
-    borderColor: colors.red,
+    borderColor: colors.activeTabText,
     borderWidth: 1,
     borderRadius: common.W_2,
   },
@@ -132,15 +108,6 @@ const styles = StyleSheet.create({
   emailIcon: {
     resizeMode: 'contain',
   },
-  countryCode: {
-    fontSize: WP(4),
-    paddingRight: WP(1),
-    marginLeft: WP(5),
-  },
-  countryCodeContainer: {
-    borderRightWidth: 1,
-    borderColor: colors.grey,
-  }
 });
 
 export default AppTextInput;

@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Pressable, View, StyleSheet, Text } from 'react-native';
+import { Pressable, View, StyleSheet, Text, Image } from 'react-native';
 import common from '../constants/common';
 // import FilterIconSvgComponent from './svg/FilterIconSvgComponent';
 import GoBackArrorSvgComponent from './svg/GobackArrorwSvgComponent';
@@ -11,12 +11,16 @@ function HeaderBar({
   onPressActionText,
   title,
   notificationCount,
+  close,
+  goBack
 }: {
   onPress?: () => void;
   onPressActionText?: () => void;
   actionText?: string;
   title?: string;
   notificationCount?: number;
+  close?: boolean;
+  goBack?: boolean;
 }) {
   const navigation = useNavigation();
 
@@ -26,7 +30,14 @@ function HeaderBar({
         onPress={() => {
           navigation.goBack();
         }}>
-        <GoBackArrorSvgComponent style={styles.gobackArrow} />
+        {/* <GoBackArrorSvgComponent style={styles.gobackArrow} /> */}
+
+        {
+          goBack &&
+
+          <Image source={require('../../assets/chevron-left.png')} style={styles.image} />
+        }
+
       </Pressable>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>{title}</Text>
@@ -45,6 +56,14 @@ function HeaderBar({
           null
           // <FilterIconSvgComponent style={styles.rightAction} />
         )}
+
+        {
+          close && (
+            <Image source={require('../../assets/close1.png')} style={styles.imageClose} />
+          )
+        }
+
+
       </Pressable>
     </View>
   );
@@ -57,14 +76,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: common.colors.white,
-    // shadowColor: common.colors.black,
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2,
-    // },
-    // elevation: 6,
-    // shadowOpacity: 0.25,
-    // borderBottomColor: common.colors.lightLightGrey,
+    shadowColor: common.colors.grey,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    elevation: 6,
+    shadowOpacity: 0.25,
   },
   gobackArrow: {
     resizeMode: 'contain',
@@ -77,7 +95,7 @@ const styles = StyleSheet.create({
   actionText: {
     marginRight: common.W_5,
     fontSize: common.W_4,
-    color: common.colors.lightGreen,
+    color: common.colors.grey2,
   },
   title: {
     fontSize: common.W_4,
@@ -94,10 +112,19 @@ const styles = StyleSheet.create({
     height: common.W_5,
     width: common.W_5,
     borderRadius: common.W_5,
-    backgroundColor: common.colors.lightPurple,
+    backgroundColor: common.colors.grey2,
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: common.W_2,
+  },
+  image: {
+    width: 20,
+    height: 20,
+    marginLeft: common.W_5,
+  },
+  imageClose: {
+    width: common.W_2,
+    height: common.W_2,
   },
 });
 
