@@ -2,8 +2,6 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Pressable, View, StyleSheet, Text, Image } from 'react-native';
 import common from '../constants/common';
-// import FilterIconSvgComponent from './svg/FilterIconSvgComponent';
-import GoBackArrorSvgComponent from './svg/GobackArrorwSvgComponent';
 
 function HeaderBar({
   onPress,

@@ -86,19 +86,19 @@ function AppCamera({
 }
 const styles = StyleSheet.create({
   cameraContainer: {
-    width: common.WP(70),
+    width: common.WP(100),
     alignSelf: 'center',
   },
   camera: {
-    width: common.WP(60),
-    height: common.HP(40),
+    width: common.WP(100),
+    height: common.HP(80),
     alignSelf: 'center',
   },
   capture: {
     width: common.WP(15),
     height: common.WP(15),
     alignSelf: 'center',
-    backgroundColor: common.colors.white,
+    backgroundColor: common.colors.blue,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: common.WP(10),
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     borderRadius: common.WP(8),
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: common.colors.blue,
+    backgroundColor: common.colors.white,
   },
   emptyButton: {
     width: common.WP(10),
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     width: common.WP(18),
     height: common.WP(18),
     borderRadius: common.WP(9),
-    backgroundColor: common.colors.white,
+    backgroundColor: common.colors.blue,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -156,6 +156,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    // backgroundColor: common.colors.blue,
   },
 });
 

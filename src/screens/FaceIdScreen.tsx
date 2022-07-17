@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import AppCamera from '../components/AppCamera';
 import CameraPreview from '../components/CameraPreview';
 import AppButton from '../components/form/AppButton';
 import HeaderBar from '../components/HeaderBar';
+import AllGood from '../components/svg/AllGood';
 import FaceIdPart from '../components/svg/FaceIdPart';
 import common from '../constants/common';
+import RouteConstant from '../navigations/RouteConstant';
 
 function FaceIdScreen(props: any) {
     const [isGetStarted, setIsGetStarted] = useState(false);
@@ -36,7 +38,7 @@ function FaceIdScreen(props: any) {
                 )
             }
             {
-                isGetStarted && (
+                isGetStarted && !previewVisible && (
                     <AppCamera
                         setIsLoading={setIsLoading}
                         setCapturedImage={(data: any) => {
@@ -48,10 +50,31 @@ function FaceIdScreen(props: any) {
             }
             {
                 previewVisible && (
-                    <CameraPreview
-                        style={styles.capturedImage}
-                        photo={capturedImage}
-                    />)
+                    <>
+                        <HeaderBar title='Security' actionText=' ' close />
+
+                        <Text style={styles.setu} >Setup face lock</Text>
+
+                        <CameraPreview
+                            style={styles.capturedImage}
+                            photo={capturedImage}
+                        />
+
+                        <AllGood style={styles.allgood} />
+                        <AppButton
+                            style={styles.button}
+                            title="DONE"
+                            onPress={() => {
+                                // setIsGetStarted(true);
+                                props.navigation.navigate(RouteConstant.FastOrder);
+                            }}
+                            width={90}
+                            backgroundColor={common.colors.activeTabText}
+                            borderColor={common.colors.activeTabText}
+                        />
+                    </>
+                )
+
             }
         </View>
     );
@@ -70,11 +93,30 @@ const styles = StyleSheet.create({
         top: common.HP(30),
         alignSelf: 'center',
     },
+    // capturedImage: {
+    //     width: common.WP(50),
+    //     height: common.HP(50),
+    //     alignSelf: 'center',
+    //     marginTop: common.WP(10),
+    //     borderRadius: common.WP(25),
+    //     alignItems: 'center',
+    // },
     capturedImage: {
-        width: common.WP(70),
-        height: common.HP(40),
+        width: common.WP(50),
+        height: common.WP(50),
         alignSelf: 'center',
+        borderRadius: common.WP(25),
     },
+    setu: {
+        fontSize: common.WP(4),
+        color: common.colors.black,
+        alignSelf: 'center',
+        marginTop: common.WP(10),
+    },
+    allgood: {
+        alignSelf: 'center',
+        marginTop: common.WP(10),
+    }
 })
 
 export default FaceIdScreen;
