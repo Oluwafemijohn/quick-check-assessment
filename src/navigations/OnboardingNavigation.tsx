@@ -6,6 +6,10 @@ import AppTabNavigation from './AppTabNavigation';
 import RepaymentPlanScreen from '../screens/RepaymentPlanScreen';
 import PinScreen from '../screens/PinScreen';
 import FaceIdScreen from '../screens/FaceIdScreen';
+import RegisterScreen from '../screens/RegisterScreen';
+import LoginScreen from '../screens/LoginScreen';
+import GetStartedScreen from '../screens/GetStartedScreen';
+
 
 
 const Stack = createNativeStackNavigator();
@@ -15,20 +19,42 @@ function AppNavigation() {
     return (
         <Stack.Navigator>
             <Stack.Screen
+                name={RouteConstant.GetStarted}
+                component={GetStartedScreen}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name={RouteConstant.RegisterScreen}
+                component={RegisterScreen}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name={RouteConstant.LoginScreen}
+                component={LoginScreen}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
                 name={RouteConstant.AppTabNavigation}
                 component={AppTabNavigation}
                 options={{
                     headerShown: false,
                 }}
             />
-            <Stack.Screen
+
+            {/* <Stack.Screen
                 name={RouteConstant.RepaymentPlanScreen}
                 component={RepaymentPlanScreen}
                 options={{
                     headerShown: false,
                 }}
-            />
-            <Stack.Screen
+            /> */}
+            {/* <Stack.Screen
                 name={RouteConstant.PinScreen}
                 component={PinScreen}
                 options={{
@@ -41,7 +67,7 @@ function AppNavigation() {
                 options={{
                     headerShown: false,
                 }}
-            />
+            /> */}
         </Stack.Navigator>
     );
 }

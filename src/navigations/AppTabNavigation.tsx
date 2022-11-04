@@ -63,7 +63,7 @@ function AppTabNavigation() {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name={RouteConstant.Credit}
         component={Credit}
         options={{
@@ -111,7 +111,7 @@ function AppTabNavigation() {
             </View>
           ),
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }

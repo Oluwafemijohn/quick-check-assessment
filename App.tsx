@@ -15,11 +15,9 @@ const App = () => {
 
   return (
     <SafeAreaScreen>
-      <RecoilRoot>
-        <NavigationContainer>
-          <AppNavigation />
-        </NavigationContainer>
-      </RecoilRoot>
+      <NavigationContainer>
+        <AppNavigation />
+      </NavigationContainer>
     </SafeAreaScreen>
   );
 };

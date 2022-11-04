@@ -46,6 +46,7 @@
     "react-native-web": "0.17.1",
     "react-native-webview": "^11.18.1",
     "recoil": "^0.6.1",
+    "redux": "^4.2.0",
     "rn-fetch-blob": "^0.12.0",
     "willow-code-input": "1.0.0",
     "yup": "^0.32.11"
