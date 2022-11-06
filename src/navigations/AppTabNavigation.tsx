@@ -6,15 +6,11 @@ import { StyleSheet } from 'react-native';
 import Home from '../screens/Home';
 import RouteConstant from './RouteConstant';
 import HomeIcon from '../assets/svg/HomeIcon';
-import FastOrder from '../screens/FastOrder';
-import Credit from '../screens/Credit';
-import Orders from '../screens/Orders';
-import Account from '../screens/Account';
 import common from '../constants/common';
-import CreditIcon from '../assets/svg/Credit';
 import FastOrderIcon from '../assets/svg/FastOrderIcon';
-import OrderIcon from '../assets/svg/OrderIcon';
-import AccountIcon from '../assets/svg/AccountIcon';
+import MovieList from '../screens/MovieList';
+import AboutMe from '../screens/AboutMe';
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 
 
@@ -39,6 +35,7 @@ function AppTabNavigation() {
           tabBarIcon: ({ focused }) => (
             <View style={styles.tabIconContainer}>
               <HomeIcon style={styles.tabIcon1} />
+              {/* <AwesomeIcon name="home" size={30} color={focused ? common.colors.primary : common.colors.grey300} /> */}
               <Text
                 style={styles.tabIconTextActive1}>
                 Home
@@ -48,8 +45,8 @@ function AppTabNavigation() {
         }}
       />
       <Tab.Screen
-        name={RouteConstant.FastOrder}
-        component={FastOrder}
+        name={RouteConstant.MovieList}
+        component={MovieList}
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => (
@@ -57,7 +54,22 @@ function AppTabNavigation() {
               <FastOrderIcon style={styles.tabIcon1} />
               <Text
                 style={styles.tabIconTextActive2}>
-                Fast Order
+                Movies
+              </Text>
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={RouteConstant.AboutMe}
+        component={AboutMe}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <View style={styles.tabIconContainer}>
+              <Text
+                style={styles.tabIconTextActive}>
+                About me
               </Text>
             </View>
           ),

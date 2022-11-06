@@ -18,6 +18,8 @@ target 'sherz' do
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
 
 
+  # pod 'React', :path => '../node_modules/react-native/'
+  pod 'react-native-sqlite-storage', :path => '../node_modules/react-native-sqlite-storage'
   target 'sherzTests' do
     inherit! :complete
     # Pods for testing

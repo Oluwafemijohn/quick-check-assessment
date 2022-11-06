@@ -6,38 +6,5 @@ export default Object.freeze({
   MainScreen: 'MainScreen',
 });
 
-const styles = StyleSheet.create({
-  ca: {
-    borderWidth: 1,
-    borderColor: common.colors.text1,
-    paddingVertical: common.W_3,
-    width: common.WP(42),
-    paddingLeft: common.W_2,
-    borderRadius: common.W_2,
-    marginLeft: common.WP(-0.3),
-    marginRight: common.WP(6),
-    marginTop: common.WP(-4),
-  },
-});
-
-export const radioButtonsData: RadioButtonProps[] = [
-  {
-    id: '1', // acts as primary key, should be unique and non-empty string
-    label: 'Male',
-    value: 'Male',
-    size: 25,
-    containerStyle: styles.ca,
-    // layout: 'row',
-  },
-  {
-    id: '2',
-    label: 'Female',
-    value: 'Female',
-    size: 25,
-    containerStyle: styles.ca,
-  },
-];
-
-export const TOKEN = '@TOKEN';
-
-export const CELL_COUNT = 4;
+export const API_KEY = '?api_key=bfe631c7700624141238e2a2c58fbec7';
+export const img_300 = 'https://image.tmdb.org/t/p/w300';

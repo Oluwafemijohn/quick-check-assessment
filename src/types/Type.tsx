@@ -1,21 +1,25 @@
-export interface IUser {
-  first_name: string;
-  last_name: string;
+
+
+
+export interface ILogin {
+  id: number;
   email: string;
   password: string;
-  dob: string;
-  address: string;
-  user_type: string;
-  gender: string;
 }
 
-export interface IList {
-  address: string;
-  email: string;
-  first_name: string;
+export interface IMovieList {
+  poster_path: string;
+  adult: boolean;
+  overview: string;
+  release_date: string;
+  genre_ids: number[];
   id: number;
-  last_name: string;
-  phone_number: string;
-  user_type: string;
-  username: string;
+  original_title: string;
+  original_language: string;
+  title: string;
+  backdrop_path: null | string;
+  popularity: number;
+  vote_count: number;
+  video: boolean;
+  vote_average: number;
 }

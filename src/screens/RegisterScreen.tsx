@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, View } from 'react-native'
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { AppText as Text } from '../components/AppText'
 import KeyboardAvoidingViewAndKeyBoardDisMiss from '../components/KeyboardAvoidingViewAndKeyBoardDisMiss'
 import { Formik } from 'formik';
@@ -9,6 +9,10 @@ import RouteConstant from '../navigations/RouteConstant';
 import common from '../constants/common';
 import AppTextInput4 from '../components/form/AppTextInput4';
 import AppTextInputPassWord4 from '../components/form/AppTextInputPassWord4';
+import { ILogin } from '../types/Type';
+import { createTable, getDBConnection, getUser, saveUser, updateUser } from '../db/db-service';
+import { useIsFocused } from '@react-navigation/native';
+
 
 
 
@@ -31,6 +35,71 @@ const validationSchema = Yup.object({
 });
 
 export default function RegisterScreen(props: any) {
+    const [user, setUser] = useState<ILogin[]>([]);
+    const [newUser, setNewUser] = useState<ILogin>({
+        id: 1,
+        email: '',
+        password: '',
+    });
+
+
+    const loadDataCallback = useCallback(async () => {
+        try {
+            const initTodos = [{
+                id: 1,
+                email: 'admin',
+                password: 'admin',
+            }];
+            const db = await getDBConnection();
+            await createTable(db);
+            const storedTodoItems = await getUser(db);
+            if (storedTodoItems.length > 0) {
+                setUser(storedTodoItems);
+            } else {
+                // await saveUser(db, initTodos);
+                setUser(initTodos);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }, []);
+
+    useEffect(() => {
+        loadDataCallback();
+    }, [loadDataCallback]);
+
+    const addUser = async (newUser: ILogin) => {
+        // if (!newTodo.trim()) return;
+        try {
+            // const newTodos = [{
+            //     id: user.reduce((acc, cur) => {
+            //         if (cur.id > acc.id) return cur;
+            //         return acc;
+            //     }).id + 1,
+            //     email: newUser.email,
+            //     password: newUser.password,
+            // }];
+            // setTodos(newTodos);
+            const db = await getDBConnection();
+            await saveUser(db, newUser);
+            props.navigation.navigate(RouteConstant.LoginScreen);
+            // setNewTodo('');
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const _updateUser = async (newUser: ILogin) => {
+        try {
+            const db = await getDBConnection();
+            await createTable(db);
+            await updateUser(db, newUser);
+            props.navigation.navigate(RouteConstant.LoginScreen);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
         <View style={styles.container}>
             <ScrollView>
@@ -41,10 +110,20 @@ export default function RegisterScreen(props: any) {
                     <Formik
                         initialValues={passwordDetails}
                         onSubmit={values => {
-                            // _signIn({
-                            //     email: values.email,
-                            //     password: values.password,
-                            // })
+                            if (user.length === 0) {
+                                addUser({
+                                    id: 1,
+                                    email: values.email,
+                                    password: values.password,
+                                });
+                            } else {
+                                _updateUser({
+                                    id: user[0].id,
+                                    email: values.email,
+                                    password: values.password,
+                                })
+                            }
+
                         }}
                         validationSchema={validationSchema}>
                         {({
@@ -90,9 +169,9 @@ export default function RegisterScreen(props: any) {
                                             marginTop={2}
                                             icon={true}
                                         />
-                                        <Text
+                                        {/* <Text
                                             //@ts-ignore
-                                            onPress={() => props.navigation.navigate(RouteConstant.ForgetPasswordScreen)} style={styles.forgetPassword} >Forgot password?</Text>
+                                            onPress={() => props.navigation.navigate(RouteConstant.ForgetPasswordScreen)} style={styles.forgetPassword} >Forgot password?</Text> */}
 
                                         <AppButton
                                             style={styles.button}

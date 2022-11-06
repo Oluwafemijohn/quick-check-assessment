@@ -1,5 +1,5 @@
-import { ScrollView, StyleSheet, View } from 'react-native'
-import React from 'react'
+import { Alert, ScrollView, StyleSheet, View } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
 import { AppText as Text } from '../components/AppText'
 import KeyboardAvoidingViewAndKeyBoardDisMiss from '../components/KeyboardAvoidingViewAndKeyBoardDisMiss'
 import { Formik } from 'formik';
@@ -9,7 +9,9 @@ import RouteConstant from '../navigations/RouteConstant';
 import common from '../constants/common';
 import AppTextInput4 from '../components/form/AppTextInput4';
 import AppTextInputPassWord4 from '../components/form/AppTextInputPassWord4';
-
+import { createTable, deleteTable, getDBConnection, getUser, saveUser } from '../db/db-service';
+import { ILogin } from '../types/Type';
+import { useIsFocused } from '@react-navigation/native';
 
 
 
@@ -31,6 +33,57 @@ const validationSchema = Yup.object({
 });
 
 export default function LoginScreen(props: any) {
+
+    const [user, setUser] = useState<ILogin[]>([]);
+
+    const isFocused = useIsFocused();
+
+
+    const loadDataCallback = useCallback(async () => {
+        try {
+            const initTodos = {
+                id: 1,
+                email: 'admin',
+                password: 'admin',
+            };
+            const db = await getDBConnection();
+            // deleteTable(db);
+            await createTable(db);
+            const storedTodoItems = await getUser(db);
+            console.log('storedTodoItems', storedTodoItems);
+
+            if (storedTodoItems.length > 0) {
+                setUser(storedTodoItems);
+                // checkUser(storedTodoItems[0].email, storedTodoItems[0].password);
+            } else {
+                await saveUser(db, initTodos);
+                setUser([initTodos]);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }, []);
+
+    useEffect(() => {
+        loadDataCallback();
+    }, [loadDataCallback, isFocused]);
+
+    const checkUser = (email: string, password: string) => {
+        if (user[0].email === email && user[0].password === password) {
+            props.navigation.navigate(RouteConstant.AppTabNavigation);
+        } else {
+            Alert.alert("Error", "Email or Password is incorrect");
+        }
+    }
+
+    const forgetPassword = async () => {
+        const db = await getDBConnection();
+        deleteTable(db);
+        props.navigation.navigate(RouteConstant.RegisterScreen);
+    }
+
+
+
     return (
         <View style={styles.container}>
             <ScrollView>
@@ -42,10 +95,7 @@ export default function LoginScreen(props: any) {
                     <Formik
                         initialValues={passwordDetails}
                         onSubmit={values => {
-                            // _signIn({
-                            //     email: values.email,
-                            //     password: values.password,
-                            // })
+                            checkUser(values.email, values.password);
                         }}
                         validationSchema={validationSchema}>
                         {({
@@ -93,7 +143,7 @@ export default function LoginScreen(props: any) {
                                         />
                                         <Text
                                             //@ts-ignore
-                                            onPress={() => props.navigation.navigate(RouteConstant.ForgetPasswordScreen)} style={styles.forgetPassword} >Forgot password?</Text>
+                                            onPress={() => forgetPassword()} style={styles.forgetPassword} >Forgot password?</Text>
 
                                         <AppButton
                                             style={styles.button}

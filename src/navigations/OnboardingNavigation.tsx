@@ -1,14 +1,11 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import RouteConstant from './RouteConstant';
-import MainScreen from '../screens/Account';
 import AppTabNavigation from './AppTabNavigation';
-import RepaymentPlanScreen from '../screens/RepaymentPlanScreen';
-import PinScreen from '../screens/PinScreen';
-import FaceIdScreen from '../screens/FaceIdScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import LoginScreen from '../screens/LoginScreen';
 import GetStartedScreen from '../screens/GetStartedScreen';
+import AppWebViewScreen from '../screens/AppWebViewScreen';
 
 
 
@@ -47,13 +44,13 @@ function AppNavigation() {
                 }}
             />
 
-            {/* <Stack.Screen
-                name={RouteConstant.RepaymentPlanScreen}
-                component={RepaymentPlanScreen}
-                options={{
-                    headerShown: false,
-                }}
-            /> */}
+            <Stack.Screen
+                name={RouteConstant.AppWebViewScreen}
+                component={AppWebViewScreen}
+            // options={{
+            //     headerShown: false,
+            // }}
+            />
             {/* <Stack.Screen
                 name={RouteConstant.PinScreen}
                 component={PinScreen}
