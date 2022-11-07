@@ -1,4 +1,4 @@
-import { Alert, ScrollView, StyleSheet, View } from 'react-native'
+import { Alert, Platform, ScrollView, StyleSheet, View } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { AppText as Text } from '../components/AppText'
 import KeyboardAvoidingViewAndKeyBoardDisMiss from '../components/KeyboardAvoidingViewAndKeyBoardDisMiss'
@@ -12,6 +12,8 @@ import AppTextInputPassWord4 from '../components/form/AppTextInputPassWord4';
 import { createTable, deleteTable, getDBConnection, getUser, saveUser } from '../db/db-service';
 import { ILogin } from '../types/Type';
 import { useIsFocused } from '@react-navigation/native';
+import { saveSecureCredentials } from '../utilities';
+import * as Keychain from 'react-native-keychain';
 
 
 
@@ -38,27 +40,43 @@ export default function LoginScreen(props: any) {
 
     const isFocused = useIsFocused();
 
-
+    let initTodos = {
+        id: 1,
+        email: 'admin',
+        password: 'admin',
+    };
     const loadDataCallback = useCallback(async () => {
         try {
-            const initTodos = {
-                id: 1,
-                email: 'admin',
-                password: 'admin',
-            };
-            const db = await getDBConnection();
-            // deleteTable(db);
-            await createTable(db);
-            const storedTodoItems = await getUser(db);
-            console.log('storedTodoItems', storedTodoItems);
+            if (Platform.OS === 'ios') {
 
-            if (storedTodoItems.length > 0) {
-                setUser(storedTodoItems);
-                // checkUser(storedTodoItems[0].email, storedTodoItems[0].password);
+                const db = await getDBConnection();
+                // deleteTable(db);
+                await createTable(db);
+                const storedTodoItems = await getUser(db);
+                console.log('storedTodoItems', storedTodoItems);
+
+                if (storedTodoItems.length > 0) {
+                    setUser(storedTodoItems);
+                    // checkUser(storedTodoItems[0].email, storedTodoItems[0].password);
+                } else {
+                    await saveUser(db, initTodos);
+                    setUser([initTodos]);
+                }
             } else {
-                await saveUser(db, initTodos);
-                setUser([initTodos]);
+                const credentials = await Keychain.getGenericPassword();
+                setUser([
+                    {
+                        id: 1,
+                        //@ts-ignore
+                        email: credentials?.username || '',
+                        //@ts-ignore
+                        password: credentials?.password || '',
+                    },
+                ])
+
+                console.log('credentials', credentials);
             }
+
         } catch (error) {
             console.error(error);
         }

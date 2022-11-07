@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { AppText as Text } from '../components/AppText'
 import KeyboardAvoidingViewAndKeyBoardDisMiss from '../components/KeyboardAvoidingViewAndKeyBoardDisMiss'
@@ -12,6 +12,7 @@ import AppTextInputPassWord4 from '../components/form/AppTextInputPassWord4';
 import { ILogin } from '../types/Type';
 import { createTable, getDBConnection, getUser, saveUser, updateUser } from '../db/db-service';
 import { useIsFocused } from '@react-navigation/native';
+import * as Keychain from 'react-native-keychain';
 
 
 
@@ -45,20 +46,25 @@ export default function RegisterScreen(props: any) {
 
     const loadDataCallback = useCallback(async () => {
         try {
-            const initTodos = [{
-                id: 1,
-                email: 'admin',
-                password: 'admin',
-            }];
-            const db = await getDBConnection();
-            await createTable(db);
-            const storedTodoItems = await getUser(db);
-            if (storedTodoItems.length > 0) {
-                setUser(storedTodoItems);
+            if (Platform.OS === 'ios') {
+                const initTodos = [{
+                    id: 1,
+                    email: 'admin',
+                    password: 'admin',
+                }];
+                const db = await getDBConnection();
+                await createTable(db);
+                const storedTodoItems = await getUser(db);
+                if (storedTodoItems.length > 0) {
+                    setUser(storedTodoItems);
+                } else {
+                    // await saveUser(db, initTodos);
+                    setUser(initTodos);
+                }
             } else {
-                // await saveUser(db, initTodos);
-                setUser(initTodos);
+
             }
+
         } catch (error) {
             console.error(error);
         }
@@ -71,19 +77,17 @@ export default function RegisterScreen(props: any) {
     const addUser = async (newUser: ILogin) => {
         // if (!newTodo.trim()) return;
         try {
-            // const newTodos = [{
-            //     id: user.reduce((acc, cur) => {
-            //         if (cur.id > acc.id) return cur;
-            //         return acc;
-            //     }).id + 1,
-            //     email: newUser.email,
-            //     password: newUser.password,
-            // }];
-            // setTodos(newTodos);
-            const db = await getDBConnection();
-            await saveUser(db, newUser);
-            props.navigation.navigate(RouteConstant.LoginScreen);
-            // setNewTodo('');
+
+            if (Platform.OS === 'ios') {
+                const db = await getDBConnection();
+                await saveUser(db, newUser);
+
+            } else {
+                await Keychain.setGenericPassword(newUser.email, newUser.password);
+                props.navigation.navigate(RouteConstant.LoginScreen);
+
+            }
+
         } catch (error) {
             console.error(error);
         }

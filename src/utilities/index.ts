@@ -1,3 +1,5 @@
+import * as Keychain from 'react-native-keychain';
+
 export const nullOrUndefineCheck = (value: any) => {
   if (value === null || value === undefined) {
     return '';
@@ -96,4 +98,14 @@ export const formatCurrencyWithDecimalWithoutSign = (
 
 export const formatDateOfBirth = (date: string) => {
   return date.split('-').reverse().join('/');
+};
+
+
+export const saveSecureCredentials = async (key: string, email: string, password: string) => {
+    await Keychain.setGenericPassword(email, password, { service: key });
+    // await AsyncStorage.setItem(key, email)
+    //     .then(() => { })
+    //     .catch(error => {
+    //         console.log('catch error', error);
+    //     });
 };

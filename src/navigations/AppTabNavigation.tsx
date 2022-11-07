@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { widthPercentageToDP as WP } from 'react-native-responsive-screen';
 import { StyleSheet } from 'react-native';
@@ -67,6 +67,7 @@ function AppTabNavigation() {
           headerShown: false,
           tabBarIcon: ({ focused }) => (
             <View style={styles.tabIconContainer}>
+              <Image source={require('../assets/image/image.jpeg')} style={styles.tabIcon2} />
               <Text
                 style={styles.tabIconTextActive}>
                 About me
@@ -146,6 +147,8 @@ const styles = StyleSheet.create({
   tabIcon2: {
     // resizeMode: 'contain',
     // marginBottom: WP(-5),
+    width: WP(8),
+    height: WP(8),
 
   },
   tabIconTextActive: {
