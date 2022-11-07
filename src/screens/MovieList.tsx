@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         // flexDirection: "row",
-        backgroundColor: common.colors.white,
+        backgroundColor: common.colors.grey200,
         paddingLeft: common.WP(4),
         paddingRight: common.WP(4),
         paddingTop: common.WP(2),

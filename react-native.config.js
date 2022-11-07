@@ -1,7 +1,6 @@
 module.exports = {
   //   ...,
   dependencies: {
-    // ...,
     'react-native-sqlite-storage': {
       platforms: {
         android: {
@@ -12,7 +11,12 @@ module.exports = {
         },
       },
     },
-    // ...
+
+    'react-native-vector-icons': {
+      platforms: {
+        ios: null,
+      },
+    },
   },
   //   ...
 };

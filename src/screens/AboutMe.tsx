@@ -1,4 +1,4 @@
-import { Alert, Image, ScrollView, StyleSheet, View } from 'react-native'
+import { Alert, Image, Linking, ScrollView, StyleSheet, View } from 'react-native'
 import React from 'react'
 import common from '../constants/common'
 import { AppText as Text } from '../components/AppText'
@@ -38,22 +38,35 @@ export default function AboutMe(props: any) {
     return (
         <View style={styles.container}>
             <ScrollView>
-                <View style={{
+                <Image
+                    style={styles.image}
+                    source={require('../assets/image/p4.jpeg')}
+                />
+                {/* <View style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     alignItems: 'center',
                 }}>
-                    <Text style={styles.name} >Hi, my name is Oluwafemi John Ogundipe</Text>
-                    <Image
-                        style={styles.image}
-                        source={require('../assets/image/p4.jpeg')}
-                    />
-                </View>
+
+                </View> */}
+
+                <Text style={styles.name} >Oluwafemi John Ogundipe</Text>
+                <Text style={styles.contacts} >femiogundipe01@gmail.com</Text>
+                <Text style={styles.contacts} >08130675563</Text>
+
                 <Text style={styles.description} >An experienced Software Engineer with technical expertise in software development life cycle.
                     Ensuring production and delivery of products and services that meet client
                     specifications with the latest technologies.</Text>
                 <Text style={styles.description} >I am a self-motivated, hardworking and a team player with a strong desire to learn and
                     contribute to the growth of the organization.</Text>
+
+                <Text style={styles.cv}>CV: {' '} <Text
+                    //@ts-ignore
+                    onPress={() => openWebView('https://docs.google.com/document/d/1N0Ckd4p2nYN5KaWdvFrPM30qgxRQFJiZJNsDya2KKtI/edit?usp=sharing')} style={styles.link}>Open Link</Text> or {' '}
+                    <Text
+                        //@ts-ignore
+                        onPress={() => coppyLink('https://docs.google.com/document/d/1N0Ckd4p2nYN5KaWdvFrPM30qgxRQFJiZJNsDya2KKtI/edit?usp=sharing')} style={styles.link}
+                    >Copy Link</Text> </Text>
                 <Text style={styles.skills} >Skills</Text>
                 {
                     skills.map((skill, index) => {
@@ -71,18 +84,17 @@ export default function AboutMe(props: any) {
                         //@ts-ignore
                         onPress={() => openWebView('https://play.google.com/store/apps/details?id=com.seedsbyanchoria')} style={styles.link}>Link</Text></Text>
 
-                <Text style={styles.project}>Jasper: React, Redux, TypeScript. <Text
+                <Text style={styles.project}>Jasper: Built with React, Redux, TypeScript. <Text
                     //@ts-ignore
                     onPress={() => openWebView('http://jasper-web.herokuapp.com/dashboard')} style={styles.link}>Link</Text>
                 </Text>
 
-                <Text style={styles.cv}>CV: {' '} <Text
+                <Text
                     //@ts-ignore
-                    onPress={() => openWebView('https://docs.google.com/document/d/1N0Ckd4p2nYN5KaWdvFrPM30qgxRQFJiZJNsDya2KKtI/edit?usp=sharing')} style={styles.link}>Open Link</Text> or {' '}
-                    <Text
-                        //@ts-ignore
-                        onPress={() => coppyLink('https://docs.google.com/document/d/1N0Ckd4p2nYN5KaWdvFrPM30qgxRQFJiZJNsDya2KKtI/edit?usp=sharing')} style={styles.link}
-                    >Copy Link</Text> </Text>
+                    onPress={() => Linking.openURL('https://docs.google.com/document/d/1N0Ckd4p2nYN5KaWdvFrPM30qgxRQFJiZJNsDya2KKtI/edit?usp=sharing')}
+                    style={styles.readmore}>Read more in my CV</Text>
+
+
             </ScrollView>
         </View>
     )
@@ -93,7 +105,7 @@ const styles = StyleSheet.create({
         fontSize: common.WP(6),
         marginTop: common.WP(5),
         color: common.colors.textColor,
-        width: common.WP(70),
+        alignSelf: 'center',
         fontWeight: 'bold',
     },
     container: {
@@ -106,9 +118,10 @@ const styles = StyleSheet.create({
         marginTop: common.WP(2),
     },
     image: {
-        width: common.WP(20),
-        height: common.WP(20),
+        width: common.WP(50),
+        height: common.WP(50),
         resizeMode: 'contain',
+        alignSelf: 'center',
     },
     skills: {
         fontSize: common.WP(5),
@@ -141,4 +154,14 @@ const styles = StyleSheet.create({
         marginTop: common.WP(5),
         marginBottom: common.WP(5),
     },
+    contacts: {
+        fontSize: common.WP(3.5),
+        marginTop: common.WP(2),
+        alignSelf: 'center',
+    },
+    readmore: {
+        fontSize: common.WP(3.5),
+        marginVertical: common.WP(5),
+        color: common.colors.primary,
+    }
 })

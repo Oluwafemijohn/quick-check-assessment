@@ -33,7 +33,7 @@ function Home(props: any) {
 
             <Text style={styles.Thanks} >Hi, Welcome on board </Text>
             <ScrollView>
-                <View style={styles.container1} >
+                {/* <View style={styles.container1} >
                     <Pressable
                         onPress={() => {
                             _getTopStories();
@@ -49,8 +49,12 @@ function Home(props: any) {
                         style={styles.buttonContainer}>
                         <Text style={styles.buttonText} >See the top stories</Text>
                     </Pressable>
-                </View>
-
+                </View> */}
+                <Text style={styles.explain}>The hacker news APIs provided is returning list numbers instead of a list of objects that I could us. Hence, I used Movie Db APIs to demonstrate the pagination requested for. </Text>
+                <Text style={{
+                    fontSize: 20,
+                    marginTop: common.WP(3)
+                }}>Click the movie tab to see the list</Text>
             </ScrollView>
 
         </View>
@@ -82,6 +86,10 @@ const styles = StyleSheet.create({
     container1: {
         marginTop: common.WP(10),
     },
+    explain: {
+        fontSize: common.W_4,
+        marginTop: common.WP(2),
+    }
 })
 
 export default Home;
